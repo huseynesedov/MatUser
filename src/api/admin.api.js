@@ -22,7 +22,7 @@ export const AdminApi = {
         return BaseApi.get(apiRoutes.user.getUserTable, { params });
     },
     GetUserPersonalInformationById(userId) {
-        return BaseApi.get(apiRoutes.user.getUserPersonalInformationById, { params: { id: userId } });
+        return BaseApi.get(apiRoutes.user.getUserPersonalInformationById,  { id: userId });
     },
     UpdateUser(data) {
         return BaseApi.put(apiRoutes.user.updateUser, data);

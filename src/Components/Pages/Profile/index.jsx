@@ -64,17 +64,27 @@ const Profile = () => {
         const savedToken = localStorage.getItem("token"); // 'token' açarı ilə saxlanmış olanı götür
         if (savedToken) {
             const decoded = decodeJwt(savedToken); // Token-i decode edirik
+            setDecodedToken(decoded); // Dekod olunmuş məlumatı state-ə yazırıq
+            setIdHash(decoded?.id); // Token'den gelen id'yi idHash olaraq belirliyoruz
+            console.log('Dekod olunmuş token:', decoded); // Tokeni konsola yazdırırıq
+            setTimeout(()=>{
+                UserData(decoded.UserIdHash); // idH
+            } , 1000)
             if (decoded) {
                 setDecodedToken(decoded); // Dekod olunmuş məlumatı state-ə yazırıq
                 setIdHash(decoded?.id); // Token'den gelen id'yi idHash olaraq belirliyoruz
                 console.log("Dekod olunmuş token:", decoded); // Tokeni konsola yazdırırıq
             }
         }
+
     }, []);
 
-    const UserData = async () => {
+    const UserData = async (idHash) => {
+        console.log(idHash)
         if (idHash) {
             try {
+                const response = await AdminApi.GetUserPersonalInformationById(idHash); // idHash istifadə olunur
+                console.log("API response:", response);
                 console.log("Sending API request with idHash:", idHash); // API isteğinden önce idHash'i yazdırırıq
                 const response = await AdminApi.GetOemByProductId({ id: idHash }); // idHash istifadə olunur
                 console.log("API response:", response); // API cavabını konsola yazdırırıq
@@ -91,12 +101,6 @@ const Profile = () => {
             console.warn("idHash is not set, skipping API request"); // idHash boş olduğu üçün API isteği yapılmıyor
         }
     };
-
-    useEffect(() => {
-        if (idHash) {
-            UserData(); // idHash tanımlandığında API isteğini yapıyoruz
-        }
-    }, [idHash]); // idHash dəyişəndə yenidən işə düşəcək
 
 
     return <>
