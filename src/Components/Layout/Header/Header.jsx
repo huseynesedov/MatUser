@@ -6,6 +6,7 @@ import BrandList from "../../Elements/BrandList";
 import { toast } from "react-toastify";
 import i18n from "../../../i18n";
 import { useAuth } from "../../../AuthContext";
+import { useTranslation } from "react-i18next";
 
 const dillerTablo = [
   { name: "AZ", code: "az", flag: "https://upload.wikimedia.org/wikipedia/commons/d/dd/Flag_of_Azerbaijan.svg" },
@@ -123,6 +124,10 @@ function Header() {
     setLanguageDropdownOpen(false);
   }, [location]);
 
+
+
+  const { t, i18n } = useTranslation();
+
   return (
     <>
       <div className="Container">
@@ -151,7 +156,7 @@ function Header() {
                   <Link to="/products" className="text-decoration-none">
                     <div className="glasBar">
                       <img src={Glass} alt="" className='' />
-                      Axtarış
+                      {t("Nav.search")}
                     </div>
                   </Link>
                 </div>
@@ -163,19 +168,19 @@ function Header() {
             <Link className={'nav-link'}>
               <div className="ClipBoard">
                 <img src={Heart} alt="" />
-                <h3>Sevimlilər</h3>
+                <h3>{t("Nav.favorites")}</h3>
               </div>
             </Link>
             <Link className={'nav-link'} to="/Basket">
               <div className="ClipBoard">
                 <img src={Basket} alt="" />
-                <h3>Səbət</h3>
+                <h3>{t("Nav.basket")}</h3>
               </div>
             </Link>
             <Link className={'nav-link'} to="/Orders">
               <div className="ClipBoard">
                 <img src={Clipboard} alt="" />
-                <h3>Sifarişlər</h3>
+                <h3>{t("Nav.orders")}</h3>
               </div>
             </Link>
             <div ref={dropdownRef} className={`BiChevronDown ${isDropdownOpen ? 'open' : ''}`} onClick={toggleDropdown}>
@@ -200,24 +205,24 @@ function Header() {
                     <Link to={'/profile'} className={`d-flex ${isActive('/profile') ? 'Blue' : ''}`}>
                       <div className={`d-flex ${isActive('/profile') ? 'Blue' : ''}`}>
                         <img src={FiUser} alt="" />
-                        <p className='DownText'>Şəxsi Məlumatlar</p>
+                        <p className='DownText'>{t("Nav.dropdown.personal")}</p>
                       </div>
                     </Link>
                     <Link to={'/BusinesProfil'} className={`d-flex ${isActive('/BusinesProfil') ? 'Blue' : ''}`}>
                       <div className={`d-flex ${isActive('/BusinesProfil') ? 'Blue' : ''}`}>
                         <img src={Office} alt="" />
-                        <p className='DownText'>Şirkət Məlumatları</p>
+                        <p className='DownText'>{t("Nav.dropdown.company")}</p>
                       </div>
                     </Link>
                     <Link to={'/ChangePassword'} className={`d-flex ${isActive('/ChangePassword') ? 'Blue' : ''}`}>
                       <div className={`d-flex ${isActive('/ChangePassword') ? 'Blue' : ''}`}>
                         <img src={Key} alt="" />
-                        <p className='DownText'>Şifrəni Dəyiş</p>
+                        <p className='DownText'>{t("Nav.dropdown.password")}</p>
                       </div>
                     </Link>
                     <div onClick={toggleLanguageDropdown} className="d-flex" style={{padding:"12px 16px"}}>
                       <img src={Language} alt="" />
-                      <p className="DownText">Dili Dəyişdir</p>
+                      <p className="DownText">{t("Nav.dropdown.language")}</p>
                       <div className='ChangeLan'>
                         <p className='LanText'>{currentLanguage.name}</p>
                         <div className="LanFlag">
@@ -239,7 +244,7 @@ function Header() {
                     )}
                     <Link onClick={logout}>
                       <div className="upLine">
-                        <p className='NameSurname up'>Çıkış</p>
+                        <p className='NameSurname up'>{t("Nav.exit")}</p>
                       </div>
                     </Link>
                   </div>

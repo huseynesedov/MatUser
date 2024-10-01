@@ -9,6 +9,7 @@ import { useAuth } from "../../../AuthContext";
 import { OrderApi } from "../../../api/order.api";
 import { Select } from "antd";
 import { CatalogApi } from "../../../api/catalog.api";
+import { useTranslation } from 'react-i18next';
 const { Option } = Select
 const Basket = () => {
     const { logout } = useAuth()
@@ -20,6 +21,8 @@ const Basket = () => {
     const [basketItems, setBasketItems] = useState([]);
     const [basketItemStatus, setBasketItemStatus] = useState([]);
     const [note, setNote] = useState('');
+    
+    const { t } = useTranslation(); 
 
 
     const getBasketItems = () => {
@@ -40,227 +43,225 @@ const Basket = () => {
 
 
 
-const GetBasketDetailStatusList = () => {
-    console.log('GetBasketDetailStatusList')
-    setLoading(true)
-    CatalogApi.GetBasketDetailStatusList().then((items) => {
-        setBasketItemStatus(items)
-    }).catch((error) => {
-        console.log(error)
-        if (error?.response?.status === 401) {
-            logout()
-        }
-    }).finally(function () {
-        setLoading(false)
-    })
-}
+    const GetBasketDetailStatusList = () => {
+        console.log('GetBasketDetailStatusList')
+        setLoading(true)
+        CatalogApi.GetBasketDetailStatusList().then((items) => {
+            setBasketItemStatus(items)
+        }).catch((error) => {
+            console.log(error)
+            if (error?.response?.status === 401) {
+                logout()
+            }
+        }).finally(function () {
+            setLoading(false)
+        })
+    }
 
-const getTotalPrice = () => {
-    setLoading(true)
-    BasketApi.GetTotalPrice().then((items) => {
-        console.log(items, "Total")
-        setTotalPrice(items[0])
-    }).catch((error) => {
-        if (error?.response?.status === 401) {
-            logout()
-        }
-    }).finally(function () {
-        setLoading(false)
-    })
-}
-
-
-const getOrderTypeList = () => {
-    CatalogApi.GetOrderTypeList().then((res) => {
-        console.log(res)
-    })
-}
-
-const getPaymentTypeList = () => {
-    console.log('payment')
-}
-
-const getShipmentTypeList = () => {
-    CatalogApi.GetShipmentTypeList().then((res) => {
-        console.log(res)
-    })
-}
-
-const getStorageList = () => {
-    CatalogApi.GetShipmentTypeList().then((res) => {
-        console.log(res)
-    })
-}
-
-const createOrder = () => {
-    setLoading(true)
-    OrderApi.AddOrder({
-        orderTypeIdHash: "string",
-        paymentTypeIdHash: "string",
-        shipmentTypeIdHash: "string",
-        storageIdHash: "string",
-        note,
-        salesmanNote: ""
-    }).then(() => {
-        openNotification('Uğurlu əməliyyat', 'Sifariş yaradıldı', false)
-        navigate('/orders')
-    }).catch((err) => {
-        openNotification('Xəta baş verdi', err.response.data.message, true)
-        if (err?.response?.status === 401) {
-            logout()
-        }
-    }).finally(() => {
-        setLoading(false)
-    })
-}
+    const getTotalPrice = () => {
+        setLoading(true)
+        BasketApi.GetTotalPrice().then((items) => {
+            console.log(items, "Total")
+            setTotalPrice(items[0])
+        }).catch((error) => {
+            if (error?.response?.status === 401) {
+                logout()
+            }
+        }).finally(function () {
+            setLoading(false)
+        })
+    }
 
 
+    const getOrderTypeList = () => {
+        CatalogApi.GetOrderTypeList().then((res) => {
+            console.log(res)
+        })
+    }
 
+    const getPaymentTypeList = () => {
+        console.log('payment')
+    }
 
-useEffect(() => {
-    getBasketItems()
-    getTotalPrice()
-    getOrderTypeList()
-    getPaymentTypeList()
-    getShipmentTypeList()
-    getStorageList()
-    GetBasketDetailStatusList()
-}, [])
+    const getShipmentTypeList = () => {
+        CatalogApi.GetShipmentTypeList().then((res) => {
+            console.log(res)
+        })
+    }
 
-const { openNotification } = useAuth()
+    const getStorageList = () => {
+        CatalogApi.GetShipmentTypeList().then((res) => {
+            console.log(res)
+        })
+    }
 
-
-const handleButtonClick = () => {
-    setOpen(!open);
-};
+    const createOrder = () => {
+        setLoading(true)
+        OrderApi.AddOrder({
+            orderTypeIdHash: "string",
+            paymentTypeIdHash: "string",
+            shipmentTypeIdHash: "string",
+            storageIdHash: "string",
+            note,
+            salesmanNote: ""
+        }).then(() => {
+            openNotification('Uğurlu əməliyyat', 'Sifariş yaradıldı', false)
+            navigate('/orders')
+        }).catch((err) => {
+            openNotification('Xəta baş verdi', err.response.data.message, true)
+            if (err?.response?.status === 401) {
+                logout()
+            }
+        }).finally(() => {
+            setLoading(false)
+        })
+    }
 
 
 
-let { Box, CarOrder, down, Liner } = Images;
 
-// const items = useSelector(state => state.cart.items);
-// if (basketItems.length === 0) {
-//     return <div className="empty-basket">Səbət boşdur</div>;
-// }
-return (
-    <>
-        <div className="container-fluid d-flex justify-content-center">
-            <div className="myRow mt-5">
-                <p className="text-44 f-24 fb-600">
-                    Sifariş Səbəti
-                </p>
+    useEffect(() => {
+        getBasketItems()
+        getTotalPrice()
+        getOrderTypeList()
+        getPaymentTypeList()
+        getShipmentTypeList()
+        getStorageList()
+        GetBasketDetailStatusList()
+    }, [])
+
+    const { openNotification } = useAuth()
+
+
+    const handleButtonClick = () => {
+        setOpen(!open);
+    };
+
+
+
+    let { down, Liner } = Images;
+
+    
+    return (
+        <>
+            <div className="container-fluid d-flex justify-content-center">
+                <div className="myRow mt-5">
+                    <p className="text-44 f-24 fb-600">
+                        {t("Basket.order")}
+                    </p>
+                </div>
             </div>
-        </div>
 
-        <div className={'w-100'}>
-            <Spin className={'w-100'} spinning={loading}>
-                {
-                    basketItems.length === 0 ?
-                        <div style={{ height: '60vh' }} className="d-flex justify-content-center align-items-center empty-basket">Səbət boşdur</div>
-                        : <div className="container-fluid d-flex justify-content-center mt-5">
-                            <div className="myRow d-flex align-items-start justify-content-between">
-                                <div className="myContainer w-75 position-relative rounded"
-                                    style={{ padding: "0rem 0rem 0.8rem 0rem" }}>
-                                    <BasketItems basketItemStatus={basketItemStatus} setBasketItems={setBasketItems} getBasketItems={getBasketItems} getTotalPrice={getTotalPrice} basketItems={basketItems} />
-                                </div>
+            <div className={'w-100'}>
+                <Spin className={'w-100'} spinning={loading}>
+                    {
+                        basketItems.length === 0 ?
+                            <div style={{ height: '60vh' }} className="d-flex justify-content-center align-items-center empty-basket">Səbət boşdur</div>
+                            : <div className="container-fluid d-flex justify-content-center mt-5">
+                                <div className="myRow d-flex align-items-start justify-content-between">
+                                    <div className="myContainer w-75 position-relative rounded"
+                                        style={{ padding: "0rem 0rem 0.8rem 0rem" }}>
+                                        <BasketItems basketItemStatus={basketItemStatus} setBasketItems={setBasketItems} getBasketItems={getBasketItems} getTotalPrice={getTotalPrice} basketItems={basketItems} />
+                                    </div>
 
-                                <div className="myContainer2 rounded">
-                                    <div className="col ">
-                                        <div className="row mt-5 ">
-                                            <div className="myRow2">
-                                                <Select
-                                                    size={'large'}
-                                                    placeholder={'Çatdırılma növü'}
-                                                    style={{ width: '100%' }}
-                                                    dropdownStyle={{ borderRadius: '8px' }}
-                                                    className="custom-select mx-5"
-                                                    suffixIcon={<img className='me-2' src={down} alt="" />}
-                                                >
+                                    <div className="myContainer2 rounded">
+                                        <div className="col ">
+                                            <div className="row mt-5 ">
+                                                <div className="myRow2">
+                                                    <Select
+                                                        size={'large'}
+                                                        placeholder={t("Basket.table2.delivery")}
+                                                        style={{ width: '100%' }}
+                                                        dropdownStyle={{ borderRadius: '8px' }}
+                                                        className="custom-select mx-5"
+                                                        suffixIcon={<img className='me-2' src={down} alt="" />}
+                                                    >
 
-                                                    <Option value="location">
-                                                        <span style={{ marginLeft: '8px' }}>Çatdırılma növü</span>
-                                                    </Option>
-                                                </Select>
-                                            </div>
-                                        </div>
-
-                                        {/* Line */}
-                                        <img className='mt-4 w-100' src={Liner} alt="" />
-
-                                        {/* TextArea */}
-                                        <div className="row">
-                                            <div className="myRow3">
-                                                <p className="text-44 mt-3 fb-600">
-                                                    Sifariş Qeydi
-                                                </p>
-                                                <textarea onChange={(e) => {
-                                                    setNote(e.target.value);
-                                                }} className="OrderTextarea rounded mt-4 textarea"
-                                                    id="exampleFormControlTextarea1"
-                                                    placeholder="Sifaris Qeydi"></textarea>
-                                            </div>
-                                        </div>
-
-                                        {/* Line */}
-                                        <img className='mt-4 w-100' src={Liner} alt="" />
-
-                                        <div className="row">
-                                            <div className="myRow3">
-                                                <p className="text-44 mt-5 fb-600">
-                                                    Sifariş Xülasə
-                                                </p>
-                                                <div
-                                                    className="d-flex align-items-center mt-4 justify-content-between">
-                                                    <p className="text-44 fb-500">
-                                                        Ümumi Dəyər
-                                                    </p>
-                                                    <p className="t-8F fb-500">
-                                                        {totalPrice?.basketDetailTotalPrice?.formattedTotalPrice} {' '}
-                                                        {totalPrice?.currency?.name}
-                                                    </p>
-                                                </div>
-                                                <div
-                                                    className="d-flex align-items-center mt-2 justify-content-between">
-                                                    <p className="text-44 fb-500">
-                                                        Endirim
-                                                    </p>
-                                                    <p className="t-8F fb-500">
-                                                        {totalPrice?.basketDetailTotalPrice?.formattedTotalDiscountPrice} {' '}
-                                                        {totalPrice?.currency?.name}
-                                                    </p>
-                                                </div>
-                                                <div
-                                                    className="d-flex align-items-center mt-4 justify-content-between">
-                                                    <p className="text-44 fb-600">
-                                                        Tam Dəyər
-                                                    </p>
-                                                    <p className="t-8F fb-500">
-                                                        {totalPrice?.basketDetailTotalPrice?.formattedTotalDiscountedPrice} {' '}
-                                                        {totalPrice?.currency?.name}
-                                                    </p>
+                                                        <Option value="location">
+                                                            <span style={{ marginLeft: '8px' }}>{t("Basket.table2.delivery")}</span>
+                                                        </Option>
+                                                    </Select>
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        <div className="row mt-5 mb-5">
-                                            <div onClick={() => {
-                                                createOrder()
-                                            }} className="col d-flex align-items-center justify-content-center">
-                                                <button className="ProductEvaluate2">Təsdiqəyin və Tamamlayın
-                                                </button>
+                                            {/* Line */}
+                                            <img className='mt-4 w-100' src={Liner} alt="" />
+
+                                            {/* TextArea */}
+                                            <div className="row">
+                                                <div className="myRow3">
+                                                    <p className="text-44 mt-3 fb-600">
+                                                        {t("Basket.table2.record")}
+                                                    </p>
+                                                    <textarea onChange={(e) => {
+                                                        setNote(e.target.value);
+                                                    }} className="OrderTextarea rounded mt-4 textarea"
+                                                        id="exampleFormControlTextarea1"
+                                                        placeholder={t("Basket.table2.record")}></textarea>
+                                                </div>
+                                            </div>
+
+                                            {/* Line */}
+                                            <img className='mt-4 w-100' src={Liner} alt="" />
+
+                                            <div className="row">
+                                                <div className="myRow3">
+                                                    <p className="text-44 mt-5 fb-600">
+                                                        {t("Basket.table2.summary")}
+                                                    </p>
+                                                    <div
+                                                        className="d-flex align-items-center mt-4 justify-content-between">
+                                                        <p className="text-44 fb-500">
+                                                            {t("Basket.table2.delivery")}
+                                                        </p>
+                                                        <p className="t-8F fb-500">
+                                                            {totalPrice?.basketDetailTotalPrice?.formattedTotalPrice} {' '}
+                                                            {totalPrice?.currency?.name}
+                                                        </p>
+                                                    </div>
+                                                    <div
+                                                        className="d-flex align-items-center mt-2 justify-content-between">
+                                                        <p className="text-44 fb-500">
+                                                            {t("Basket.table2.discount")}
+                                                        </p>
+                                                        <p className="t-8F fb-500">
+                                                            {totalPrice?.basketDetailTotalPrice?.formattedTotalDiscountPrice} {' '}
+                                                            {totalPrice?.currency?.name}
+                                                        </p>
+                                                    </div>
+                                                    <div
+                                                        className="d-flex align-items-center mt-4 justify-content-between">
+                                                        <p className="text-44 fb-600">
+                                                            {t("Basket.table2.value")}
+                                                        </p>
+                                                        <p className="t-8F fb-500">
+                                                            {totalPrice?.basketDetailTotalPrice?.formattedTotalDiscountedPrice} {' '}
+                                                            {totalPrice?.currency?.name}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div className="row mt-5 mb-5">
+                                                <div onClick={() => {
+                                                    createOrder()
+                                                }} className="col d-flex align-items-center justify-content-center">
+                                                    <button className="ProductEvaluate2">
+                                                    {t("Basket.table2.confirim")}
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+
                                 </div>
-
                             </div>
-                        </div>
-                }
-            </Spin>
-        </div>
+                    }
+                </Spin>
+            </div>
 
-    </>
-);
+        </>
+    );
 };
 
 export default Basket;

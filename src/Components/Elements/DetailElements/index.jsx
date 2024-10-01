@@ -6,22 +6,29 @@ import { FaHeart } from "react-icons/fa";
 import { ProductApi } from "../../../api/product.api";
 import {BasketApi} from "../../../api/basket.api";
 import  {useAuth} from "../../../AuthContext";
+import { useTranslation } from "react-i18next";
 
 const DetailElements = () => {
+    
+    const { t } = useTranslation(); 
+
     const { openNotification  , logout} = useAuth()
     const { id } = useParams(); // URL'den ID'yi alırıq
     let idHash = id
+
     const { Location_gray, FiTag, Star_Yellow, Star_Gray, Liner, Heart2 } = Images;
+
     const [features , setFeatures] = useState(  [
-        { name: "Maşın Markası", value: "" },
-        { name: "İstehsalçı adı", value: "" },
-        { name: "Qem No", value: "" },
-        { name: "Kod", value: "" },
-        { name: "Ad", value: "" },
-        { name: "Brend", value: "" },
-        { name: "Avtomobil Modeli", value: "" },
-        { name: "Mövcudluğu", value: "" }
+        { name: t("Product-Detail.table.car"), value: "" },
+        { name: t("Product-Detail.table.manufacturer"), value: "" },
+        { name: t("Product-Detail.table.qem"), value: "" },
+        { name: t("Product-Detail.table.code"), value: "" },
+        { name: t("Product-Detail.table.name"), value: "" },
+        { name: t("Product-Detail.table.brand"), value: "" },
+        { name: t("Product-Detail.table.carbrand"), value: "" },
+        { name: t("Product-Detail.table.availability"), value: "" }
     ], )
+
     let [quantity, setQuantity] = useState(1); // Default şəkil
     let [loading, setLoading] = useState(true); // Default şəkil
     let [error, setError] = useState(false); // Default şəkil
@@ -40,18 +47,18 @@ const DetailElements = () => {
                 setProductData(response);
                 setSelectedImage(response?.defaultContent);
                 setFeatures([
-                    { name: "Maşın Markası", value:  response?.vehicleBrands.map((s)=>{
+                    { name: t("Product-Detail.table.car"), value:  response?.vehicleBrands.map((s)=>{
                             return <span> {s?.vehicleBrandIdName}, </span>
                         })},
-                    { name: "İstehsalçı adı", value: response?.manufacturerCode},
-                    { name: "Qem No", value: response?.oemCode},
-                    { name: "Kod", value: response?.code},
-                    { name: "Ad", value: response?.name},
-                    { name: "Brend", value: response?.manufacturerName },
-                    { name: "Avtomobil Modeli", value: response?.vehicleModels.map((s)=>{
+                    { name: t("Product-Detail.table.manufacturer"), value: response?.manufacturerCode},
+                    { name: t("Product-Detail.table.qem"), value: response?.oemCode},
+                    { name: t("Product-Detail.table.code"), value: response?.code},
+                    { name: t("Product-Detail.table.name"), value: response?.name},
+                    { name: t("Product-Detail.table.brand"), value: response?.manufacturerName },
+                    { name: t("Product-Detail.table.carbrand"), value: response?.vehicleModels.map((s)=>{
                             return <span> {s.vehicleModelIdName}, </span>
                         })},
-                    { name: "Mövcudluğu", value: response?.status ? 'Var' : 'Yoxdur' }
+                    { name: t("Product-Detail.table.availability"), value: response?.status ? 'Var' : 'Yoxdur' }
                 ])
                 setLoading(false)
                 setError(false)
@@ -137,6 +144,8 @@ const DetailElements = () => {
         return stars;
     };
 
+
+
     return (
         <>
             {loading ?
@@ -200,7 +209,7 @@ const DetailElements = () => {
                                     </div>
                                 </span>
                                     <span className="d-flex mt-3 justify-content-end">
-                                    <p className="f-14 t_decoration text-44">{productData.reviews} Degerlendirme</p>
+                                    <p className="f-14 t_decoration text-44">{productData.reviews} {t("Product-Detail.assessment")}</p>
                                 </span>
                                 </div>
                             </div>
@@ -210,7 +219,7 @@ const DetailElements = () => {
 
                         <div className="row mt-4">
                             <div className="col">
-                                <p className="f-24 text-44 fb-500">Vurğulanan Xüsusiyyətlər:</p>
+                                <p className="f-24 text-44 fb-500">{t("Product-Detail.features")}</p>
                             </div>
                         </div>
 
@@ -258,7 +267,7 @@ const DetailElements = () => {
                                     }}
                                          className="d-flex buttonSebet  cursor-pointer align-items-center justify-content-center"
                                          style={{width: "426px", height: "46px"}}>
-                                        <button className="none">Səbətə At</button>
+                                        <button className="none">{t("Global.basket")}</button>
                                     </div>
                                     <Link to="">
                                         <div className="d-flex">

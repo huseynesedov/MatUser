@@ -42,7 +42,7 @@ const ShoppingCards = () => {
                     {newData.map(d =>  <CardItem  classes={'col-lg-3 col-md-6'} d={d} /> )}
                 </>
                     : <>
-                        <div className={'w-100 d-flex justify-content-center align-items-center'}>
+                        <div className={'w-100 d-flex justify-content-center'}>
                             <Space size="middle">
                                 <Spin size="large"/>
                             </Space>

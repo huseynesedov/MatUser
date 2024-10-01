@@ -4,6 +4,7 @@ import { Table } from "react-bootstrap";
 import '@progress/kendo-theme-default/dist/all.css';
 import "./style.scss";
 import Images from "../../../Assets/images/js/Images";
+import { useTranslation } from "react-i18next";
 
 const statusColors = {
   'Tesdiqlendi': '#48BB78',
@@ -11,7 +12,10 @@ const statusColors = {
   'Legv Edilibdir': '#E53E3E',
 };
 
+
+
 const ProductStatus = ({ status }) => {
+
   const bgColor = statusColors[status] || 'white';
   const style = {
     marginBottom: '27px',
@@ -29,18 +33,20 @@ const ProductStatus = ({ status }) => {
   );
 };
 
+
 const Orders = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [products, setProducts] = useState([]);
+  const { t } = useTranslation();
 
   useEffect(() => {
     // API çağrısını burada yapın ve ürünleri ayarlayın
     const fetchProducts = async () => {
       const fetchedProducts = [
-        { id: 1, status: 'Tesdiqlendi'  , price: 234.2  , date:'13.09.2024'},
-        { id: 2, status: 'Birleshdir'  , price:  343.1 , date:'14.09.2024'},
-        { id: 3, status: 'Legv Edilibdir' , price: 235.1 , date:'13.09.2024'},
-        { id: 4, status: 'Legv Edilibdir'  , price: 432.1 , date:'13.09.2024'},
+        { id: 1, status: 'Tesdiqlendi', price: 234.2, date: '13.09.2024' },
+        { id: 2, status: 'Birleshdir', price: 343.1, date: '14.09.2024' },
+        { id: 3, status: 'Legv Edilibdir', price: 235.1, date: '13.09.2024' },
+        { id: 4, status: 'Legv Edilibdir', price: 432.1, date: '13.09.2024' },
       ];
       setProducts(fetchedProducts);
     };
@@ -59,13 +65,21 @@ const Orders = () => {
       <div className="container-fluid d-flex justify-content-center mt-4">
         <div className="myRow align-items-start flex-column">
           <p className="text-44 f-14 d-flex fb-600">
-            Ana sayfa
+            <Link to={"/"}>
+              <span className="text-44" style={{ cursor: "pointer" }}>
+                {t("Global.home")}
+              </span>
+            </Link>
             <img src={chrevron_right} alt="" />
-            <p className="t-01">
-              Sifarisler
+            <p>
+              <Link to={"/Orders"}>
+                <span className="t-01" style={{ cursor: "pointer" }}>
+                  {t("Orders.view.order-name")}
+                </span>
+              </Link>
             </p>
           </p>
-          <div className="border-bottom-line mt-4" style={{ width: '100%'}}></div>
+          <div className="border-bottom-line mt-4" style={{ width: '100%' }}></div>
         </div>
       </div>
 
@@ -73,13 +87,13 @@ const Orders = () => {
         <div className="myRow mt-3">
           <div className="mat-TwoPage">
             <button className={`mat-ButtonInfo fb-500 ${currentPage === 1 ? 'Active' : ''}`} onClick={() => handlePageClick(1)}>
-              Sifarişlərim
+              {t("Orders.order2")}
             </button>
             <button className={`mat-ButtonBack fb-500 ${currentPage === 2 ? 'Active' : ''}`} onClick={() => handlePageClick(2)}>
-              Ləğv Edilmiş Sifarişlər
+              {t("Orders.canceled")}
             </button>
             <button className={`mat-ButtonBack fb-500 ${currentPage === 3 ? 'Active' : ''}`} onClick={() => handlePageClick(3)}>
-              icrada olan sifarişlər
+              {t("Orders.progress")}
             </button>
           </div>
         </div>
@@ -91,15 +105,15 @@ const Orders = () => {
             <Table className="OrderTable">
               <thead>
                 <tr>
-                  <th>Nomre</th>
-                  <th>Sifaris tarixi</th>
-                  <th>Tesdiq Tarixi</th>
-                  <th>Status</th>
-                  <th>Sifariş Geydleri</th>
-                  <th>çatdirma Geydleri</th>
-                  <th>izahat</th>
-                  <th>Anbar</th>
-                  <th>umumi cem</th>
+                  <th>{t("Orders.table.number")}</th>
+                  <th>{t("Orders.table.date")}</th>
+                  <th>{t("Orders.table.date2")}</th>
+                  <th>{t("Orders.table.status")}</th>
+                  <th>{t("Orders.table.record")}</th>
+                  <th>{t("Orders.table.deliveriy")}</th>
+                  <th>{t("Orders.table.explanation")}</th>
+                  <th>{t("Orders.table.warehouse")}</th>
+                  <th>{t("Orders.table.total")}</th>
                   <th></th>
                 </tr>
               </thead>
@@ -108,7 +122,7 @@ const Orders = () => {
                   <tr key={product.id}>
                     <td>{product.id}</td>
                     <td>{product.date}</td>
-                    <td>{}</td>
+                    <td>{ }</td>
                     <td className="d-flex">
                       <ProductStatus status={product.status} />
                     </td>
@@ -120,7 +134,7 @@ const Orders = () => {
                     <td className="d-flex align-items-center">
                       <Link className="text-decoration-none" to={`/Orders/OrderDetail/${product.id}`}>
                         <div className="view">
-                          <p>view</p>
+                          <p>{t("Orders.view.view-name")}</p>
                         </div>
                       </Link>
                     </td>
@@ -138,24 +152,24 @@ const Orders = () => {
             <Table className="OrderTable">
               <thead>
                 <tr>
-                  <th>Nomre</th>
-                  <th>Sifaris tarixi</th>
-                  <th>Tesdiq Tarixi</th>
-                  <th>Status</th>
-                  <th>Sifariş Geydleri</th>
-                  <th>çatdirma Geydleri</th>
-                  <th>izahat</th>
-                  <th>Anbar</th>
-                  <th>umumi cem</th>
+                  <th>{t("Orders.table.number")}</th>
+                  <th>{t("Orders.table.date")}</th>
+                  <th>{t("Orders.table.date2")}</th>
+                  <th>{t("Orders.table.status")}</th>
+                  <th>{t("Orders.table.record")}</th>
+                  <th>{t("Orders.table.deliveriy")}</th>
+                  <th>{t("Orders.table.explanation")}</th>
+                  <th>{t("Orders.table.warehouse")}</th>
+                  <th>{t("Orders.table.total")}</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
-                {products.filter(product => product.status === 'Legv Edilibdir').map((product , i) => (
+                {products.filter(product => product.status === 'Legv Edilibdir').map((product, i) => (
                   <tr key={product.id}>
                     <td>{product.id}</td>
                     <td>{product.date}</td>
-                    <td>{}</td>
+                    <td>{ }</td>
                     <td className="d-flex">
                       <ProductStatus status={product.status} />
                     </td>
@@ -167,7 +181,7 @@ const Orders = () => {
                     <td className="d-flex align-items-center">
                       <Link className="text-decoration-none" to={`/Orders/OrderDetail/${product.id}`}>
                         <div className="view">
-                          <p>view</p>
+                          <p>{t("Orders.view.view-name")}</p>
                         </div>
                       </Link>
                     </td>
@@ -184,20 +198,20 @@ const Orders = () => {
             <Table className="OrderTable">
               <thead>
                 <tr>
-                  <th>Nomre</th>
-                  <th>Sifaris tarixi</th>
-                  <th>Tesdiq Tarixi</th>
-                  <th>Status</th>
-                  <th>Sifariş Geydleri</th>
-                  <th>çatdirma Geydleri</th>
-                  <th>izahat</th>
-                  <th>Anbar</th>
-                  <th>umumi cem</th>
+                  <th>{t("Orders.table.number")}</th>
+                  <th>{t("Orders.table.date")}</th>
+                  <th>{t("Orders.table.date2")}</th>
+                  <th>{t("Orders.table.status")}</th>
+                  <th>{t("Orders.table.record")}</th>
+                  <th>{t("Orders.table.deliveriy")}</th>
+                  <th>{t("Orders.table.explanation")}</th>
+                  <th>{t("Orders.table.warehouse")}</th>
+                  <th>{t("Orders.table.total")}</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
-                {products.filter(product => product.status === 'Birleshdir').map((product , i) => (
+                {products.filter(product => product.status === 'Birleshdir').map((product, i) => (
                   <tr key={product.id}>
                     <td>{product.id}</td>
                     <td>{product.date}</td>
@@ -213,7 +227,7 @@ const Orders = () => {
                     <td className="d-flex align-items-center">
                       <Link className="text-decoration-none" to={`/Orders/OrderDetail/${product.id}`}>
                         <div className="view">
-                          <p>view</p>
+                          <p>{t("Orders.view.view-name")}</p>
                         </div>
                       </Link>
                     </td>

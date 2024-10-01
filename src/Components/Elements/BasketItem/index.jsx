@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+
 import Images from "../../../Assets/images/js/Images";
+
 import { Select } from 'antd';
 import {BasketApi} from "../../../api/basket.api";
 import {useAuth} from "../../../AuthContext";
 import { Spin } from  'antd'
+import { useTranslation } from 'react-i18next';
 const { Option } = Select;
 
 const BasketItems = ({ basketItems , getBasketItems, getTotalPrice  , setBasketItems , basketItemStatus}) => {
@@ -13,6 +16,9 @@ const BasketItems = ({ basketItems , getBasketItems, getTotalPrice  , setBasketI
     const { openNotification }= useAuth()
     const [selectedItems, setSelectedItems] = useState([]);
     const [loading, setLoading] = useState(false);
+
+    const { t } = useTranslation(); 
+
 
     const groupedData = basketItems?.length ?  basketItems.reduce((acc, item) => {
         if (!acc[item.productType.description]) {
@@ -180,6 +186,8 @@ const BasketItems = ({ basketItems , getBasketItems, getTotalPrice  , setBasketI
       }
     },[basketItems.length])
 
+
+
     return (
         <>
             <Spin spinning={loading}>
@@ -206,11 +214,11 @@ const BasketItems = ({ basketItems , getBasketItems, getTotalPrice  , setBasketI
                                 <div className="d-flex">
                                     <button className="AllDel me-3" onClick={() => handleDeleteAll(category)}>
                                         <img src={Add_Bin} alt=""/>
-                                        <p className='ms-2'>Hamısını Sil</p>
+                                        <p className='ms-2'>{t("Basket.table.delete")}</p>
                                     </button>
                                     <button className="AllDel" onClick={() => handleDeleteSelected(category)}>
                                         <img src={Add_Bin} alt=""/>
-                                        <p className='ms-2'>Seçilmişləri Sil</p>
+                                        <p className='ms-2'>{t("Basket.table.remove")}</p>
                                     </button>
                                 </div>
                             )}

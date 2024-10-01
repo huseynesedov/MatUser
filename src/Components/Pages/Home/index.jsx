@@ -4,9 +4,12 @@ import ShoppingCards from "../../Elements/ShoppingCards";
 import './home.css'
 import { Helmet } from "react-helmet";
 import images from "../../../Assets/images/js/Images";
+import { useTranslation } from "react-i18next";
 
 function Home() {
   let {foodg , elba} = images
+  const { t } = useTranslation();
+
   return (
     <>
       <Helmet>
@@ -29,7 +32,7 @@ function Home() {
 
           <div className="ShopingCartsCenterMain mt-5">
             <div className="ShopingTextAndIcon">
-              <h2>En cox satilan brendler</h2>
+              <h2>{t("Home.brand")}</h2>
             </div>
 
             <div className="">

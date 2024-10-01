@@ -1,17 +1,18 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import Images from '../../../Assets/images/js/Images';
 import './detail.scss';
 import DetailElements from '../../Elements/DetailElements';
 import ShoppingCards from '../../Elements/ShoppingCards';
-import {ProductApi} from "../../../api/product.api";
-import {useParams} from "react-router-dom";
-import {useAuth} from "../../../AuthContext";
+import { ProductApi } from "../../../api/product.api";
+import { useParams } from "react-router-dom";
+import { useAuth } from "../../../AuthContext";
+import { useTranslation } from 'react-i18next';
 
 const Index = () => {
     let { chrevron_right, ShareSosial } = Images;
     const { id } = useParams(); // URL'den ID'yi alırıq
     let idHash = id
-    const { logout} = useAuth()
+    const { logout } = useAuth()
     const [currentPage, setCurrentPage] = useState(1);
 
     const handlePageClick = (page) => {
@@ -35,7 +36,7 @@ const Index = () => {
                 setLoading(false)
                 setError(false)
             } catch (error) {
-                if(error.response.status === 401){
+                if (error.response.status === 401) {
                     logout()
                 }
                 setError(true)
@@ -54,7 +55,7 @@ const Index = () => {
                 setLoading(false)
                 setError(false)
             } catch (error) {
-                if(error.response.status === 401){
+                if (error.response.status === 401) {
                     logout()
                 }
                 setError(true)
@@ -73,7 +74,7 @@ const Index = () => {
                 setLoading(false)
                 setError(false)
             } catch (error) {
-                if(error.response.status === 401){
+                if (error.response.status === 401) {
                     logout()
                 }
                 setError(true)
@@ -93,13 +94,14 @@ const Index = () => {
 
 
 
+    const { t } = useTranslation(); 
 
     return (
         <>
             <div className="container-fluid d-flex justify-content-center">
                 <div className="myRow mt-4 align-items-start flex-column">
                     <p className="text-44 f-14 d-flex fb-600">
-                        Ana sayfa
+                    {t("Product-Detail.home")}
                         <img src={chrevron_right} alt="" />
                         Yag
                         <img src={chrevron_right} alt="" />
@@ -107,7 +109,7 @@ const Index = () => {
                         <img src={chrevron_right} alt="" />
                         <span className="t-01">Shel oil 675347834</span>
                     </p>
-                    <div className="border-bottom-line mt-4" style={{ width: '100%'}}></div>
+                    <div className="border-bottom-line mt-4" style={{ width: '100%' }}></div>
                 </div>
             </div>
 
@@ -129,19 +131,19 @@ const Index = () => {
                 <div className="myRow mt-3">
                     <div className="mat-TwoPage">
                         <button className={`mat-ButtonInfo ${currentPage === 1 ? 'Active' : ''}`} onClick={() => handlePageClick(1)}>
-                            Benzer Mahsular
+                            {t("Product-Detail.products.name")}
                         </button>
                         <button className={`mat-ButtonBack ${currentPage === 2 ? 'Active' : ''}`} onClick={() => handlePageClick(2)}>
-                            Qem Ref
+                            {t("Product-Detail.qem.name")}
                         </button>
                         <button className={`mat-ButtonBack ${currentPage === 3 ? 'Active' : ''}`} onClick={() => handlePageClick(3)}>
-                            Cross Ref
+                            {t("Product-Detail.cross.name")}
                         </button>
                         <button className={`mat-ButtonBack ${currentPage === 4 ? 'Active' : ''}`} onClick={() => handlePageClick(4)}>
-                            Istifada Olunan NV-Lar
+                            {t("Product-Detail.nv.name")}
                         </button>
                         <button className={`mat-ButtonBack ${currentPage === 5 ? 'Active' : ''}`} onClick={() => handlePageClick(5)}>
-                            Stok Harakatlari
+                            {t("Product-Detail.stock.name")}
                         </button>
                     </div>
                 </div>
@@ -163,13 +165,13 @@ const Index = () => {
                         <table className="table MyTable  table-bordered mt-3">
                             <tbody>
                                 <tr>
-                                    <th style={{ padding: "12px 27px 5px 19px" }} className='text-44' scope="col">Arac marka</th>
-                                    <th style={{ padding: "12px 27px 5px 19px" }} colSpan={2} scope="col">Qem NO</th>
+                                    <th style={{ padding: "12px 27px 5px 19px" }} className='text-44' scope="col">{t("Product-Detail.qem.brand")}</th>
+                                    <th style={{ padding: "12px 27px 5px 19px" }} colSpan={2} scope="col">{t("Product-Detail.qem.qem")}</th>
                                 </tr>
-                                {oemData.map((d, i)=> {
-                                  return  <tr key={i}>
-                                        <td style={{padding: "12px 27px 5px 19px"}}>{d.vehicleBrandName}</td>
-                                        <td style={{padding: "12px 27px 5px 19px"}} colSpan={2}>{d.oemCode}</td>
+                                {oemData.map((d, i) => {
+                                    return <tr key={i}>
+                                        <td style={{ padding: "12px 27px 5px 19px" }}>{d.vehicleBrandName}</td>
+                                        <td style={{ padding: "12px 27px 5px 19px" }} colSpan={2}>{d.oemCode}</td>
                                     </tr>
                                 })}
                             </tbody>
@@ -179,17 +181,17 @@ const Index = () => {
             )}
             {currentPage === 3 && (
                 <div className="container-fluid mt-5 d-flex justify-content-center">
-                <div className="myRow">
+                    <div className="myRow">
                         <table className="table MyTable  table-bordered mt-3">
                             <tbody>
                                 <tr>
-                                    <th style={{ padding: "12px 27px 5px 19px" }} className='text-44' scope="col">Uretici adi</th>
-                                    <th style={{ padding: "12px 27px 5px 19px" }}  scope="col">Oem No</th>
+                                    <th style={{ padding: "12px 27px 5px 19px" }} className='text-44' scope="col">{t("Product-Detail.cross.manufacture")}</th>
+                                    <th style={{ padding: "12px 27px 5px 19px" }} scope="col">{t("Product-Detail.cross.oem")}</th>
                                 </tr>
-                                {crossList.map((d, i)=> {
-                                    return  <tr key={i}>
-                                        <td style={{padding: "12px 27px 5px 19px"}}>{d.manufacturerName}</td>
-                                        <td style={{padding: "12px 27px 5px 19px"}} colSpan={2}>{d.oemCode}</td>
+                                {crossList.map((d, i) => {
+                                    return <tr key={i}>
+                                        <td style={{ padding: "12px 27px 5px 19px" }}>{d.manufacturerName}</td>
+                                        <td style={{ padding: "12px 27px 5px 19px" }} colSpan={2}>{d.oemCode}</td>
                                     </tr>
                                 })}
                             </tbody>
@@ -198,55 +200,55 @@ const Index = () => {
                 </div>
             )}
             {currentPage === 4 && (
-                  <div className="container-fluid mt-5 d-flex justify-content-center">
+                <div className="container-fluid mt-5 d-flex justify-content-center">
                     <div className="myRow">
                         <table className="table MyTable  table-bordered mt-3">
                             <tbody>
                                 <tr>
-                                    <th style={{ padding: "12px 27px 5px 19px" }} className='text-44' scope="col">Arac marka</th>
-                                    <th style={{ padding: "12px 27px 5px 19px" }} colSpan={2} scope="col">Vehicle Model</th>
-                                    <th style={{ padding: "12px 27px 5px 19px" }} colSpan={2} scope="col">Vehicle Type</th>
-                                    <th style={{ padding: "12px 27px 5px 19px" }} colSpan={2} scope="col">Year</th>
-                                    <th style={{ padding: "12px 27px 5px 19px" }} colSpan={2} scope="col">Engine Code</th>
-                                    <th style={{ padding: "12px 27px 5px 19px" }} colSpan={2} scope="col">HP</th>
-                                    <th style={{ padding: "12px 27px 5px 19px" }} colSpan={2} scope="col">KW</th>
+                                    <th style={{ padding: "12px 27px 5px 19px" }} className='text-44' scope="col">{t("Product-Detail.nv.car")}</th>
+                                    <th style={{ padding: "12px 27px 5px 19px" }} colSpan={2} scope="col">{t("Product-Detail.nv.model")}</th>
+                                    <th style={{ padding: "12px 27px 5px 19px" }} colSpan={2} scope="col">{t("Product-Detail.nv.type")}</th>
+                                    <th style={{ padding: "12px 27px 5px 19px" }} colSpan={2} scope="col">{t("Product-Detail.nv.year")}</th>
+                                    <th style={{ padding: "12px 27px 5px 19px" }} colSpan={2} scope="col">{t("Product-Detail.nv.engine")}</th>
+                                    <th style={{ padding: "12px 27px 5px 19px" }} colSpan={2} scope="col">{t("Product-Detail.nv.hp")}</th>
+                                    <th style={{ padding: "12px 27px 5px 19px" }} colSpan={2} scope="col">{t("Product-Detail.nv.kw")}</th>
                                 </tr>
 
-                                {vehicleList.map((d, i)=> {
+                                {vehicleList.map((d, i) => {
                                     return <tr key={i}>
-                                        <td style={{padding: "12px 27px 5px 19px"}}>{d.vehicleBrandName}</td>
-                                        <td style={{padding: "12px 27px 5px 19px"}} colSpan={2}>{d.vehicleModelName}</td>
-                                        <td style={{padding: "12px 27px 5px 19px"}} colSpan={2}>{d.type}</td>
-                                        <td style={{padding: "12px 27px 5px 19px"}} colSpan={2}>{d.date}</td>
-                                        <td style={{padding: "12px 27px 5px 19px"}} colSpan={2}>{d.engineCode}</td>
-                                        <td style={{padding: "12px 27px 5px 19px"}} colSpan={2}>{d.hp}</td>
-                                        <td style={{padding: "12px 27px 5px 19px"}} colSpan={2}>{d.kw}</td>
+                                        <td style={{ padding: "12px 27px 5px 19px" }}>{d.vehicleBrandName}</td>
+                                        <td style={{ padding: "12px 27px 5px 19px" }} colSpan={2}>{d.vehicleModelName}</td>
+                                        <td style={{ padding: "12px 27px 5px 19px" }} colSpan={2}>{d.type}</td>
+                                        <td style={{ padding: "12px 27px 5px 19px" }} colSpan={2}>{d.date}</td>
+                                        <td style={{ padding: "12px 27px 5px 19px" }} colSpan={2}>{d.engineCode}</td>
+                                        <td style={{ padding: "12px 27px 5px 19px" }} colSpan={2}>{d.hp}</td>
+                                        <td style={{ padding: "12px 27px 5px 19px" }} colSpan={2}>{d.kw}</td>
                                     </tr>
                                 })}
 
                             </tbody>
                         </table>
                     </div>
-                  </div>
+                </div>
             )}
             {currentPage === 5 && (
                 <div className="container-fluid mt-5 d-flex justify-content-center">
                     <div className="myRow">
                         <table className="table MyTable  table-bordered mt-3">
                             <tbody>
-                            <tr>
-                                <th style={{padding: "12px 27px 5px 19px" }} className='text-44' scope="col">Date</th>
-                                    <th style={{ padding: "12px 27px 5px 19px" }} colSpan={2} scope="col">Quantlty</th>
-                                    <th style={{ padding: "12px 27px 5px 19px" }} colSpan={2} scope="col">File Number</th>
-                                    <th style={{ padding: "12px 27px 5px 19px" }} colSpan={2} scope="col">Sales Price</th>
+                                <tr>
+                                    <th style={{ padding: "12px 27px 5px 19px" }} className='text-44' scope="col">{t("Product-Detail.stock.date")}</th>
+                                    <th style={{ padding: "12px 27px 5px 19px" }} colSpan={2} scope="col">{t("Product-Detail.stock.quantlty")}</th>
+                                    <th style={{ padding: "12px 27px 5px 19px" }} colSpan={2} scope="col">{t("Product-Detail.stock.file")}</th>
+                                    <th style={{ padding: "12px 27px 5px 19px" }} colSpan={2} scope="col">{t("Product-Detail.stock.sales")}</th>
                                 </tr>
 
-                                {vehicleList.map((d, i)=> {
+                                {vehicleList.map((d, i) => {
                                     return <tr key={i}>
-                                        <td style={{padding: "12px 27px 5px 19px"}}>Mercedes Benz</td>
-                                        <td style={{padding: "12px 27px 5px 19px"}} colSpan={2}>@mdo</td>
-                                        <td style={{padding: "12px 27px 5px 19px"}} colSpan={2}>@mdo</td>
-                                        <td style={{padding: "12px 27px 5px 19px"}} colSpan={2}>@mdo</td>
+                                        <td style={{ padding: "12px 27px 5px 19px" }}>Mercedes Benz</td>
+                                        <td style={{ padding: "12px 27px 5px 19px" }} colSpan={2}>@mdo</td>
+                                        <td style={{ padding: "12px 27px 5px 19px" }} colSpan={2}>@mdo</td>
+                                        <td style={{ padding: "12px 27px 5px 19px" }} colSpan={2}>@mdo</td>
                                     </tr>
                                 })}
                             </tbody>

@@ -4,12 +4,14 @@ import "./style.scss";
 
 import images from "../../../Assets/images/js/Images";
 
-import  BrandExpo  from "../../Elements/BusinessElements/Brands/index";
+import BrandExpo from "../../Elements/BusinessElements/Brands/index";
 import DebetExpo from "../../Elements/BusinessElements/DebetCard";
+import { useTranslation } from "react-i18next";
 
 const Profile = () => {
+    const { t } = useTranslation();
 
-    let { Hiuser, mail, location, tel} = images
+    let { Hiuser, mail, location, tel } = images
 
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -22,10 +24,6 @@ const Profile = () => {
         setCurrentPage(2);
     };
 
-
-
-
-
     return <>
         <div className="mat-container">
             <div className="mat-row">
@@ -33,7 +31,7 @@ const Profile = () => {
 
                     <div className="mat-p">
                         <p className="matP">
-                            Şirkət Məlumatları
+                            {t("Company.company-name")}
                         </p>
                     </div>
 
@@ -70,8 +68,8 @@ const Profile = () => {
 
                             <div className="mat-TwoPage">
 
-                                <button className={`mat-ButtonInfo ${currentPage === 1 ? "Active" : ""}`} onClick={handlePage1Click}>Brendlerimiz</button>
-                                <button className={`mat-ButtonBack ${currentPage === 2 ? "Active" : ""}`} onClick={handlePage2Click}>Bank Informasyon</button>
+                                <button className={`mat-ButtonInfo ${currentPage === 1 ? "Active" : ""}`} onClick={handlePage1Click}>{t("Company.brand")}</button>
+                                <button className={`mat-ButtonBack ${currentPage === 2 ? "Active" : ""}`} onClick={handlePage2Click}>{t("Company.bank")}</button>
                             </div>
 
                         </div>
@@ -100,8 +98,8 @@ const Profile = () => {
 
                                 <div className="row gy-4  mt-5 ">
 
-                                   <DebetExpo />
-                                    
+                                    <DebetExpo />
+
                                 </div>
                             </div>
                         )}

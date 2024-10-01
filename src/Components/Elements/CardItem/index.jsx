@@ -2,36 +2,40 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Images from '../../../Assets/images/js/Images';
 import { useAuth } from "../../../AuthContext"
-import {Space, Spin} from "antd";
-import {BasketApi} from "../../../api/basket.api";
-const CardItem = ({d, classes}) => {
+import { Space, Spin } from "antd";
+import { BasketApi } from "../../../api/basket.api";
+import { useTranslation } from 'react-i18next';
+const CardItem = ({ d, classes }) => {
     const { FiTag, Location, Down, Return, TagTwo, Vector2, Heart, Endirim } = Images;
-    let [quantity , setQuantity] = useState(1)
+    let [quantity, setQuantity] = useState(1)
     const [loading, setLoading] = useState(false);
-    const { logout  , openNotification }= useAuth()
+    const { logout, openNotification } = useAuth()
     useEffect(() => {
         setQuantity(d.minOrderAmount)
     }, []);
     const handleAddToCart = async (product) => {
         setLoading(true)
-        await  BasketApi.AddToBasket( {
+        await BasketApi.AddToBasket({
             productId: product.idHash,
             quantity
-        }).then(() =>{
-            openNotification('Əlavə edildi' , `${product.name} səbətə əlavə edildi` , false )
-        }).catch((err)=>{
-            openNotification('Xəta baş verdi' , err.response.data.message , true )
-        }).finally(() =>{
+        }).then(() => {
+            openNotification('Əlavə edildi', `${product.name} səbətə əlavə edildi`, false)
+        }).catch((err) => {
+            openNotification('Xəta baş verdi', err.response.data.message, true)
+        }).finally(() => {
             setLoading(false)
         })
     };
 
+    const { t } = useTranslation();
+
+
     return <div className={`d-block text-decoration-none position-relative ${classes}`}
-                key={d.idHash}>
+        key={d.idHash}>
         <div className="CartCenterMain">
             {d.discount > 0 ? (
-                <div className="position-absolute" style={{left: "-21px", top: "-17px"}}>
-                    <img src={Endirim} alt="Discount"/>
+                <div className="position-absolute" style={{ left: "-21px", top: "-17px" }}>
+                    <img src={Endirim} alt="Discount" />
                     <p className="text-white position-absolute discount">
                         {d.discountTitle}% endirim
                     </p>
@@ -42,25 +46,25 @@ const CardItem = ({d, classes}) => {
                 <div className="ImgTitleMain">
                     <div className="ImgBrendingTitle">
                         <div className="ImgFocus">
-                            <img style={{objectFit: "contain"}} src={`${d.defaultContent}`} alt="Product"/>
+                            <img style={{ objectFit: "contain" }} src={`${d.defaultContent}`} alt="Product" />
                         </div>
                         <div className="TitleCenter ms-3">
-                                <span className="Tag">
-                                    <img src={FiTag} alt="FiTag"/>
-                                    <p className="OemNo product text-44">
-                                        {d.code}
-                                    </p>
+                            <span className="Tag">
+                                <img src={FiTag} alt="FiTag" />
+                                <p className="OemNo product text-44">
+                                    {d.code}
+                                </p>
+                            </span>
+                            {d.vehicleBrands.map((s) => {
+                                return <span className="TagTwo">
+                                    <div className="ImgCenters">
+                                        <img src={`${s.vehicleBrandContent}`} alt="Product" />
+                                    </div>
+                                    {/*<p className="brendNo">*/}
+                                    {/*    {s.vehicleBrandIdName}*/}
+                                    {/*</p>*/}
                                 </span>
-                                {d.vehicleBrands.map((s)=> {
-                                     return <span className="TagTwo">
-                                            <div className="ImgCenters">
-                                                <img src={`${s.vehicleBrandContent}`} alt="Product"/>
-                                            </div>
-                                            {/*<p className="brendNo">*/}
-                                            {/*    {s.vehicleBrandIdName}*/}
-                                            {/*</p>*/}
-                                        </span>
-                                })}
+                            })}
                         </div>
                     </div>
                     <div className="OemTextCenter">
@@ -77,14 +81,14 @@ const CardItem = ({d, classes}) => {
             <div className="LocationBrendNameCenter">
                 <div className="LocationBrend">
                     <div className="Location">
-                        <img src={Location} alt="Location"/>
+                        <img src={Location} alt="Location" />
                         <p className="LocationName">
                             {d.storages && d.storages.length > 0 ? d.storages[0].storageCode : ' '}
                         </p>
-                        <img src={Down} alt="Down"/>
+                        <img src={Down} alt="Down" />
                     </div>
                     <div className="Brend">
-                        <img src={TagTwo} alt="TagTwo"/>
+                        <img src={TagTwo} alt="TagTwo" />
                         <p className="BrendTitle">
                             {d.manufacturerName}
                         </p>
@@ -92,9 +96,9 @@ const CardItem = ({d, classes}) => {
                 </div>
                 <div className="Returun">
                     <Link className="text-decoration-none" to="/">
-                        <img src={Return} alt="Return"/>
+                        <img src={Return} alt="Return" />
                         <p className="ReturunTitle">
-                            return
+                            {t("Global.return")}
                         </p>
                     </Link>
                 </div>
@@ -128,10 +132,10 @@ const CardItem = ({d, classes}) => {
                 <div className="counterCenter">
                     <button className="del" onClick={() => {
                         if (quantity > d.minOrderAmount) {
-                            setQuantity(  quantity -= 1)
+                            setQuantity(quantity -= 1)
                         }
                         else {
-                            openNotification('Məhsul sayı düzgün deyil' , `Minimal sifariş sayı ${d.minOrderAmount} olmalıdır.` , false )
+                            openNotification('Məhsul sayı düzgün deyil', `Minimal sifariş sayı ${d.minOrderAmount} olmalıdır.`, false)
                         }
                     }}>
                         -
@@ -145,7 +149,7 @@ const CardItem = ({d, classes}) => {
                         className="counter"
                     />
                     <button className="plus" onClick={() => {
-                      setQuantity(  quantity += 1)
+                        setQuantity(quantity += 1)
                     }}>
                         +
                     </button>
@@ -154,14 +158,14 @@ const CardItem = ({d, classes}) => {
 
             <div className="BasketLikeCenter my-2">
                 <button className="Basket" onClick={() => handleAddToCart(d)}>
-                    {loading ? <Spin className="custom-spin"  size={'small'}/> : ''}
-                    <img src={Vector2} alt="Add to Basket"/>
+                    {loading ? <Spin className="custom-spin" size={'small'} /> : ''}
+                    <img src={Vector2} alt="Add to Basket" />
                     <p className="BasketTitle">
-                        Səbətə at
+                        {t("Global.basket")}
                     </p>
                 </button>
                 <div className="Heart">
-                    <img src={Heart} alt="Favorite"/>
+                    <img src={Heart} alt="Favorite" />
                 </div>
             </div>
         </div>
