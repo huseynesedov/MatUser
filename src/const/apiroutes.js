@@ -8,6 +8,7 @@ export const apiRoutes = {
 
     // Order
     order: {
+        getByOrderId: '/order/v1/OrderDetail/GetByOrderId',
         getOrderDetailStatusList: '/catalog/v1/Order/GetOrderDetailStatusList',
         getOrderStatusList: '/catalog/v1/Order/GetOrderStatusList',
         getOrderTypeList: '/catalog/v1/Order/GetOrderTypeList',
@@ -15,6 +16,7 @@ export const apiRoutes = {
         getShipmentTypeList: '/catalog/v1/Order/GetShipmentTypeList',
         test: '/catalog/v1/Order/Test',
         add: '/order/v1/Order/Add',
+        getSearchTable: '/order/v1/Order/GetSearchTable',
         baseTest: '/order/v1/Base/Test',
     },
 
@@ -38,6 +40,7 @@ export const apiRoutes = {
         getVehicleListByProductId: '/product/v1/Product/GetVehicleListByProductId',
         getBestSeller: '/product/v1/Product/GetBestSeller',
         getVehicleModelById: '/product/v1/Product/GetVehicleModelById',
+        getProductStockMovements: '/product/v1/Product/GetProductStockMovements',
     },
 
     // VehicleBrand
@@ -95,6 +98,7 @@ export const apiRoutes = {
         getProductTypeList: '/catalog/v1/Product/GetProductTypeList',
         productTest: '/catalog/v1/Product/Test',
         getBasketDetailStatusList: '/catalog/v1/BasketDetailStatus/GetBasketDetailStatusList',
+        getPaymentTypeList: '/catalog/v1/PaymentType/GetPaymentTypeList',
     },
     storage:{
         storageGetList: '/catalog/v1/Storage/GetList',

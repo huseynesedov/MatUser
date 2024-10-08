@@ -1,10 +1,9 @@
 import React from "react";
 import ShoppingCards from "../../Elements/ShoppingCards";
-
+import { useTranslation } from "react-i18next";
 import './home.css'
 import { Helmet } from "react-helmet";
 import images from "../../../Assets/images/js/Images";
-import { useTranslation } from "react-i18next";
 
 function Home() {
   let {foodg , elba} = images
@@ -36,7 +35,7 @@ function Home() {
             </div>
 
             <div className="">
-              <ShoppingCards/>
+            <ShoppingCards/>
             </div>
           </div>
         </div>

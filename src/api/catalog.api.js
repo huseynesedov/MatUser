@@ -59,4 +59,8 @@ export const CatalogApi = {
     GetBasketDetailStatusList(params) {
         return BaseApi.get(apiRoutes.catalog.getBasketDetailStatusList, { ...params });
     },
+    GetPaymentTypeList(params) {
+        return BaseApi.get(apiRoutes.catalog.getPaymentTypeList, { ...params });
+    },
+
 };

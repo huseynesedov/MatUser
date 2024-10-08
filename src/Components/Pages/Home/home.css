@@ -152,7 +152,7 @@
 
 
 .OemNo.product {
-    width:60%;
+    width:45%;
 }
 
 
@@ -248,6 +248,7 @@
 
 .Returun {
     padding: 1px 6px;
+    height: 70%;
     display: flex;
     border: 1px solid #E53E3E;
     border-radius: 5px;

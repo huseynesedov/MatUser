@@ -13,6 +13,7 @@ const BrandList = () => {
         swipeToSlide: true,
     };
 
+    const { t } = useTranslation();
     const [list , setList] = useState([])
 
     useEffect(() => {
@@ -27,7 +28,6 @@ const BrandList = () => {
         })
     }, []);
 
-    const { t } = useTranslation();
 
     return <div className="Container h-100">
         <div className="myRow h-auto line">
@@ -38,7 +38,7 @@ const BrandList = () => {
             </div>
             <div className="BredsSlide">
                 <div className="slider-container">
-                    <Slider {...settings}>
+                <Slider {...settings}>
                         {list.map((s,i)=>{
                             return (
                                 <div key={i} className="BrandCircle">

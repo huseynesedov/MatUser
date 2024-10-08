@@ -9,15 +9,11 @@ import  {useAuth} from "../../../AuthContext";
 import { useTranslation } from "react-i18next";
 
 const DetailElements = () => {
-    
-    const { t } = useTranslation(); 
-
+    const { t } = useTranslation();
     const { openNotification  , logout} = useAuth()
     const { id } = useParams(); // URL'den ID'yi alırıq
     let idHash = id
-
     const { Location_gray, FiTag, Star_Yellow, Star_Gray, Liner, Heart2 } = Images;
-
     const [features , setFeatures] = useState(  [
         { name: t("Product-Detail.table.car"), value: "" },
         { name: t("Product-Detail.table.manufacturer"), value: "" },
@@ -28,7 +24,6 @@ const DetailElements = () => {
         { name: t("Product-Detail.table.carbrand"), value: "" },
         { name: t("Product-Detail.table.availability"), value: "" }
     ], )
-
     let [quantity, setQuantity] = useState(1); // Default şəkil
     let [loading, setLoading] = useState(true); // Default şəkil
     let [error, setError] = useState(false); // Default şəkil
@@ -144,8 +139,6 @@ const DetailElements = () => {
         return stars;
     };
 
-
-
     return (
         <>
             {loading ?
@@ -215,7 +208,7 @@ const DetailElements = () => {
                             </div>
                         </div>
 
-                        <img className='mt-4' src={Liner} alt=""/>
+                                <img className='mt-4' src={Liner} alt=""/>
 
                         <div className="row mt-4">
                             <div className="col">
@@ -223,7 +216,7 @@ const DetailElements = () => {
                             </div>
                         </div>
 
-                        <div className="row mt-3">
+                                <div className="row mt-3">
                             <div className="col">
                                 <table className='MyTable2'>
                                     <tbody>
@@ -270,7 +263,7 @@ const DetailElements = () => {
                                         <button className="none">{t("Global.basket")}</button>
                                     </div>
                                     <Link to="">
-                                        <div className="d-flex">
+                                    <div className="d-flex">
                                             <div className="Heart2" onClick={toggleFavorite}>
                                                 {/* Heart border gray */}
                                                 {isFavorite ? (

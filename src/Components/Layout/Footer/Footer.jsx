@@ -1,7 +1,7 @@
 import './footer.css'
 import Images from '../../../Assets/images/js/Images'
-import { Link } from "react-router-dom";
-import { FaPhoneAlt, FaInstagram, FaWhatsapp } from "react-icons/fa";
+import {Link} from "react-router-dom";
+import { FaPhoneAlt , FaInstagram ,  FaWhatsapp} from "react-icons/fa";
 import { MdOutlineMail } from "react-icons/md";
 import { IoLocationOutline } from "react-icons/io5";
 import { FiFacebook } from "react-icons/fi";
@@ -21,18 +21,20 @@ export const Footer = () => {
                             <div className="col-lg-3 pe-5 col-md-6">
                                 <div className="icon">
                                     <Link to={'/'}>
-                                        <img src={footer} alt="" />
+                                        <img src={footer} alt=""/>
                                     </Link>
                                 </div>
                                 <div className="text">
-                                    <p>{t("Footer.information")}</p>
+                                    <p>Lorem ipsum dolor sit amet consectetur. Arcu lorem lectus elit egestas.
+                                        Suspendisse nunc
+                                        amet at lobortis.</p>
                                 </div>
                             </div>
                             <div className="col-lg-3 pe-5 col-md-6">
                                 <div className="heading my-4 ">{t("Footer.contact")}</div>
                                 <div className="contact-item align-items-center mb-4 d-flex">
                                     <div className="icon">
-                                        <FaPhoneAlt size={'16px'} />
+                                        <FaPhoneAlt size={'16px'}	/>
                                     </div>
                                     <a className={'nav-link text-white ms-3'} href="">
                                         {/* Telefon Nomresi */}
@@ -42,7 +44,7 @@ export const Footer = () => {
                                 </div>
                                 <div className="contact-item align-items-center mb-4 d-flex">
                                     <div className="icon">
-                                        <MdOutlineMail size={'16px'} />
+                                        <MdOutlineMail  size={'16px'} />
                                     </div>
                                     <a className={'nav-link text-white ms-3'} href="">
                                         {/* Mail */}
@@ -51,7 +53,7 @@ export const Footer = () => {
                                 </div>
                                 <div className="contact-item align-items-center mb-4 d-flex">
                                     <div className="icon">
-                                        <IoLocationOutline size={'16px'} />
+                                        <IoLocationOutline  size={'16px'}/>
                                     </div>
                                     <a className={'nav-link text-white ms-3'} href="">
                                         {/* Location */}
@@ -64,18 +66,17 @@ export const Footer = () => {
                             <div className="col-lg-3 pe-5 col-md-6">
                                 <div className="heading my-4 ">{t("Footer.we")}</div>
                                 <div className="text">
-                                    <p>
-                                    {t("Footer.we-info")}
-                                    </p>
+                                    <p>Lorem ipsum dolor sit amet consectetur. Arcu lorem lectus elit egestas. Suspendisse nunc
+                                        amet at lobortis.</p>
                                 </div>
                             </div>
                             <div className="col-lg-3 pe-5 col-md-6">
                                 <div className="heading my-4 ">{t("Footer.information")}</div>
                                 <div className="social-icons w-75 justify-content-between d-flex mt-3">
-                                    <a href={''} target={'_blank'} className="social-icon-item"><FiFacebook /></a>
-                                    <a href={''} target={'_blank'} className="social-icon-item"><LuTwitter /></a>
-                                    <a href={''} target={'_blank'} className="social-icon-item"><FaWhatsapp /></a>
-                                    <a href={''} target={'_blank'} className="social-icon-item"><FaInstagram /></a>
+                                    <a href={''} target={'_blank'} className="social-icon-item"><FiFacebook/></a>
+                                    <a href={''} target={'_blank'} className="social-icon-item"><LuTwitter/></a>
+                                    <a href={''} target={'_blank'} className="social-icon-item"><FaWhatsapp/></a>
+                                    <a href={''} target={'_blank'} className="social-icon-item"><FaInstagram/></a>
                                 </div>
                             </div>
                         </div>

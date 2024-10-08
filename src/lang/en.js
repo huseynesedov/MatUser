@@ -1,5 +1,4 @@
 export const en = {
-
     "Nav": {
         "search": "Search",
         "favorites": "Favorites",
@@ -123,5 +122,4 @@ export const en = {
         "home": "Home Page"
     }
 }
-
 

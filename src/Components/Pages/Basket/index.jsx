@@ -1,118 +1,108 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import './style.scss';
-import { Spin } from 'antd'
+import  { Spin } from 'antd'
 import Images from '../../../Assets/images/js/Images';
 import BasketItems from '../../Elements/BasketItem/index';
-import { useNavigate } from "react-router-dom";
-import { BasketApi } from "../../../api/basket.api";
-import { useAuth } from "../../../AuthContext";
-import { OrderApi } from "../../../api/order.api";
-import { Select } from "antd";
-import { CatalogApi } from "../../../api/catalog.api";
+import {useNavigate} from "react-router-dom";
+import {BasketApi} from "../../../api/basket.api";
+import {useAuth} from "../../../AuthContext";
 import { useTranslation } from 'react-i18next';
+import {OrderApi} from "../../../api/order.api";
+import { Select } from "antd";
+import {CatalogApi} from "../../../api/catalog.api";
 const { Option } = Select
 const Basket = () => {
-    const { logout } = useAuth()
+    const { logout} = useAuth()
     const { Down } = Images;
+    const { t } = useTranslation();
     const navigate = useNavigate()
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const [totalPrice, setTotalPrice] = useState({});
     const [basketItems, setBasketItems] = useState([]);
     const [basketItemStatus, setBasketItemStatus] = useState([]);
+    const [shipmentTypeList, setShipmentTypeList] = useState([]);
+    const [paymentTypeList, setPaymentTypeList] = useState([]);
+    const [paymentTypeIdHash, setPaymentTypeIdHash] = useState('');
+    const [shipmentTypeIdHash, setShipmentTypeIdHash] = useState('');
     const [note, setNote] = useState('');
-    
-    const { t } = useTranslation(); 
 
 
     const getBasketItems = () => {
         setLoading(true)
-        BasketApi.GetListByCurrent().then((items) => {
+        BasketApi.GetListByCurrent().then((items)=>{
             console.log(items)
             setBasketItems(items.basketDetailList ? items.basketDetailList : [])
-        }).catch((error) => {
-            if (error?.response?.status === 401) {
+        }).catch((error)=>{
+            if(error?.response?.status === 401){
                 logout()
             }
-        }).finally(function () {
+        }).finally(function(){
             setLoading(false)
         })
     }
 
-
-
-
-
     const GetBasketDetailStatusList = () => {
         console.log('GetBasketDetailStatusList')
         setLoading(true)
-        CatalogApi.GetBasketDetailStatusList().then((items) => {
+        CatalogApi.GetBasketDetailStatusList().then((items)=>{
             setBasketItemStatus(items)
-        }).catch((error) => {
+        }).catch((error)=>{
             console.log(error)
-            if (error?.response?.status === 401) {
+            if(error?.response?.status === 401){
                 logout()
             }
-        }).finally(function () {
+        }).finally(function(){
             setLoading(false)
         })
     }
 
     const getTotalPrice = () => {
         setLoading(true)
-        BasketApi.GetTotalPrice().then((items) => {
-            console.log(items, "Total")
+        BasketApi.GetTotalPrice().then((items)=>{
+            console.log(items , "Total")
             setTotalPrice(items[0])
-        }).catch((error) => {
-            if (error?.response?.status === 401) {
+        }).catch((error)=>{
+            if(error?.response?.status === 401){
                 logout()
             }
-        }).finally(function () {
+        }).finally(function(){
             setLoading(false)
         })
     }
 
 
-    const getOrderTypeList = () => {
-        CatalogApi.GetOrderTypeList().then((res) => {
-            console.log(res)
+    const getShipmentTypeList = ( ) => {
+        CatalogApi.GetShipmentTypeList().then((res)=>{
+            setShipmentTypeList(res)
         })
     }
 
-    const getPaymentTypeList = () => {
-        console.log('payment')
-    }
-
-    const getShipmentTypeList = () => {
-        CatalogApi.GetShipmentTypeList().then((res) => {
-            console.log(res)
+    const getPaymentTypeList = ( ) => {
+        CatalogApi.GetPaymentTypeList().then((res)=>{
+            setPaymentTypeList(res)
         })
     }
 
-    const getStorageList = () => {
-        CatalogApi.GetShipmentTypeList().then((res) => {
-            console.log(res)
-        })
-    }
 
     const createOrder = () => {
         setLoading(true)
         OrderApi.AddOrder({
-            orderTypeIdHash: "string",
-            paymentTypeIdHash: "string",
-            shipmentTypeIdHash: "string",
-            storageIdHash: "string",
+            paymentTypeIdHash,
+            shipmentTypeIdHash,
             note,
-            salesmanNote: ""
+            salesmanNote: " "
         }).then(() => {
-            openNotification('Uğurlu əməliyyat', 'Sifariş yaradıldı', false)
-            navigate('/orders')
-        }).catch((err) => {
-            openNotification('Xəta baş verdi', err.response.data.message, true)
-            if (err?.response?.status === 401) {
+            openNotification('Uğurlu əməliyyat' , 'Sifariş yaradıldı'  , false)
+            setTimeout(()=>{
+                navigate('/orders')
+            } , 1000)
+        }).catch((err)=>{
+            openNotification('Xəta baş verdi' , err.response.data.message  , true )
+            if(err?.response?.status === 401){
                 logout()
             }
-        }).finally(() => {
+        }).finally(()=>{
             setLoading(false)
         })
     }
@@ -120,17 +110,15 @@ const Basket = () => {
 
 
 
-    useEffect(() => {
+    useEffect(()=>{
         getBasketItems()
         getTotalPrice()
-        getOrderTypeList()
         getPaymentTypeList()
         getShipmentTypeList()
-        getStorageList()
         GetBasketDetailStatusList()
     }, [])
 
-    const { openNotification } = useAuth()
+    const { openNotification }= useAuth()
 
 
     const handleButtonClick = () => {
@@ -141,7 +129,10 @@ const Basket = () => {
 
     let { down, Liner } = Images;
 
-    
+    // const items = useSelector(state => state.cart.items);
+    // if (basketItems.length === 0) {
+    //     return <div className="empty-basket">Səbət boşdur</div>;
+    // }
     return (
         <>
             <div className="container-fluid d-flex justify-content-center">
@@ -156,12 +147,12 @@ const Basket = () => {
                 <Spin className={'w-100'} spinning={loading}>
                     {
                         basketItems.length === 0 ?
-                            <div style={{ height: '60vh' }} className="d-flex justify-content-center align-items-center empty-basket">Səbət boşdur</div>
+                            <div style={{height:'60vh'}} className="d-flex justify-content-center align-items-center empty-basket">Səbət boşdur</div>
                             : <div className="container-fluid d-flex justify-content-center mt-5">
                                 <div className="myRow d-flex align-items-start justify-content-between">
                                     <div className="myContainer w-75 position-relative rounded"
-                                        style={{ padding: "0rem 0rem 0.8rem 0rem" }}>
-                                        <BasketItems basketItemStatus={basketItemStatus} setBasketItems={setBasketItems} getBasketItems={getBasketItems} getTotalPrice={getTotalPrice} basketItems={basketItems} />
+                                         style={{padding: "0rem 0rem 0.8rem 0rem"}}>
+                                        <BasketItems basketItemStatus={basketItemStatus} setBasketItems={setBasketItems} getBasketItems={getBasketItems} getTotalPrice={getTotalPrice}  basketItems={basketItems} />
                                     </div>
 
                                     <div className="myContainer2 rounded">
@@ -170,22 +161,59 @@ const Basket = () => {
                                                 <div className="myRow2">
                                                     <Select
                                                         size={'large'}
-                                                        placeholder={t("Basket.table2.delivery")}
+                                                        placeholder={'Çatdırılma növü'}
                                                         style={{ width: '100%' }}
                                                         dropdownStyle={{ borderRadius: '8px' }}
                                                         className="custom-select mx-5"
+                                                        showSearch // Enables the search functionality
+                                                        optionFilterProp="children" // Search will be based on the option's displayed text
+                                                        filterOption={(input, option) =>
+                                                            (option?.children?.props?.children ?? '').toLowerCase().includes(input.toLowerCase())
+                                                        } // Custom filter logic (optional)
+                                                        allowClear // Optional: Allows clearing the selection
                                                         suffixIcon={<img className='me-2' src={down} alt="" />}
+                                                        onChange={(event, value) => {
+                                                            setShipmentTypeIdHash(value.value)
+                                                        }}
                                                     >
-
-                                                        <Option value="location">
-                                                            <span style={{ marginLeft: '8px' }}>{t("Basket.table2.delivery")}</span>
-                                                        </Option>
+                                                        {shipmentTypeList.map((shipmentType) => (
+                                                            <Option key={shipmentType.valueHash} value={shipmentType.valueHash}>
+                                                                <span style={{ marginLeft: '8px' }}>{shipmentType.displayText}</span>
+                                                            </Option>
+                                                        ))}
+                                                    </Select>
+                                                </div>
+                                            </div>
+                                            <div className="row mt-3 ">
+                                                <div className="myRow2">
+                                                    <Select
+                                                        size={'large'}
+                                                        placeholder={'Ödəniş növü'}
+                                                        style={{ width: '100%' }}
+                                                        dropdownStyle={{ borderRadius: '8px' }}
+                                                        className="custom-select mx-5"
+                                                        showSearch // Enables the search functionality
+                                                        optionFilterProp="children" // Search will be based on the option's displayed text
+                                                        filterOption={(input, option) =>
+                                                            (option?.children?.props?.children ?? '').toLowerCase().includes(input.toLowerCase())
+                                                        } // Custom filter logic (optional)
+                                                        allowClear // Optional: Allows clearing the selection
+                                                        suffixIcon={<img className='me-2' src={down} alt="" />}
+                                                        onChange={(event, value) => {
+                                                            setPaymentTypeIdHash(value.value)
+                                                        }}
+                                                    >
+                                                        {paymentTypeList.map((orderType) => (
+                                                            <Option key={orderType.valueHash} value={orderType.valueHash}>
+                                                                <span style={{ marginLeft: '8px' }}>{orderType.displayText}</span>
+                                                            </Option>
+                                                        ))}
                                                     </Select>
                                                 </div>
                                             </div>
 
                                             {/* Line */}
-                                            <img className='mt-4 w-100' src={Liner} alt="" />
+                                            <img className='mt-4 w-100' src={Liner} alt=""/>
 
                                             {/* TextArea */}
                                             <div className="row">
@@ -193,16 +221,16 @@ const Basket = () => {
                                                     <p className="text-44 mt-3 fb-600">
                                                         {t("Basket.table2.record")}
                                                     </p>
-                                                    <textarea onChange={(e) => {
+                                                    <textarea onChange={(e)=>{
                                                         setNote(e.target.value);
                                                     }} className="OrderTextarea rounded mt-4 textarea"
-                                                        id="exampleFormControlTextarea1"
-                                                        placeholder={t("Basket.table2.record")}></textarea>
+                                                              id="exampleFormControlTextarea1"
+                                                              placeholder={t("Basket.table2.record")}></textarea>
                                                 </div>
                                             </div>
 
                                             {/* Line */}
-                                            <img className='mt-4 w-100' src={Liner} alt="" />
+                                            <img className='mt-4 w-100' src={Liner} alt=""/>
 
                                             <div className="row">
                                                 <div className="myRow3">
@@ -215,8 +243,8 @@ const Basket = () => {
                                                             {t("Basket.table2.delivery")}
                                                         </p>
                                                         <p className="t-8F fb-500">
-                                                            {totalPrice?.basketDetailTotalPrice?.formattedTotalPrice} {' '}
-                                                            {totalPrice?.currency?.name}
+                                                            {totalPrice?.basketDetailTotalPrice?.formattedTotalPrice } {' '}
+                                                            {totalPrice?.currency?.name }
                                                         </p>
                                                     </div>
                                                     <div
@@ -225,8 +253,8 @@ const Basket = () => {
                                                             {t("Basket.table2.discount")}
                                                         </p>
                                                         <p className="t-8F fb-500">
-                                                            {totalPrice?.basketDetailTotalPrice?.formattedTotalDiscountPrice} {' '}
-                                                            {totalPrice?.currency?.name}
+                                                            {totalPrice?.basketDetailTotalPrice?.formattedTotalDiscountPrice } {' '}
+                                                            {totalPrice?.currency?.name }
                                                         </p>
                                                     </div>
                                                     <div
@@ -235,8 +263,8 @@ const Basket = () => {
                                                             {t("Basket.table2.value")}
                                                         </p>
                                                         <p className="t-8F fb-500">
-                                                            {totalPrice?.basketDetailTotalPrice?.formattedTotalDiscountedPrice} {' '}
-                                                            {totalPrice?.currency?.name}
+                                                            {totalPrice?.basketDetailTotalPrice?.formattedTotalDiscountedPrice } {' '}
+                                                            {totalPrice?.currency?.name }
                                                         </p>
                                                     </div>
                                                 </div>
@@ -246,8 +274,7 @@ const Basket = () => {
                                                 <div onClick={() => {
                                                     createOrder()
                                                 }} className="col d-flex align-items-center justify-content-center">
-                                                    <button className="ProductEvaluate2">
-                                                    {t("Basket.table2.confirim")}
+                                                    <button className="ProductEvaluate2">  {t("Basket.table2.confirim")}
                                                     </button>
                                                 </div>
                                             </div>

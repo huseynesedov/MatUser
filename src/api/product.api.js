@@ -59,4 +59,7 @@ export const ProductApi = {
     GetVehicleModelById(params) {
         return BaseApi.get(apiRoutes.product.getVehicleModelById, { ...params });
     },
+    GetProductStockMovements(data) {
+        return BaseApi.post(apiRoutes.product.getProductStockMovements, data);
+    },
 };
