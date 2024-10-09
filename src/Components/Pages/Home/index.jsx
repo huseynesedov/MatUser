@@ -6,7 +6,7 @@ import { Helmet } from "react-helmet";
 import images from "../../../Assets/images/js/Images";
 
 function Home() {
-  let {foodg , elba} = images
+  let { foodg, elba } = images
   const { t } = useTranslation();
 
   return (
@@ -35,7 +35,7 @@ function Home() {
             </div>
 
             <div className="">
-            <ShoppingCards/>
+              <ShoppingCards />
             </div>
           </div>
         </div>
