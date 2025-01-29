@@ -50,7 +50,7 @@ const Orders = () => {
         });
     };
     return (
-        <div className={'w-100'}>
+        <div className="w-100">
             <div className="container-fluid d-flex  justify-content-center mt-4">
                 <div className="myRow align-items-start flex-column">
                     <p className="text-44 f-14 d-flex fb-600">

@@ -71,9 +71,7 @@ const Login = () => {
                             <p className="col-7  f_34 fb-600 t_18">"Avtomobil Təchizatı Satışı"</p>
                             <p className="col-6 mt-4 f_24 t_71">Avtomobiliniz üçün ən yaxşı təchizatı tapın!</p>
                         </div>
-
                             <img  className="position-absolute Car_absolute" src={CarAccessories} alt="" />
-                     
                     </div>
 
                 </div>

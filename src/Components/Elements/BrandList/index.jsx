@@ -1,8 +1,9 @@
 import Slider from "react-slick";
-import React, {useEffect, useState} from "react";
-import {CatalogApi} from "../../../api/catalog.api";
+import React, { useEffect, useState } from "react";
+import { CatalogApi } from "../../../api/catalog.api";
 import { useTranslation } from "react-i18next";
-import {Tooltip} from "antd";
+import { Tooltip } from "antd";
+
 const BrandList = () => {
     const settings = {
         className: "center",
@@ -15,17 +16,17 @@ const BrandList = () => {
     };
 
     const { t } = useTranslation();
-    const [list , setList] = useState([])
+    const [list, setList] = useState([])
 
     useEffect(() => {
-        CatalogApi.GetManufacturerList().then((res) =>    {
-            let arr = res.map((r)=>{
+        CatalogApi.GetManufacturerList().then((res) => {
+            let arr = res.map((r) => {
                 return {
                     ...r,
                     url: r.content
                 }
             })
-           setList(arr)
+            setList(arr)
         })
     }, []);
 
@@ -39,19 +40,19 @@ const BrandList = () => {
             </div>
             <div className="BredsSlide">
                 <div className="slider-container">
-                <Slider {...settings}>
-                        {list.map((s,i)=>{
+                    <Slider {...settings}>
+                        {list.map((s, i) => {
                             return (
                                 <Tooltip placement={'top'} title={s.displayText}>
                                     <div key={i} className="BrandCircle cursor-pointer">
                                         <img className="BrandImg"
-                                             src={s.url}
-                                             alt=""/>
+                                            src={s.url}
+                                            alt={s.displayText} />
                                     </div>
                                 </Tooltip>
                             )
                         })}
-                </Slider>
+                    </Slider>
                 </div>
             </div>
         </div>

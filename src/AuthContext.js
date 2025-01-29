@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import {AccountApi} from "./api/account.api";
+import { AccountApi } from "./api/account.api";
 import { notification } from 'antd';
 const AuthContext = createContext();
 
@@ -13,19 +13,19 @@ export const AuthProvider = ({ children }) => {
   let [loginLoading, setLoginLoading] = useState(false);
   let [returnData, setReturnData] = useState({});
 
-  const openNotification = (message, description , error) => {
-    if(error){
+  const openNotification = (message, description, error) => {
+    if (error) {
       notification.error({
         message,
         description,
-        placement:'bottomRight'
+        placement: 'bottomRight'
       });
     }
-    else{
+    else {
       notification.info({
         message,
         description,
-        placement:'bottomRight'
+        placement: 'bottomRight'
       });
     }
   };
@@ -36,15 +36,15 @@ export const AuthProvider = ({ children }) => {
     if (storedLoggedIn) {
       setLoggedIn(JSON.parse(storedLoggedIn));
     }
-    else{
+    else {
       setLoggedIn(false)
     }
     setLoading(false);
   }, []);
 
-  const login = (userCode , customerCode , passwordHash) => {
+  const login = (userCode, customerCode, passwordHash) => {
     setLoginLoading(true);
-    AccountApi.Login({userCode, customerCode, passwordHash}).then((res) => {
+    AccountApi.Login({ userCode, customerCode, passwordHash }).then((res) => {
       console.log(res)
       setLoading(true)
       setLoggedIn(true);
@@ -52,13 +52,13 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('token', res.accessToken);
       localStorage.setItem('refreshToken', res.refreshToken);
       openNotification('Giriş uğurlu !', 'Xoş gəldiniz!', false);
-    }).catch((error)=>{
+    }).catch((error) => {
       setLoading(false);
       setLoggedIn(false)
       setLoginLoading(false)
-      openNotification('Xəta baş verdi', error.response.data.message , true)
-    }).finally(()=>{
-      setTimeout(()=>{
+      openNotification('Xəta baş verdi', error.response.data.message, true)
+    }).finally(() => {
+      setTimeout(() => {
         setLoading(false);
       }, 1000)
       setLoginLoading(false)
@@ -81,7 +81,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ loggedIn, loading, loginLoading,  login, logout , openNotification , updateReturnData  , returnData}}>
+    <AuthContext.Provider value={{ loggedIn, loading, loginLoading, login, logout, openNotification, updateReturnData, returnData }}>
       {children}
     </AuthContext.Provider>
   );

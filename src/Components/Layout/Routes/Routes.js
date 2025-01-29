@@ -1,4 +1,4 @@
-import {Route, Routes} from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import React from "react";
 
 import Home from "../../Pages/Home";
@@ -17,7 +17,7 @@ import Return from "../../Pages/Return";
 
 
 const RouteList = () => {
-    return <div style={{minHeight:'100vh'}}>
+    return <div style={{ minHeight: '100vh', width:"100%" }}>
         <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/products" element={<ListPage />} />
@@ -32,4 +32,4 @@ const RouteList = () => {
     </div>
 }
 
-export  default  RouteList
+export default RouteList
