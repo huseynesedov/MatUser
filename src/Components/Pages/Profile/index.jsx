@@ -12,6 +12,7 @@ import { useParams } from "react-router-dom";
 import { useAuth } from "../../../AuthContext";
 import { useTranslation } from "react-i18next";
 import { Space, Spin } from "antd";
+import PermissionWrapper from "../../Elements/PermissionWrapper/PermissionWrapper";
 
 const Profile = () => {
     const { t } = useTranslation();
@@ -141,6 +142,12 @@ const Profile = () => {
 
 
     return <>
+        <PermissionWrapper
+            topModuleCode="$USER"
+            subModuleCode="$PERSONAL_INFORMATION_SUB_MODULE"
+            pageCode="$USER"
+            rightCode="$GET"
+        >
         <div className="mat-container">
             <div className="mat-row">
                 {!loading ?
@@ -382,7 +389,7 @@ const Profile = () => {
             </div>
         </div>
 
-
+        </PermissionWrapper>
     </>
 }
 

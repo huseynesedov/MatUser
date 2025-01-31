@@ -9,6 +9,7 @@ import { OrderApi } from "../../../api/order.api";
 import { useTranslation } from 'react-i18next';
 import moment from "moment";
 import { useAuth } from "../../../AuthContext";
+import PermissionWrapper from "../../Elements/PermissionWrapper/PermissionWrapper";
 
 const Orders = () => {
     const { chrevron_right, printsvg, Liner } = Images;
@@ -50,7 +51,13 @@ const Orders = () => {
         });
     };
     return (
-        <div className="w-100">
+        <PermissionWrapper
+            topModuleCode="$USER"
+            subModuleCode="$ORDER_SUB_MODULE"
+            pageCode="$ORDER_DETAIL"
+            rightCode="$GET"
+        >
+        <div className={'w-100'}>
             <div className="container-fluid d-flex  justify-content-center mt-4">
                 <div className="myRow align-items-start flex-column">
                     <p className="text-44 f-14 d-flex fb-600">
@@ -266,6 +273,7 @@ const Orders = () => {
                 </div>
             </Spin>
         </div>
+        </PermissionWrapper>
     );
 }
 

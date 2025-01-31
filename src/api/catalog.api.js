@@ -47,6 +47,18 @@ export const CatalogApi = {
         return BaseApi.get(apiRoutes.catalog.productTest, { ...params });
     },
 
+    GetModuleHierarchy(params) {
+        return BaseApi.get(apiRoutes.catalog.getModuleHierarchy, { ...params });
+    },
+    GetUserAccessibleModules(params) {
+        return BaseApi.get(apiRoutes.catalog.getUserAccessibleModules, { ...params });
+    },
+    GetUserAccessibleTopModules(params) {
+        return BaseApi.get(apiRoutes.catalog.getUserAccessibleTopModules, { ...params });
+    },
+    ModuleTest(params) {
+        return BaseApi.get(apiRoutes.catalog.moduleTest, { ...params });
+    },
     // VehicleBrand
     GetVehicleBrandListAsync(params) {
         return BaseApi.get(apiRoutes.vehicleBrand.getListAsync, { ...params });

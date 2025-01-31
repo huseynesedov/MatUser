@@ -17,7 +17,9 @@ import Return from "../../Pages/Return";
 
 
 const RouteList = () => {
-    return <div style={{ minHeight: '100vh', width:"100%" }}>
+    return <div  style={{
+        // minHeight:'100vh',
+        width:"100%"}}>
         <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/products" element={<ListPage />} />

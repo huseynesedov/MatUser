@@ -7,6 +7,7 @@ import { InfoCircleOutlined } from '@ant-design/icons';
 import { BasketApi } from "../../../api/basket.api";
 import { useTranslation } from 'react-i18next';
 import moment from "moment";
+import PermissionWrapper from "../PermissionWrapper/PermissionWrapper";
 
 const { Option } = Select;
 
@@ -156,11 +157,19 @@ const CardItem = ({ d, classes }) => {
         {
             title: '', dataIndex: 'productIdHash', key: 'productIdHash',
             render: (text, record) => (
-                <Button key="submit" type="primary" loading={loading} onClick={() => {
-                    handleAddReturnProductCard(text, record)
-                }}>
-                    Səbətə At
-                </Button>
+
+                <PermissionWrapper
+                    topModuleCode="$USER"
+                    subModuleCode="$BASKET_SUB_MODULE"
+                    pageCode="$RETURN_PRODUCT_CARD"
+                    rightCode="$POST"
+                >
+                    <Button key="submit" type="primary" loading={loading} onClick={() => {
+                        handleAddReturnProductCard(text, record)
+                    }}>
+                        Səbətə At
+                    </Button>
+                </PermissionWrapper>
             ),
         },
     ];
@@ -259,14 +268,21 @@ const CardItem = ({ d, classes }) => {
                             </div>
                         </div>
 
-                        <div className="cursor-pointer Returun">
-                            <a onClick={() => {
-                                showReturnModal()
-                            }} className="text-decoration-none" >
-                                <img src={Return} alt="Return" />
-                                <p className="ReturunTitle">{t("Global.return")}</p>
-                            </a>
-                        </div>
+                        <PermissionWrapper
+                            topModuleCode="$USER"
+                            subModuleCode="$BASKET_SUB_MODULE"
+                            pageCode="$RETURN_PRODUCT_CARD"
+                            rightCode="$GET"
+                        >
+                            <div className="cursor-pointer Returun">
+                                <a onClick={() => {
+                                    showReturnModal()
+                                }} className="text-decoration-none" >
+                                    <img src={Return} alt="Return" />
+                                    <p className="ReturunTitle">{t("Global.return")}</p>
+                                </a>
+                            </div>
+                        </PermissionWrapper>
                     </div>
                 </div>
 
@@ -317,13 +333,20 @@ const CardItem = ({ d, classes }) => {
                     </div>
                 </div>
 
-                <div className="BasketLikeCenter my-2">
-                    <button disabled={loading} className="Basket" onClick={() => handleAddToCart(d)}>
-                        {loading ? <Spin className="custom-spin" size="small" /> : ''}
-                        <img src={Vector2} alt="Add to Basket" />
-                        <p className="BasketTitle">{t("Global.basket")}</p>
-                    </button>
-                </div>
+                <PermissionWrapper
+                    topModuleCode="$USER"
+                    subModuleCode="$BASKET_SUB_MODULE"
+                    pageCode="$BASKET_DETAIL"
+                    rightCode="$POST"
+                >
+                    <div className="BasketLikeCenter my-2">
+                        <button disabled={loading} className="Basket" onClick={() => handleAddToCart(d)}>
+                            {loading ? <Spin className="custom-spin" size="small" /> : ''}
+                            <img src={Vector2} alt="Add to Basket" />
+                            <p className="BasketTitle">{t("Global.basket")}</p>
+                        </button>
+                    </div>
+                </PermissionWrapper>
             </div>
 
             {/* Models Modal */}

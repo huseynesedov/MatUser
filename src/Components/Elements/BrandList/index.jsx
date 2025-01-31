@@ -13,7 +13,29 @@ const BrandList = () => {
         autoplay: true,
         autoplaySpeed: 2000,
         swipeToSlide: true,
+        responsive: [
+            {
+                breakpoint: 1200, // Laptop ve büyük tabletler
+                settings: {
+                    slidesToShow: 6,
+                }
+            },
+            {
+                breakpoint: 992, // Küçük tabletler
+                settings: {
+                    slidesToShow: 4,
+                }
+            },
+            {
+                breakpoint: 768, // Telefonlar
+                settings: {
+                    slidesToShow: 3,
+                    centerPadding: "10px"
+                }
+            }
+        ]
     };
+    
 
     const { t } = useTranslation();
     const [list, setList] = useState([])

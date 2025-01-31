@@ -68,6 +68,7 @@ import CarAccessories from "../composition-different-car-accessories 1.svg"
 import printsvg from "../MdReceiptLong.svg"
 // Home
 import Endirim from "../endirim.svg"
+import Grid_icon from "../grid-icon.svg"
 
 import okey from "../okey2.svg"
 
@@ -153,5 +154,6 @@ export default {
      printsvg,
      Endirim,
      Vector2,
-     okey
+     okey,
+     Grid_icon
 }

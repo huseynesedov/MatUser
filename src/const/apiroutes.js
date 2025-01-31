@@ -113,6 +113,10 @@ export const apiRoutes = {
         productTest: '/catalog/v1/Product/Test',
         getBasketDetailStatusList: '/catalog/v1/BasketDetailStatus/GetBasketDetailStatusList',
         getPaymentTypeList: '/catalog/v1/PaymentType/GetPaymentTypeList',
+        getModuleHierarchy: '/catalog/v1/Module/GetModuleHierarchy',
+        getUserAccessibleModules: '/catalog/v1/Module/GetUserAccessibleModules',
+        getUserAccessibleTopModules: '/catalog/v1/Module/GetUserAccessibleTopModules',
+        moduleTest: '/catalog/v1/Module/Test',
     },
     storage:{
         storageGetList: '/catalog/v1/Storage/GetList',

@@ -55,10 +55,11 @@ a {
 }
 
 .logo_SearchBar {
-    width: 596px;
+    // width: 596px;
+    width: 60%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    // justify-content: space-between;
 }
 
 .search {
@@ -78,7 +79,7 @@ a {
 }
 
 .searchTextBar {
-    width: 300px;
+    // width: 300px;
     height: 37px;
     margin-left: 10px;
     border-top-left-radius: 10px;
@@ -317,3 +318,6 @@ a {
     text-decoration: none;
     display: block;
 }
+
+
+

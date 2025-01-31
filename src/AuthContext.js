@@ -1,6 +1,7 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { AccountApi } from "./api/account.api";
 import { notification } from 'antd';
+import { CatalogApi } from "./api/catalog.api";
 const AuthContext = createContext();
 
 export const useAuth = () => {
@@ -12,6 +13,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   let [loginLoading, setLoginLoading] = useState(false);
   let [returnData, setReturnData] = useState({});
+  let [permissions, setPermissions] = useState([]);
 
   const openNotification = (message, description, error) => {
     if (error) {
@@ -66,11 +68,21 @@ export const AuthProvider = ({ children }) => {
   };
 
 
+  const getPermissions = () => {
+    CatalogApi.GetUserAccessibleModules().then((res) => {
+      setPermissions(res)
+    }).catch((error) => {
+      setPermissions([])
+      setLoggedIn(false)
+      openNotification('Xəta baş verdi', error.response.data.message, true)
+    })
+  };
+
+
 
 
 
   const logout = () => {
-
     setLoggedIn(false);
     localStorage.removeItem('loggedIn');
   };
@@ -81,7 +93,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ loggedIn, loading, loginLoading, login, logout, openNotification, updateReturnData, returnData }}>
+    <AuthContext.Provider value={{ permissions, getPermissions, loggedIn, loading, loginLoading, login, logout, openNotification, updateReturnData, returnData }}>
       {children}
     </AuthContext.Provider>
   );

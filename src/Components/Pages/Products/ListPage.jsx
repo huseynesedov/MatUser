@@ -10,6 +10,7 @@ import { useAuth } from "../../../AuthContext";
 import { useSearchParams } from "react-router-dom";
 import {Pagination, Tooltip} from "antd";
 import Filters from "./Filters";
+import PermissionWrapper from "../../Elements/PermissionWrapper/PermissionWrapper";
 
 function Home() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -161,7 +162,14 @@ function Home() {
 
                     <div className="myContainer1 rounded">
                         <div className="">
-                            <ShoppingCards loading={loading} data={data} reset={reset} setReset={setReset}/>
+                            <PermissionWrapper
+                                topModuleCode="$USER"
+                                subModuleCode="$PRODUCT_SUB_MODULE"
+                                pageCode="$PRODUCT"
+                                rightCode="$GET"
+                            >
+                                <ShoppingCards loading={loading} data={data} reset={reset} setReset={setReset}/>
+                            </PermissionWrapper>
                         </div>
                         <div className="d-flex w-100 justify-content-center my-4">
                             <Pagination current={page}

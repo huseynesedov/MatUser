@@ -6,6 +6,7 @@ import { BasketApi } from "../../../api/basket.api";
 import { useAuth } from "../../../AuthContext";
 import { Spin } from 'antd'
 import { useTranslation } from 'react-i18next';
+import PermissionWrapper from "../PermissionWrapper/PermissionWrapper";
 
 const { Option } = Select;
 
@@ -223,14 +224,21 @@ const ReturnItems = ({ basketItems, getBasketItems, getTotalPrice, setBasketItem
                             </div>
                             {categoryIndex === 0 && (
                                 <div className="d-flex">
-                                    <button className="AllDel me-3" onClick={() => handleDeleteAll(category)}>
-                                        <img src={Add_Bin} alt="" />
-                                        <p className='ms-2'>{t("Basket.table.delete")}</p>
-                                    </button>
-                                    <button className="AllDel" onClick={() => handleDeleteSelected(category)}>
-                                        <img src={Add_Bin} alt="" />
-                                        <p className='ms-2'>{t("Basket.table.remove")}</p>
-                                    </button>
+                                    <PermissionWrapper
+                                        topModuleCode="$USER"
+                                        subModuleCode="$BASKET_SUB_MODULE"
+                                        pageCode="$BASKET_DETAIL"
+                                        rightCode="$DELETE"
+                                    >
+                                        <button className="AllDel me-3" onClick={() => handleDeleteAll(category)}>
+                                            <img src={Add_Bin} alt="" />
+                                            <p className='ms-2'>{t("Basket.table.delete")}</p>
+                                        </button>
+                                        <button className="AllDel" onClick={() => handleDeleteSelected(category)}>
+                                            <img src={Add_Bin} alt="" />
+                                            <p className='ms-2'>{t("Basket.table.remove")}</p>
+                                        </button>
+                                    </PermissionWrapper>
                                 </div>
                             )}
                         </div>
@@ -332,21 +340,42 @@ const ReturnItems = ({ basketItems, getBasketItems, getTotalPrice, setBasketItem
                                     </div>
                                     <div className="col-3 d-flex align-items-center">
                                         <div className="counterCenter">
-                                            <button className="del"
-                                                onClick={() => handleQuantityUpdate(Data.product.idHash, Data.quantity, false)}>
-                                                -
-                                            </button>
+                                            <PermissionWrapper
+                                                topModuleCode="$USER"
+                                                subModuleCode="$BASKET_SUB_MODULE"
+                                                pageCode="$BASKET_DETAIL"
+                                                rightCode="$PUT"
+                                            >
+                                                <button className="del"
+                                                    onClick={() => handleQuantityUpdate(Data.product.idHash, Data.quantity, false)}>
+                                                    -
+                                                </button>
+                                            </PermissionWrapper>
                                             <input type="text" name="" id="" className="counter mx-3"
                                                 value={Data.quantity} readOnly />
-                                            <button className="plus"
-                                                onClick={() => handleQuantityUpdate(Data.product.idHash, Data.quantity, true)}>
-                                                +
-                                            </button>
+                                            <PermissionWrapper
+                                                topModuleCode="$USER"
+                                                subModuleCode="$BASKET_SUB_MODULE"
+                                                pageCode="$BASKET_DETAIL"
+                                                rightCode="$PUT"
+                                            >
+                                                <button className="plus"
+                                                    onClick={() => handleQuantityUpdate(Data.product.idHash, Data.quantity, true)}>
+                                                    +
+                                                </button>
+                                            </PermissionWrapper>
                                         </div>
                                         <div className='d-flex flex-column align-items-end'>
-                                            <button className="none" onClick={() => handleDelete(Data.idHash)}>
-                                                <img width="24px" className='' src={TabloDelete} alt="" />
-                                            </button>
+                                            <PermissionWrapper
+                                                topModuleCode="$USER"
+                                                subModuleCode="$BASKET_SUB_MODULE"
+                                                pageCode="$BASKET_DETAIL"
+                                                rightCode="$DELETE"
+                                            >
+                                                <button className="none" onClick={() => handleDelete(Data.idHash)}>
+                                                    <img width="24px" className='' src={TabloDelete} alt="" />
+                                                </button>
+                                            </PermissionWrapper>
                                             <div className="prices2 mt-2">
                                                 {Data.salesPrice ? (
                                                     <>

@@ -7,7 +7,7 @@ import SkeletonScreen from './Loader/index';
 import  {Spin} from 'antd'
 import {AccountApi} from "./api/account.api";
 function App() {
-  const { loggedIn, loading , loginLoading , logout } = useAuth();
+  const { loggedIn, loading , loginLoading , logout , getPermissions } = useAuth();
 
   if (loading) {
     return <SkeletonScreen />;
@@ -18,6 +18,7 @@ function App() {
   useEffect(()=>{
     updateToken()
   }, [])
+
 
   const decodeJwt = (token) => {
     try {
@@ -35,7 +36,7 @@ function App() {
     let t = localStorage.getItem('token')
     let dec = decodeJwt(t)
     let timeout = (dec?.exp - dec?.iat - 120) * 100
-
+    getPermissions()
     setInterval(()=>{
       if(loggedIn) {
         return AccountApi.RefreshToken({
