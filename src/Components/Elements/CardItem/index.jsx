@@ -14,6 +14,8 @@ const { Option } = Select;
 const CardItem = ({ d, classes }) => {
     const navigate = useNavigate();
     const { t } = useTranslation();
+    const { roleId } = useAuth();
+
     const [quantity, setQuantity] = useState(d.minOrderAmount || 1);
     const [isModelModalVisible, setIsModelModalVisible] = useState(false);
     const [isReturnModalVisible, setIsReturnModalVisible] = useState(false);
@@ -187,13 +189,13 @@ const CardItem = ({ d, classes }) => {
 
                 <div className="ImgTitleMain">
                     <div className="ImgBrendingTitle">
-                        <Link to={`/detail/${d.idHash}`}>
+                        <Link to={`/${roleId ? roleId.toLowerCase() : ''}/detail/${d.idHash}`}>
                             <div className="ImgFocus">
                                 <img style={{ objectFit: "contain" }} src={`${d.defaultContent}`} alt="Product" />
                             </div>
                         </Link>
                         <div className="TitleCenter ms-3">
-                            <Link to={`/detail/${d.idHash}`}>
+                            <Link to={`/${roleId ? roleId.toLowerCase() : ''}/detail/${d.idHash}`}>
                                 <span className="Tag">
                                     <img src={FiTag} alt="FiTag" />
                                     <p className="OemNo product text-44">{d.code}</p>
@@ -232,7 +234,7 @@ const CardItem = ({ d, classes }) => {
 
 
                 <div className="LocationBrendNameCenter">
-                    <div className="d-flex w-100 flex-wrap justify-content-between my-2" style={{padding:"0 10px",marginLeft:"9px",gap:"10px"}}>
+                    <div className="d-flex w-100 flex-wrap justify-content-between my-2" style={{ padding: "0 10px", marginLeft: "9px", gap: "10px" }}>
                         <div className="d-flex LocationBrend">
                             {d?.storages?.length > 0 && (
                                 <div className="Location">
@@ -286,7 +288,7 @@ const CardItem = ({ d, classes }) => {
                     </div>
                 </div>
 
-                <Link to={`/detail/${d.idHash}`} className="BrendingDetailTitle text-decoration-none">
+                <Link to={`/${roleId ? roleId.toLowerCase() : ''}/detail/${d.idHash}`} className="BrendingDetailTitle text-decoration-none">
                     <div className="BrendTitleCenter mt-2">
                         <h3 className="BrandingName">
                             {d.name}

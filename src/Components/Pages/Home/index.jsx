@@ -50,15 +50,14 @@ function Home() {
             <div>
               {isGridTwo ? (
                 /* Grid 2 */
-                // <PermissionWrapper
-                //   topModuleCode="$USER"
-                //   subModuleCode="$PRODUCT_SUB_MODULE"
-                //   pageCode="$PRODUCT"
-                //   rightCode="$GET"
-                // >
+                <PermissionWrapper
+                  topModuleCode="$USER"
+                  subModuleCode="$PRODUCT_SUB_MODULE"
+                  pageCode="$PRODUCT"
+                  rightCode="$GET"
+                >
                   <ShoppingGridCards />
-
-                // {/* </PermissionWrapper> */}
+                </PermissionWrapper>
               ) : (
                 /* Grid 1 */
                 <PermissionWrapper

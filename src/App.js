@@ -1,24 +1,25 @@
-import React , { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import RouteList from './Components/Layout/Routes/Routes';
 import Layout from './Components/Layout/MainLayout/Layout';
 import Login from './Components/Pages/Login/Login';
 import { AuthProvider, useAuth } from './AuthContext';
-import SkeletonScreen from './Loader/index';
-import  {Spin} from 'antd'
-import {AccountApi} from "./api/account.api";
+import SkeletonScreen from './Loader/customerLoading';
+import { Spin } from 'antd'
+import { AccountApi } from "./api/account.api";
+
 function App() {
-  const { loggedIn, loading , loginLoading , logout , getPermissions } = useAuth();
+  const { loggedIn, loading, loginLoading, logout, getPermissions } = useAuth();
 
   if (loading) {
     return <SkeletonScreen />;
   }
 
-
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  useEffect(()=>{
+  useEffect(() => {
     updateToken()
   }, [])
 
+ 
 
   const decodeJwt = (token) => {
     try {
@@ -32,28 +33,45 @@ function App() {
   };
 
 
+  let refreshInterval = null; // Global interval dəyişəni
+
   const updateToken = () => {
-    let t = localStorage.getItem('token')
-    let dec = decodeJwt(t)
-    let timeout = (dec?.exp - dec?.iat - 120) * 100
-    getPermissions()
-    setInterval(()=>{
-      if(loggedIn) {
-        return AccountApi.RefreshToken({
-          refreshToken:localStorage.getItem('refreshToken')
-        }).then((response)=>{
-          console.log(response);
-          localStorage.setItem('refreshToken', response.refreshToken);
-          localStorage.setItem('token', response.accessToken);
-        }).catch(()=>{
-          logout()
+    if (localStorage.getItem("loggedIn") !== "true") {
+      return;
+    }
+  
+    let t = localStorage.getItem("token");
+    let dec = decodeJwt(t);
+    if (!dec) return;
+  
+    let timeout = (dec?.exp - dec?.iat - 120) * 100;
+  
+    getPermissions();
+  
+    if (refreshInterval) {
+      clearInterval(refreshInterval); // Əvvəlki intervalı silir
+    }
+  
+    refreshInterval = setInterval(() => {
+      if (localStorage.getItem("loggedIn") === "true") {
+        AccountApi.RefreshToken({
+          refreshToken: localStorage.getItem("refreshToken"),
         })
+          .then((response) => {
+            console.log(response);
+            localStorage.setItem("refreshToken", response.refreshToken);
+            localStorage.setItem("token", response.accessToken);
+          })
+          .catch(() => {
+            logout();
+            clearInterval(refreshInterval);
+          });
+      } else {
+        clearInterval(refreshInterval);
       }
-      else{
-        return;
-      }
-    }, timeout)
-  }
+    }, timeout);
+  };
+  
 
 
 
@@ -66,9 +84,9 @@ function App() {
           <RouteList />
         </Layout>
       ) : (
-          <Spin  spinning={loginLoading} tip="Loading...">
-            <Login />
-          </Spin>
+        <Spin spinning={loginLoading} tip="Loading...">
+          <Login />
+        </Spin>
       )}
     </>
   );

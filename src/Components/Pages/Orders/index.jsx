@@ -8,8 +8,8 @@ import { CatalogApi } from "../../../api/catalog.api";
 import { OrderApi } from "../../../api/order.api";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
-import { DatePicker, Button, Row, Col ,  Pagination, Spin, Input} from 'antd';
-import {useAuth} from "../../../AuthContext";
+import { DatePicker, Button, Row, Col, Pagination, Spin, Input } from 'antd';
+import { useAuth } from "../../../AuthContext";
 import PermissionWrapper from "../../Elements/PermissionWrapper/PermissionWrapper";
 
 
@@ -45,6 +45,8 @@ const ProductStatus = ({ status, orderStatusName, orderStatusIdHash }) => {
 
 const Orders = () => {
   const { t } = useTranslation();
+  const { roleId } = useAuth();
+
   const [currentPage, setCurrentPage] = useState('xFsQPkFTRN0=');
   const [pageSize, setPageSize] = useState(20);
 
@@ -178,15 +180,15 @@ const Orders = () => {
   return (
     <>
       <PermissionWrapper
-          topModuleCode="$USER"
-          subModuleCode="$ORDER_SUB_MODULE"
-          pageCode="$ORDER"
-          rightCode="$GET"
+        topModuleCode="$USER"
+        subModuleCode="$ORDER_SUB_MODULE"
+        pageCode="$ORDER"
+        rightCode="$GET"
       >
         <div className="container-fluid d-flex justify-content-center mt-4">
           <div className="myRow align-items-start flex-column">
             <p className="text-44 f-14 d-flex fb-600">
-              <Link to={"/"}>
+              <Link to={`/${roleId ? roleId.toLowerCase() : ''}`}>
                 <span className="text-44">
                   {t("Global.home")}
                 </span>
@@ -218,29 +220,29 @@ const Orders = () => {
           <div className="myRow ps-5 mt-2 ms-1 align-items-start flex-column">
             <Row gutter={16}>
               <Col>
-                <DatePicker disabledDate={disableFromDate}  value={fromDate} onChange={(e)=>{
+                <DatePicker disabledDate={disableFromDate} value={fromDate} onChange={(e) => {
                   setFromDate(e)
                 }} placeholder="From Date" style={{ width: 150 }} />
               </Col>
               <Col>
-                <DatePicker disabledDate={disableToDate}  value={toDate} onChange={(e)=>{
+                <DatePicker disabledDate={disableToDate} value={toDate} onChange={(e) => {
                   setToDate(e)
                 }} placeholder="To Date" style={{ width: 150 }} />
               </Col>
               <Col>
-                  <Input value={orderNumber} onChange={(e)=>{
-                    setOrderNumber(e.target.value)
-                  } } placeholder="Search by order number" style={{ width: 200 }} />
+                <Input value={orderNumber} onChange={(e) => {
+                  setOrderNumber(e.target.value)
+                }} placeholder="Search by order number" style={{ width: 200 }} />
               </Col>
               <Col>
-                <Button onClick={()=>{
+                <Button onClick={() => {
                   clearFilter()
                 }} style={{ marginRight: 8 }}>Sil</Button>
                 <Button onClick={
-                  () =>{
-                    getOrdersByStatus(currentPage, 0 , true)
+                  () => {
+                    getOrdersByStatus(currentPage, 0, true)
                   }
-                } style={{background:'#182390'}} type="primary">Axtar</Button>
+                } style={{ background: '#182390' }} type="primary">Axtar</Button>
               </Col>
             </Row>
           </div>
@@ -258,7 +260,7 @@ const Orders = () => {
                       <th>{t("Orders.table.date2")}</th>
                       <th style={{ textAlign: "center" }}>{t("Orders.table.status")}</th>
                       <th>{t("Orders.table.record")}</th>
-                      <th  style={{ textAlign: "center" , width:'150px'}}>{t("Orders.table.deliveriy")}</th>
+                      <th style={{ textAlign: "center", width: '150px' }}>{t("Orders.table.deliveriy")}</th>
                       <th style={{ textAlign: "center" }}>{t("Orders.table.explanation")}</th>
                       <th style={{ textAlign: "center" }}>{t("Orders.table.warehouse")}</th>
                       <th style={{ textAlign: "center" }}>{t("Orders.table.total")}</th>
@@ -275,18 +277,20 @@ const Orders = () => {
                           <ProductStatus orderStatusName={product.orderStatusName} orderStatusIdHash={product.orderStatusIdHash} />
                         </td>
                         <td style={{ textAlign: "center" }}>{product.note}</td>
-                        <td style={{ textAlign: "center" , width:'150px'}}>{product.shipmentNote}</td>
+                        <td style={{ textAlign: "center", width: '150px' }}>{product.shipmentNote}</td>
                         <td style={{ textAlign: "center" }}>{product.causeOfDeletion}</td>
                         <td style={{ textAlign: "center" }}>{product.storageCode}</td>
                         <td style={{ textAlign: "center" }}>{product.total} {product.currencyName}</td>
                         <PermissionWrapper
-                            topModuleCode="$USER"
-                            subModuleCode="$ORDER_SUB_MODULE"
-                            pageCode="$ORDER_DETAIL"
-                            rightCode="$GET"
+                          topModuleCode="$USER"
+                          subModuleCode="$ORDER_SUB_MODULE"
+                          pageCode="$ORDER_DETAIL"
+                          rightCode="$GET"
                         >
                           <td className="d-flex align-items-center">
-                            <Link className="text-decoration-none mb-5" to={`/Orders/OrderDetail/${product.idHash}`}>
+                            <Link className="text-decoration-none mb-5"
+                              to={`/${roleId ? roleId.toLowerCase() : ''}/Orders/OrderDetail/${product.idHash}`}
+                            >
                               <div className="view mb-5">
                                 <p>{t("Orders.view.view-name")}</p>
                               </div>
@@ -306,7 +310,7 @@ const Orders = () => {
                     pageSize={pageSize}
                     onShowSizeChange={handlePageSizeChange}
                     showSizeChanger={true}
-                    pageSizeOptions={[ '5', '10','20', '40', '50', '100']} // Opt
+                    pageSizeOptions={['5', '10', '20', '40', '50', '100']} // Opt
                   />
                 </div>
               </div>

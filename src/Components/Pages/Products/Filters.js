@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { Collapse, Input, Form, Radio, Checkbox } from "antd";
 import Images from "../../../Assets/images/js/Images";
-import {useSearchParams} from "react-router-dom"; // Ensure this path is correct
+import { useSearchParams } from "react-router-dom"; // Ensure this path is correct
 
 const { Panel } = Collapse;
 
 const Filters = ({
-                     storageData,
-                     productTypeData,
-                     productBrendData,
-                     vehicleBrands,
-                     productGroupData,
-                     onFilterChange,
-                     setManufacturerId,
-                     setProductTypeId,
-                 }) => {
+    storageData,
+    productTypeData,
+    productBrendData,
+    vehicleBrands,
+    productGroupData,
+    onFilterChange,
+    setManufacturerId,
+    setProductTypeId,
+}) => {
     const { Filtr, Stok, AiOutlineUngroup, FiTag2, BiCar, List24, down } = Images;
     const [searchParams, setSearchParams] = useSearchParams();
     const [form] = Form.useForm();
@@ -31,14 +31,14 @@ const Filters = ({
         setFilteredProductGroupData(productGroupData);
     }, [productBrendData, vehicleBrands, productGroupData, productTypeData]);
 
-    useEffect(()=>{
-      setTimeout(()=>{
-          if (productTypeData && productTypeData.length > 0) {
-              form.setFieldsValue({ productType: productTypeData[0].valueHash });
-              handleFormChange({}, { productType: productTypeData[0].valueHash });
-          }
-      })
-    },[productTypeData])
+    useEffect(() => {
+        setTimeout(() => {
+            if (productTypeData && productTypeData.length > 0) {
+                form.setFieldsValue({ productType: productTypeData[0].valueHash });
+                handleFormChange({}, { productType: productTypeData[0].valueHash });
+            }
+        })
+    }, [productTypeData])
 
     const handleFormChange = (_, allValues) => {
         // Process checkboxes for campaignType
@@ -71,7 +71,7 @@ const Filters = ({
                     value !== "ALL" && value !== undefined && value !== null && value !== "" && fieldName !== "campaignType"
             )
             .map(([fieldName, value]) => ({
-                fieldName:fieldMapping[fieldName] || fieldName,
+                fieldName: fieldMapping[fieldName] || fieldName,
                 value,
                 equalityType: "Equal",
             }));
@@ -190,9 +190,9 @@ const Filters = ({
                             <div style={{ maxHeight: "200px", overflowY: "auto" }}>
                                 <ul className="list-unstyled">
                                     {productTypeData.map((item, index) => (
-                                        <li  onClick={()=>{
+                                        <li onClick={() => {
                                             setProductTypeId(item.valueHash)
-                                        }}  key={item.valueHash}>
+                                        }} key={item.valueHash}>
                                             <Radio
                                                 value={item.valueHash}
                                                 defaultChecked={index === 0} // Default the first option
@@ -232,7 +232,7 @@ const Filters = ({
                                         <Radio value="ALL">Hamısı</Radio>
                                     </li>
                                     {filteredProductBrendData.map((item) => (
-                                        <li onClick={()=>{
+                                        <li onClick={() => {
                                             setManufacturerId(item.valueHash)
                                         }} key={item.valueHash}>
                                             <Radio value={item.valueHash}>{item.displayText}</Radio>

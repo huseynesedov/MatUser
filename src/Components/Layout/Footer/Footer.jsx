@@ -7,8 +7,11 @@ import { IoLocationOutline } from "react-icons/io5";
 import { FiFacebook } from "react-icons/fi";
 import { LuTwitter } from "react-icons/lu";
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '../../../AuthContext';
 
 export const Footer = () => {
+    const { roleId } = useAuth();
+
     let { footer } = Images
     const { t } = useTranslation();
 
@@ -20,7 +23,7 @@ export const Footer = () => {
                             <div className="row">
                                 <div className="col-lg-3 pe-5 col-md-6">
                                     <div className="icon">
-                                        <Link to={'/'}>
+                                        <Link to={`/${roleId ? roleId.toLowerCase() : ''}`}>
                                             <img src={footer} alt="" />
                                         </Link>
                                     </div>

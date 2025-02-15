@@ -3,6 +3,7 @@ export const az = {
         "search": "Axtarış",
         "favorites": "Sevimlilər",
         "basket": "Səbət",
+        "Salesmanbasket": "Salesman Səbət",
         "return": "Geri qayit",
         "orders": "Sifarişlər",
         "dropdown": {

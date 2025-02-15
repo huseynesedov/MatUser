@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import './listStyle.scss'; // Stil dosyanızı burada dahil edin
+import './listStyle.scss';
 import { Helmet } from "react-helmet";
-import Images from "../../../Assets/images/js/Images";
 
 import ShoppingCards from "../../Elements/ShoppingCards/ProductsPage";
 import { CatalogApi } from "../../../api/catalog.api";
 import { ProductApi } from "../../../api/product.api";
 import { useAuth } from "../../../AuthContext";
 import { useSearchParams } from "react-router-dom";
-import {Pagination, Tooltip} from "antd";
+import { Pagination, Tooltip } from "antd";
+
 import Filters from "./Filters";
 import PermissionWrapper from "../../Elements/PermissionWrapper/PermissionWrapper";
 
@@ -45,11 +45,11 @@ function Home() {
         setLoading(true)
         ProductApi.GetSearchTable(
             {
-                searchText:searchParams.get('search'),
-                pagingRequest:  {
+                searchText: searchParams.get('search'),
+                pagingRequest: {
                     page: page > 0 ? page - 1 : 0,
-                        pageSize,
-                        filters,
+                    pageSize,
+                    filters,
                 }
             }
         ).then((res) => {
@@ -168,17 +168,17 @@ function Home() {
                                 pageCode="$PRODUCT"
                                 rightCode="$GET"
                             >
-                                <ShoppingCards loading={loading} data={data} reset={reset} setReset={setReset}/>
+                                <ShoppingCards loading={loading} data={data} reset={reset} setReset={setReset} />
                             </PermissionWrapper>
                         </div>
                         <div className="d-flex w-100 justify-content-center my-4">
                             <Pagination current={page}
-                                        total={count}
-                                        pageSize={pageSize}
-                                        onShowSizeChange={handlePageSizeChange}
-                                        onChange={handlePageChange}
-                                        showSizeChanger={true}
-                                        pageSizeOptions={['21', '40', '50', '100']} // Options for page size
+                                total={count}
+                                pageSize={pageSize}
+                                onShowSizeChange={handlePageSizeChange}
+                                onChange={handlePageChange}
+                                showSizeChanger={true}
+                                pageSizeOptions={['21', '40', '50', '100']} // Options for page size
                             />
                         </div>
                     </div>

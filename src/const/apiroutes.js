@@ -88,6 +88,7 @@ export const apiRoutes = {
         decrypt: '/account/v1/Account/Decrypt',
         encrypt: '/account/v1/Account/Encrypt',
         login: '/account/v1/Account/Login',
+        SalesmanLogin: '/account/v1/Account/SalesmanLogin',
         refreshToken: '/account/v1/Account/RefreshToken',
         test: '/account/v1/Account/Test',
     },

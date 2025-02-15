@@ -4,17 +4,18 @@ import './detail.scss';
 import DetailElements from '../../Elements/DetailElements';
 import ShoppingCards from '../../Elements/ShoppingCards';
 import { ProductApi } from "../../../api/product.api";
-import {Link, useParams} from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useAuth } from "../../../AuthContext";
 import { useTranslation } from 'react-i18next';
 import moment from "moment";
 
 const Index = () => {
-    let { chrevron_right, ShareSosial } = Images;
+    const { logout, roleId } = useAuth()
     const { id } = useParams(); // URL'den ID'yi alırıq
-    let idHash = id
     const { t } = useTranslation()
-    const { logout } = useAuth()
+    
+    let idHash = id
+    let { chrevron_right, ShareSosial } = Images;
     const [currentPage, setCurrentPage] = useState(1);
     const [detailData, setDetailData] = useState({});
 
@@ -23,9 +24,9 @@ const Index = () => {
     };
 
 
-   const detailDataUpdate = (data) => {
-       setDetailData(data);
-   }
+    const detailDataUpdate = (data) => {
+        setDetailData(data);
+    }
 
 
 
@@ -135,9 +136,9 @@ const Index = () => {
 
 
     useEffect(() => {
-     setTimeout(()=>{
-         console.log(detailData , 'detail')
-     } , 4000)
+        setTimeout(() => {
+            console.log(detailData, 'detail')
+        }, 4000)
     }, [detailData]);
 
 
@@ -148,7 +149,9 @@ const Index = () => {
             <div className="container-fluid d-flex justify-content-center">
                 <div className="myRow mt-4 align-items-start flex-column">
                     <p className="text-44 f-14 d-flex fb-600">
-                        <Link className={'text-dark'} to={'/'}>{t("Product-Detail.home")}</Link>
+                        <Link className={'text-dark'}
+                            to={`/${roleId ? roleId.toLowerCase() : ''}`}
+                        >{t("Product-Detail.home")}</Link>
                         <img src={chrevron_right} alt="" />
                         {detailData.name}
                         <img src={chrevron_right} alt="" />
@@ -172,7 +175,7 @@ const Index = () => {
             </div> */}
 
             <div className="container-fluid my-5 d-flex justify-content-center">
-                <DetailElements  setDetailData={detailDataUpdate} />
+                <DetailElements setDetailData={detailDataUpdate} />
             </div>
 
             <div className="container-fluid d-flex justify-content-center mt-5">

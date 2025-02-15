@@ -50,14 +50,15 @@ axiosInstance.interceptors.response.use(
                     return axiosInstance(originalRequest);
                     
                 } catch (refreshError) {
-
                     localStorage.removeItem('token');
                     localStorage.removeItem('refreshToken');
                     localStorage.removeItem('loggedIn');
+                    localStorage.removeItem('roleId');
                     return Promise.reject(refreshError);
                 }
             }
         }
+        // window.location.reload();
         return Promise.reject(error);
     }
 );
