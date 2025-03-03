@@ -20,7 +20,7 @@ import { useAuth } from "../../../AuthContext";
 
 
 const RouteList = () => {
-    const { roleId } = useAuth();
+    const roleId = localStorage.getItem('roleId');
 
 
 
@@ -40,7 +40,7 @@ const RouteList = () => {
         width: "100%"
     }}>
         <Routes>
-            <Route path="/$customer/*">
+            <Route path="/customer/*">
                 <Route index element={<Home />} />
                 <Route path="products" element={<ListPage />} />
                 <Route path="profile" element={<Profile />} />
@@ -52,7 +52,7 @@ const RouteList = () => {
                 <Route path="Orders/OrderDetail/:id" element={<OrderDetail />} />
             </Route>
 
-            <Route path="/$salesman/*">
+            <Route path="/salesman/*">
                 <Route index element={<Plasiyer />} />
                 <Route path="products" element={<ListPage />} />
                 <Route path="Orders" element={<Orders />} />
@@ -65,11 +65,11 @@ const RouteList = () => {
             </Route>
 
 
-            <Route path="/$customer/*">
+            <Route path="/customer/*">
                 <Route path="*" element={<RestrictedRoute element={<Home />} allowedTypes={['customer']} />} />
             </Route>
 
-            <Route path="/$salesman/*">
+            <Route path="/salesman/*">
                 <Route path="*" element={<RestrictedRoute element={<Plasiyer />} allowedTypes={['salesman']} />} />
             </Route>
         </Routes>

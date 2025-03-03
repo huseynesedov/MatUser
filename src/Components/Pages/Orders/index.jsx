@@ -45,7 +45,7 @@ const ProductStatus = ({ status, orderStatusName, orderStatusIdHash }) => {
 
 const Orders = () => {
   const { t } = useTranslation();
-  const { roleId } = useAuth();
+  const roleId = localStorage.getItem('roleId');
 
   const [currentPage, setCurrentPage] = useState('xFsQPkFTRN0=');
   const [pageSize, setPageSize] = useState(20);
@@ -78,7 +78,7 @@ const Orders = () => {
   const getOrdersByStatus = async (value, page, filter) => {
     setLoading(true);
     let arr = [];
-
+  
     if (filter) {
       if (fromDate) {
         arr.push({
@@ -87,7 +87,7 @@ const Orders = () => {
           equalityType: "GreaterOrEqual",
         });
       }
-
+  
       if (toDate) {
         arr.push({
           value: toDate,
@@ -95,7 +95,7 @@ const Orders = () => {
           equalityType: "LessOrEqual",
         });
       }
-
+  
       if (orderNumber) {
         arr.push({
           value: orderNumber.trim(),
@@ -104,7 +104,7 @@ const Orders = () => {
         });
       }
     }
-
+  
     try {
       const res = await OrderApi.GetSearchTable({
         page,
@@ -118,13 +118,22 @@ const Orders = () => {
           ...arr,
         ],
       });
-
-      setProducts(res.data); // Sayfaya veri ekleniyor
+  
+      setProducts(res.data);
       setCount(res.count);
+  
+
+      if (!res.data || res.data.length === 0 || res.data === 0) {
+        setLoading(false);
+      }
+      
     } catch (error) {
       console.error("Siparişleri çekerken hata oluştu:", error);
+    } finally {
+      setLoading(false); // Hata olsa da yüklemeyi durdur
     }
   };
+  
 
   // **products değiştiğinde loading'i kapat**
   useEffect(() => {

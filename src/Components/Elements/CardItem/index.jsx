@@ -14,16 +14,15 @@ const { Option } = Select;
 const CardItem = ({ d, classes }) => {
     const navigate = useNavigate();
     const { t } = useTranslation();
-    const { roleId } = useAuth();
 
     const [quantity, setQuantity] = useState(d.minOrderAmount || 1);
     const [isModelModalVisible, setIsModelModalVisible] = useState(false);
     const [isReturnModalVisible, setIsReturnModalVisible] = useState(false);
     const [loading, setLoading] = useState(false);
     const [responseData, setResponseData] = useState([]);
-    const { FiTag, Location, Return, Vector2, Heart, Endirim } = Images;
+    const { FiTag, Location, Return, Vector2, Heart, Endirim,down } = Images;
     const { openNotification, updateReturnData, returnData } = useAuth();
-
+    const roleId = localStorage.getItem('roleId');
     useEffect(() => {
         setQuantity(d.minOrderAmount);
     }, [d.minOrderAmount]);
@@ -64,7 +63,10 @@ const CardItem = ({ d, classes }) => {
                 }));
             })
             .catch((error) => {
-                openNotification('Xəta baş verdi', error.response?.data?.message || 'Server xətası', true);
+
+                openNotification(error.response?.data?.message || 'Server xətası', true);
+                setIsReturnModalVisible(false);
+
             })
             .finally(() => {
                 setLoading(false);
@@ -97,7 +99,6 @@ const CardItem = ({ d, classes }) => {
         setQuantity(prevQuantity => prevQuantity + 1);
     };
 
-    // Handle quantity decrement
     const decrementQuantity = () => {
         if (quantity > d.minOrderAmount) {
             setQuantity(prevQuantity => prevQuantity - 1);
@@ -105,6 +106,19 @@ const CardItem = ({ d, classes }) => {
             openNotification('Xəta', `Minimal sifariş sayı ${d.minOrderAmount} olmalıdır.`, false);
         }
     };
+
+
+    const handleKeyPress = (e) => {
+        if (e.key === 'ArrowUp' || e.key === 'ArrowRight' || e.key === 'W' || e.key === 'D' || e.key === 'w' || e.key === 'd') {
+            // Yukarı veya sağ ok tuşuna veya 'W' veya 'D' tuşuna basıldığında miktarı artır
+            incrementQuantity();
+        } else if (e.key === 'ArrowDown' || e.key === 'ArrowLeft' || e.key === 'S' || e.key === 'A' || e.key === 's' || e.key === 'a') {
+            // Aşağı veya sol ok tuşuna veya 'S' veya 'A' tuşuna basıldığında miktarı azalt
+            decrementQuantity();
+        }
+    };
+
+
 
     // Handle inline quantity change in the table
     const handleTableQuantityChange = (value, record) => {
@@ -176,6 +190,12 @@ const CardItem = ({ d, classes }) => {
         },
     ];
 
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggleDropdown = () => {
+        setIsOpen(!isOpen);
+    };
+
     return (
         <div className={`d-block text-decoration-none position-relative ${classes}`} key={d.idHash}>
             <div className="CartCenterMain">
@@ -235,32 +255,72 @@ const CardItem = ({ d, classes }) => {
 
                 <div className="LocationBrendNameCenter">
                     <div className="d-flex w-100 flex-wrap justify-content-between my-2" style={{ padding: "0 10px", marginLeft: "9px", gap: "10px" }}>
-                        <div className="d-flex LocationBrend">
+                        <div className="d-flex LocationBrend" style={{gap:"20px"}}>
                             {d?.storages?.length > 0 && (
                                 <div className="Location">
                                     <p className="LocationName d-flex">
-                                        <Select
-                                            size="small"
+                                        <div
                                             style={{
                                                 backgroundColor: '#f0f0f0',
                                                 border: 'none',
-                                                borderRadius: '30px',
-                                                padding: '5px 0px',
+                                                borderRadius: '6px',
+                                                padding: '5px 5px',
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                position: 'relative',
                                             }}
-                                            dropdownStyle={{ backgroundColor: '#f0f0f0' }}
-                                            className="custom-select2"
-                                            defaultValue={d?.storages[0]?.storageIdHash}
-                                            optionFilterProp="children"
                                         >
-                                            {d?.storages?.map((s) => (
-                                                <Option key={s.valueHash}
-                                                    value={s.storageIdHash}
+                                            <div
+                                                style={{
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    cursor: 'pointer',
+                                                    borderRadius: '30px',
+                                                }}
+                                                onClick={toggleDropdown}
+                                                className='custom-select2'
+                                            >
+                                                <span className='d-flex align-items-center'>
+                                                    <img src={Location} className='me-2' alt="Location" />
+                                                    {d?.storages[0]?.storageCode}
+                                                    <img className='' src={down} alt="Location" />
+                                                </span>
+                                            </div>
+
+                                            {isOpen && (
+                                                <div
+                                                    style={{
+                                                        position: 'absolute',
+                                                        top: '40px',
+                                                        left: '0',
+                                                        backgroundColor: '#f0f0f0',
+                                                        borderRadius: '8px',
+                                                        boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+                                                        width: '100%',
+                                                        zIndex: '10',
+                                                    }}
                                                 >
-                                                    <img src={Location} alt="Location" />
-                                                    <span style={{ marginLeft: '8px' }}>{s.storageCode}</span>
-                                                </Option>
-                                            ))}
-                                        </Select>
+                                                    {d?.storages?.map((s) => (
+                                                        <div
+                                                            key={s.valueHash}
+                                                            style={{
+                                                                display: 'flex',
+                                                                alignItems: 'center',
+                                                                padding: '8px 10px',
+                                                                cursor: 'pointer',
+                                                            }}
+                                                            onClick={() => {
+                                                                console.log(`Storage selected: ${s.storageCode}`);
+                                                                setIsOpen(false); // Seçim yapıldığında dropdown kapanır
+                                                            }}
+                                                        >
+                                                            <img src={Location} alt="Location" />
+                                                            <span style={{ marginLeft: '8px' }}>{s.storageCode}</span>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </div>
                                     </p>
                                 </div>
                             )}
@@ -319,18 +379,20 @@ const CardItem = ({ d, classes }) => {
 
 
                         <div className="counterCenter">
-                            <button className="del" onClick={decrementQuantity}>-</button>
+                            <button className="del" onClick={decrementQuantity} onKeyDown={handleKeyPress}>-</button>
                             <input
                                 value={quantity}
                                 pattern="[0-9]*"
                                 onChange={(e) => {
-                                    const newQuantity = e.target.value.replace(/[^0-9]/g, '');
-                                    setQuantity(Number(newQuantity) >= d.minOrderAmount ? Number(newQuantity) : d.minOrderAmount);
+                                    const newQuantity = e.target.value.replace(/[^0-9]/g, '');  // Sadece sayıları kabul et
+                                    setQuantity(Number(newQuantity) >= d.minOrderAmount ? Number(newQuantity) : d.minOrderAmount);  // Minimum sipariş miktarı kontrolü
                                 }}
                                 className="counter mx-3"
-                                style={{ width: `${Math.max(3, quantity.toString().length)}ch` }}
+                                style={{ width: `${Math.max(5, quantity.toString().length)}ch` }}
+                                onKeyDown={handleKeyPress}  // Tuşlara basıldığında handleKeyPress çalışacak
                             />
-                            <button className="plus" onClick={incrementQuantity}>+</button>
+                            <button className="plus" onClick={incrementQuantity} onKeyDown={handleKeyPress}>+</button>
+
                         </div>
                     </div>
                 </div>

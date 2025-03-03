@@ -28,7 +28,7 @@ function Header() {
   const [currentLanguage, setCurrentLanguage] = useState(dillerTablo[0]);
   const dropdownRef = useRef(null);
 
-  const { roleId } = useAuth();
+  const roleId = localStorage.getItem('roleId');
 
   const {
     Basket,
@@ -198,7 +198,9 @@ function Header() {
 
   const { t, i18n } = useTranslation();
 
+
   const handleSearch = () => {
+    setTranscript(''); // input değerini temizle
     navigate(`${roleId ? roleId.toLowerCase() : ''}/products?search=${transcript}`)
   };
 
@@ -268,6 +270,14 @@ function Header() {
     </div>
   );
 
+
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   return (
     <>
 
@@ -292,6 +302,7 @@ function Header() {
                       type="text"
                       value={transcript}
                       onChange={handleInputChange}
+                      onKeyPress={handleKeyPress}
                       className='searchTextBar'
                     />
                     <div className="VoiceGlas">
@@ -405,22 +416,22 @@ function Header() {
                       pageCode="$USER"
                       rightCode="$GET"
                     >
-                      <Link to={`/${roleId ? roleId.toLowerCase() : ''}/profile`} className={`d-flex ${isActive('/profile') ? 'Blue' : ''}`}>
+                      <Link to={`/${roleId ? roleId.toLowerCase() : ''}/profile`} className={`d-flex ${isActive(`/${roleId ? roleId.toLowerCase() : ''}/profile`) ? 'Blue' : ''}`}>
 
-                        <div className={`d-flex ${isActive('/profile') ? 'Blue' : ''}`}>
+                        <div className={`d-flex ${isActive(`/${roleId ? roleId.toLowerCase() : ''}/profile`) ? 'Blue' : ''}`}>
                           <img src={FiUser} alt="" />
                           <p className='DownText'>{t("Nav.dropdown.personal")}</p>
                         </div>
                       </Link>
                     </PermissionWrapper>
-                    <Link to={`/${roleId ? roleId.toLowerCase() : ''}/BusinesProfil`} className={`d-flex ${isActive('/BusinesProfil') ? 'Blue' : ''}`}>
-                      <div className={`d-flex ${isActive('/BusinesProfil') ? 'Blue' : ''}`}>
+                    <Link to={`/${roleId ? roleId.toLowerCase() : ''}/BusinesProfil`} className={`d-flex ${isActive(`/${roleId ? roleId.toLowerCase() : ''}/BusinesProfil`) ? 'Blue' : ''}`}>
+                      <div className={`d-flex ${isActive(`/${roleId ? roleId.toLowerCase() : ''}/BusinesProfil`) ? 'Blue' : ''}`}>
                         <img src={Office} alt="" />
                         <p className='DownText'>{t("Nav.dropdown.company")}</p>
                       </div>
                     </Link>
-                    <Link to={`/${roleId ? roleId.toLowerCase() : ''}/ChangePassword`} className={`d-flex ${isActive('/ChangePassword') ? 'Blue' : ''}`}>
-                      <div className={`d-flex ${isActive('/ChangePassword') ? 'Blue' : ''}`}>
+                    <Link to={`/${roleId ? roleId.toLowerCase() : ''}/ChangePassword`} className={`d-flex ${isActive(`/${roleId ? roleId.toLowerCase() : ''}/ChangePassword`) ? 'Blue' : ''}`}>
+                      <div className={`d-flex ${isActive(`/${roleId ? roleId.toLowerCase() : ''}/ChangePassword`) ? 'Blue' : ''}`}>
                         <img src={Key} alt="" />
                         <p className='DownText'>{t("Nav.dropdown.password")}</p>
                       </div>

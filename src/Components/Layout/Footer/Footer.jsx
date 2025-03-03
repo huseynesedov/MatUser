@@ -7,10 +7,10 @@ import { IoLocationOutline } from "react-icons/io5";
 import { FiFacebook } from "react-icons/fi";
 import { LuTwitter } from "react-icons/lu";
 import { useTranslation } from 'react-i18next';
-import { useAuth } from '../../../AuthContext';
+
 
 export const Footer = () => {
-    const { roleId } = useAuth();
+    const roleId = localStorage.getItem('roleId');
 
     let { footer } = Images
     const { t } = useTranslation();

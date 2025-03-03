@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import moment from "moment";
+
 import { useMediaQuery } from "react-responsive";
 import { useNavigate } from 'react-router-dom';
-import { Option } from 'antd/es/mentions';
 import { useTranslation } from 'react-i18next';
+import moment from "moment";
+
+import { Option } from 'antd/es/mentions';
+import { InfoCircleOutlined } from '@ant-design/icons';
 import { Button, InputNumber, Spin, Table, Modal, Select, List, Tooltip, notification } from 'antd';
 
 
-import Images from '../../../Assets/images/js/Images';
 import { BasketApi } from '../../../api/basket.api';
 import { useAuth } from '../../../AuthContext';
+
 import PermissionWrapper from '../PermissionWrapper/PermissionWrapper';
-import { InfoCircleOutlined } from '@ant-design/icons';
+import Images from '../../../Assets/images/js/Images';
 
 const GridCard = ({ data }) => {
     const navigate = useNavigate();
@@ -25,9 +28,10 @@ const GridCard = ({ data }) => {
     const [isModelModalVisible, setIsModelModalVisible] = useState(false);
     const [selectedModel, setSelectedModel] = useState(null);
 
+    const roleId = localStorage.getItem('roleId');
 
     const handleRowClick = (record) => {
-        navigate(`/detail/${record.idHash}`);
+        navigate(`/${roleId}/detail/${record.idHash}`);
     };
 
 
@@ -259,10 +263,10 @@ const GridCard = ({ data }) => {
                             let value = e.target.value.replace(/[^0-9]/g, ''); // Sadece rakamları al
                             value = value === '' ? '' : Math.max(Number(value), 1); // Boş bırakılabilir, min 1
 
-                            // Eğer kullanıcı input'u tamamen silmeye çalışırsa, eski değeri koru
                             if (value === '') {
-                                openNotification("Miqdar boş bıraxıla bilməz!",false );
-                                return;
+                                value = '1'; // Boşsa 1 yap
+                            } else {
+                                value = Math.max(Number(value), 1); // Min 1 olsun
                             }
 
                            

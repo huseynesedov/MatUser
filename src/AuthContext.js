@@ -61,12 +61,15 @@ export const AuthProvider = ({ children }) => {
         openNotification('Giriş uğurlu!', 'Xoş gəldiniz!', false);
 
         const decodedToken = decodeJwt(res.accessToken);
-        const userRole = decodedToken.UserTypeCode;
+        let userRole = decodedToken.UserTypeCode;
+        
+        userRole = userRole.replace(/^\$/, '').toLowerCase();
 
         setRoleId(userRole);
         localStorage.setItem('roleId', userRole); 
         
-        navigate(`/${userRole ? userRole.toLowerCase() : ''}`);
+       navigate(`/${userRole ? userRole.toLowerCase().replace(/^\$/, '') : ''}`);
+
       })
       .catch((error) => {
         setLoading(false);
