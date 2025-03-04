@@ -43,7 +43,7 @@ const CardItem = ({ d, classes }) => {
             .finally(() => {
                 setTimeout(() => {
                     setLoading(false);
-                }, 5000);
+                }, 0);
             });
     };
 
@@ -65,7 +65,9 @@ const CardItem = ({ d, classes }) => {
             .catch((error) => {
 
                 openNotification(error.response?.data?.message || 'Server xətası', true);
-                setIsReturnModalVisible(false);
+                setTimeout(()=>{
+                    setIsReturnModalVisible(false);
+                }, 1000)
 
             })
             .finally(() => {

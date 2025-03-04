@@ -307,16 +307,16 @@ const ReturnItems = ({ basketItems, getBasketItems, getTotalPrice, setBasketItem
                                                         : ''
                                                 }
 
-                                                <div className="Brend ms-3 d-flex align-items-center">
+                                                <div className="Brend d-flex align-items-center">
                                                     <img src={TagTwo} alt="" />
                                                     <p className="BrendTitle ms-1">
                                                         {Data.product.manufacturerName}
                                                     </p>
                                                 </div>
                                             </div>
-                                            <div className="d-flex align-items-center me-5">
+                                            <div style={{width:"200px"}} className="d-flex  flex-wrap align-items-center ">
                                                 {Data.product.vehicleBrands.map((d) => {
-                                                    return <React.Fragment key={d.vehicleBrandIdHash}>
+                                                    return <div className={'d-flex align-items-center me-3'} key={d.vehicleBrandIdHash}>
                                                         <div className="ImgCenters">
                                                             <img
                                                                 src={d.vehicleBrandContent}
@@ -325,7 +325,7 @@ const ReturnItems = ({ basketItems, getBasketItems, getTotalPrice, setBasketItem
                                                         <p className="brendNo ms-2">
                                                             {d.vehicleBrandIdName}
                                                         </p>
-                                                    </React.Fragment>
+                                                    </div>
                                                 })}
                                             </div>
                                         </div>

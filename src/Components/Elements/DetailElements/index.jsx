@@ -159,7 +159,7 @@ const DetailElements = ({setDetailData}) => {
         }).finally(() => {
             setTimeout(() => {
                 setLoadingBasket(false)
-            }, 4000)
+            }, 0)
         })
     }
 

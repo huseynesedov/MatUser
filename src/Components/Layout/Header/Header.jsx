@@ -194,14 +194,15 @@ function Header() {
   useEffect(() => {
     setDropdownOpen(false);
     setLanguageDropdownOpen(false);
+
   }, [location]);
 
   const { t, i18n } = useTranslation();
 
 
   const handleSearch = () => {
-    setTranscript(''); // input değerini temizle
     navigate(`${roleId ? roleId.toLowerCase() : ''}/products?search=${transcript}`)
+    setTranscript(''); // input değerini temizle
   };
 
   const [dropdownVisible, setDropdownVisible] = useState(false);

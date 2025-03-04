@@ -65,7 +65,7 @@ const GridCard = ({ data }) => {
                 openNotification('Xəta baş verdi', err.response?.data?.message || 'Server xətası', true);
             })
             .finally(() => {
-                setTimeout(() => setLoading(false), 5000);
+                setTimeout(() => setLoading(false), 0);
             });
     };
 

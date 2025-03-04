@@ -105,6 +105,8 @@
 .mat-ButtonInfo,
 .mat-ButtonBack {
     border: none;
+    border-bottom:1px solid transparent;
+    transition:0.3s ease-in-out;
     background-color: transparent;
     color: #444444;
 }
@@ -115,6 +117,8 @@
 
 .Active {
     color: #0162DD !important;
+    transition:0.3s ease-in-out;
+    border-color:#0162DD !important;
 }
 
 

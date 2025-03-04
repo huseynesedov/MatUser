@@ -163,7 +163,7 @@ const Basket = () => {
                 rightCode="$GET"
             >
                 <div className="container-fluid ">
-                    <div className="myRow w-100 mt-5">
+                    <div className="myRow ms-5 px-4  w-100 mt-5">
                         <p className="text-44 f-24 fb-600">
                             {t("Basket.order")}
                         </p>
@@ -175,7 +175,7 @@ const Basket = () => {
                         {
                             basketItems.length === 0 ?
                                 <div style={{ height: '60vh' }} className="d-flex justify-content-center align-items-center empty-basket">Səbət boşdur</div>
-                                : <div className="container-fluid  mt-5">
+                                : <div className="container-fluid mx-5 px-5  mt-5">
                                     <div className="myRow w-100 d-flex align-items-start justify-content-between">
                                         <div className="myContainer background-transparent w-75 position-relative rounded"
                                             style={{ padding: "0rem 0rem 0.8rem 0rem", background:'transparent !important' }}>

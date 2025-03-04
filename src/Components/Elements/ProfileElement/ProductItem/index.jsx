@@ -66,7 +66,7 @@ const Item = () => {
                     aria-labelledby="contained-modal-title-vcenter"
                     
                 >
-                    <div className="container">
+                    <div className="Container">
                         <div className="row">
                             <div className="col mt-3">
                                 <span style={{ fontSize: "18px", fontWeight: "500" }}>

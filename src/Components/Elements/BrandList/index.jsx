@@ -53,7 +53,7 @@ const BrandList = () => {
     }, []);
 
 
-    return <div className="Container h-100">
+    return <div className="container h-100">
         <div className="myRow h-auto line">
             <div className="text-start w-100 mt-4">
                 <h3 className={'font-weight-bold text-44'}>
