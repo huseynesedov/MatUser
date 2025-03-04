@@ -8,6 +8,8 @@ import { Link, useParams } from "react-router-dom";
 import { useAuth } from "../../../AuthContext";
 import { useTranslation } from 'react-i18next';
 import moment from "moment";
+import {ArrowBarLeft, ArrowLeft, ArrowReturnLeft, ArrowRight} from "react-bootstrap-icons";
+import {Tooltip} from "antd";
 
 const Index = () => {
     const { logout, roleId } = useAuth()
@@ -148,7 +150,14 @@ const Index = () => {
         <>
             <div className="container-fluid d-flex justify-content-center">
                 <div className="myRow mt-4 align-items-start flex-column">
-                    <p className="text-44 f-14 d-flex fb-600">
+                    <p className="text-44 f-14 d-flex align-items-center  fb-600">
+                        <div className={'cursor-pointer'} onClick={()=>{
+                            window.history.back()
+                        }}>
+                           <Tooltip title={'Geri'}>
+                               <ArrowReturnLeft className={'me-2'}/>
+                           </Tooltip>
+                        </div>
                         <Link className={'text-dark'}
                             to={`/${roleId ? roleId.toLowerCase() : ''}`}
                         >{t("Product-Detail.home")}</Link>
