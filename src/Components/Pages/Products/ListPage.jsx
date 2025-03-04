@@ -143,7 +143,7 @@ function Home() {
 
             <div className="container-fluid mt-5">
                 <div className="myRow w-100 flex-nowrap align-items-start mt-5 d-flex justify-content-between">
-                    <div className="myContainer2 rounded">
+                    <div className="myContainer2 ms-5 rounded">
 
                         <Filters
                             filterData={filterData}
