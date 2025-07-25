@@ -17,12 +17,12 @@ const UserListTable = ({ selectedCity, selectedRegion, searchText }) => {
     setLoading(true);
 
     let filters = [];
-    
+
     if (filter) {
       if (selectedCity) {
         filters.push({ value: selectedCity, fieldName: "cityIdHash", equalityType: "Equal" });
       }
-      if (selectedRegion) {
+      if (selectedRegion && selectedRegion !== "0") {
         filters.push({ value: selectedRegion, fieldName: "DistrictIdHash", equalityType: "Equal" });
       }
     }
@@ -60,7 +60,7 @@ const UserListTable = ({ selectedCity, selectedRegion, searchText }) => {
 
   const handlePageSizeChange = (current, size) => {
     setPageSize(size);
-    setCurrentPage(1); 
+    setCurrentPage(1);
   };
 
   const createUniqueFilters = (data, key) =>
@@ -97,9 +97,9 @@ const UserListTable = ({ selectedCity, selectedRegion, searchText }) => {
     },
     {
       title: "",
-      dataIndex: "visit",
-      key: "visit",
-      render: (_, record) => <button onClick={() => handleVisit(record)}>Ziyarət et</button>,
+      dataIndex: "idHash",
+      key: "idHash",
+      render: (_, record) => <button onClick={() => handleVisit(record)} value={record.idHash}>Ziyarət et</button>,
     },
     {
       title: "",
