@@ -16,7 +16,7 @@ const Plasiyer = () => {
 
   // City-region
   const [region, setRegion] = useState([]);
-  const [selectedRegion, setSelectedRegion] = useState(null); // Seçilen şeher
+  const [selectedRegion, setSelectedRegion] = useState(null); // Seçilen rayon
   const [searchRegionTerm, setSearchRegionTerm] = useState("");
 
   // Search
@@ -162,12 +162,12 @@ const Plasiyer = () => {
                 }
                 key="2"
               >
-                <Form form={form} initialValues={{ regionId: null }}>
+                <Form form={form} initialValues={{ regionId: "0" }}>
                   <Input
                     placeholder="Şəhər axtar..."
                     className="mb-2"
                     value={searchRegionTerm}
-                    onChange={(e) => setSearchRegionTerm(e.target.value)} // Arama terimi değiştiğinde güncelle
+                    onChange={(e) => setSearchRegionTerm(e.target.value)}
                   />
 
                   <Form.Item name="regionId">
@@ -182,22 +182,33 @@ const Plasiyer = () => {
                         }}
                       >
                         {loading ? (
-                          <div style={{
-                            position: "absolute",
-                            top: 0,
-                            left: 0,
-                            width: "100%",
-                            height: "100%",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            backgroundColor: "rgba(255, 255, 255, 0.7)",
-                            zIndex: 9999
-                          }}>
+                          <div
+                            style={{
+                              position: "absolute",
+                              top: 0,
+                              left: 0,
+                              width: "100%",
+                              height: "100%",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              backgroundColor: "rgba(255, 255, 255, 0.7)",
+                              zIndex: 9999,
+                            }}
+                          >
                             <Spin size="large" />
                           </div>
                         ) : (
                           <ul className="list-unstyled">
+                            {/* ✅ “Hamısı” seçimi */}
+                            {selectedCity && selectedCity !== "0" && (
+                              <li>
+                                <Radio value="0">Hamısı</Radio>
+                              </li>
+                            )}
+
+
+                            {/* ✅ Şəhərlər listesi */}
                             {filteredRegion.length > 0 ? (
                               filteredRegion.map((item) => (
                                 <li key={item.valueHash}>
@@ -213,6 +224,7 @@ const Plasiyer = () => {
                     </Radio.Group>
                   </Form.Item>
                 </Form>
+
               </Panel>
             </Collapse>
           </div>

@@ -62,11 +62,13 @@ export const AuthProvider = ({ children }) => {
 
         const decodedToken = decodeJwt(res.accessToken);
         let userRole = decodedToken.UserTypeCode;
+        let userRole2 = decodedToken.UserTypeCode;
         
         userRole = userRole.replace(/^\$/, '').toLowerCase();
 
         setRoleId(userRole);
         localStorage.setItem('roleId', userRole); 
+        localStorage.setItem('role', userRole2); 
         
        navigate(`/${userRole ? userRole.toLowerCase().replace(/^\$/, '') : ''}`);
 
