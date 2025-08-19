@@ -14,10 +14,6 @@ function App() {
     return <SkeletonScreen />;
   }
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  useEffect(() => {
-    updateToken()
-  }, [])
 
  
 
@@ -73,7 +69,10 @@ function App() {
   };
   
 
-
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  useEffect(() => {
+    updateToken()
+  }, [])
 
 
 

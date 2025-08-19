@@ -8,8 +8,8 @@ import { BasketApi } from "../../../api/basket.api";
 import { useTranslation } from 'react-i18next';
 import moment from "moment";
 import PermissionWrapper from "../PermissionWrapper/PermissionWrapper";
+import { callBasketApi } from '../../../utils/basketService';
 
-const { Option } = Select;
 
 const CardItem = ({ d, classes }) => {
     const navigate = useNavigate();
@@ -28,23 +28,21 @@ const CardItem = ({ d, classes }) => {
     }, [d.minOrderAmount]);
 
     // Handle Add to Basket
-    const handleAddToCart = async (product) => {
+     const handleAddToCart = async (product) => {
         setLoading(true);
-        BasketApi.AddToBasket({
-            productId: product.idHash,
-            quantity,
-        })
-            .then(() => {
-                openNotification('Əlavə edildi', `${product.name} səbətə əlavə edildi`, false);
-            })
-            .catch((err) => {
-                openNotification('Xəta baş verdi', err.response?.data?.message || 'Server xətası', true);
-            })
-            .finally(() => {
-                setTimeout(() => {
-                    setLoading(false);
-                }, 0);
+
+        try {
+            await callBasketApi('AddToBasket', {
+                productId: product.idHash,
+                quantity,
             });
+
+            openNotification('Əlavə edildi', `${product.name} səbətə əlavə edildi`, false);
+        } catch (err) {
+            openNotification('Xəta baş verdi', err.response?.data?.message || 'Server xətası', true);
+        } finally {
+            setTimeout(() => setLoading(false), 0);
+        }
     };
 
     // Show Return Product Modal

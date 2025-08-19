@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { Pagination, Table } from "antd";
 import { BaseApi } from "../../../../../const/api";
+import { useAuth } from "../../../../../AuthContext";
+
 
 const UserListTable = ({ selectedCity, selectedRegion, searchText }) => {
   const [loading, setLoading] = useState(false);
-
+  const { getPermissions } = useAuth();
 
   const [data, setData] = useState([]);
   const [pageSize, setPageSize] = useState(20);
@@ -129,16 +131,14 @@ const UserListTable = ({ selectedCity, selectedRegion, searchText }) => {
 
       const response = await BaseApi.post('/account/v1/Account/SalesmanChooseCustomer', payload);
 
-      console.log(response);
-      
       const { accessToken, refreshToken } = response;
 
       localStorage.setItem('roleId', 'customer');
       localStorage.setItem('token', accessToken);
       localStorage.setItem('refreshToken', refreshToken);
+      getPermissions()
 
-
-        window.location.href = '/customer/';
+      window.location.href = '/customer/';
 
 
     } catch (error) {

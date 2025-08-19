@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ProductApi } from "../../../api/product.api";
 import { useAuth } from "../../../AuthContext"
-import { Space, Spin } from "antd";
+import { Col, Skeleton, Space, Spin } from "antd";
 import GridCard from "../CardItem/grid";
 
 const ShoppingGridCards = ({ detailedId }) => {
@@ -63,20 +63,18 @@ const ShoppingGridCards = ({ detailedId }) => {
     return (
         <div className="container-fluid mt-5">
             <div className="row">
-                {!loading ?
+                {loading ?
+                    Array.from({ length: 8 }).map((_, idx) => (
+                        <Skeleton active paragraph={{ rows: 4 }} />
+                    ))
+                    :
                     <>
                         <div className='d-flex'>
                             <GridCard key={data.idHash} classes={'col-lg-3 col-md-6'} data={data} />
                         </div>
 
                     </>
-                    : <>
-                        <div className={'w-100 d-flex justify-content-center'}>
-                            <Space size="middle">
-                                <Spin size="large" />
-                            </Space>
-                        </div>
-                    </>}
+                }
             </div>
         </div>
     );

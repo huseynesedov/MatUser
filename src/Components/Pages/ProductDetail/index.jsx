@@ -8,7 +8,7 @@ import { Link, useParams } from "react-router-dom";
 import { useAuth } from "../../../AuthContext";
 import { useTranslation } from 'react-i18next';
 import moment from "moment";
-import {ArrowBarLeft, ArrowLeft, ArrowReturnLeft, ArrowRight} from "react-bootstrap-icons";
+import {ArrowReturnLeft} from "react-bootstrap-icons";
 import {Tooltip} from "antd";
 
 const Index = () => {
@@ -38,7 +38,6 @@ const Index = () => {
     const [crossList, setCrossList] = useState([]); // Ürün bilgilerini saklayacak state
     const [vehicleList, setVehicleList] = useState([]); // Ürün bilgilerini saklayacak state
     const [productStockMovements, setProductStockMovements] = useState([]); // Ürün bilgilerini saklayacak state
-    const [selectedImage, setSelectedImage] = useState(''); // Default şəkil
 
     const fetchOem = async () => {
         setLoading(true)

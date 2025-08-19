@@ -15,6 +15,7 @@ import { useAuth } from '../../../AuthContext';
 
 import PermissionWrapper from '../PermissionWrapper/PermissionWrapper';
 import Images from '../../../Assets/images/js/Images';
+import { callBasketApi } from '../../../utils/basketService';
 
 const GridCard = ({ data }) => {
     const navigate = useNavigate();
@@ -52,22 +53,24 @@ const GridCard = ({ data }) => {
     }, [data]);
 
 
+
     const handleAddToCart = async (product) => {
         setLoading(true);
-        BasketApi.AddToBasket({
-            productId: product.idHash,
-            quantity: quantityMap[product.idHash] || 1,
-        })
-            .then(() => {
-                openNotification('Əlavə edildi', `${product.name} səbətə əlavə edildi`, false);
-            })
-            .catch((err) => {
-                openNotification('Xəta baş verdi', err.response?.data?.message || 'Server xətası', true);
-            })
-            .finally(() => {
-                setTimeout(() => setLoading(false), 0);
+
+        try {
+            await callBasketApi('AddToBasket', {
+                productId: product.idHash,
+                quantity: quantityMap[product.idHash] || 1,
             });
+
+            openNotification('Əlavə edildi', `${product.name} səbətə əlavə edildi`, false);
+        } catch (err) {
+            openNotification('Xəta baş verdi', err.response?.data?.message || 'Server xətası', true);
+        } finally {
+            setTimeout(() => setLoading(false), 0);
+        }
     };
+
 
 
     const handleTableQuantityChange = (value, record) => {
@@ -269,7 +272,7 @@ const GridCard = ({ data }) => {
                                 value = Math.max(Number(value), 1); // Min 1 olsun
                             }
 
-                           
+
 
 
                             setQuantityMap(prev => ({
@@ -374,7 +377,7 @@ const GridCard = ({ data }) => {
                 </button>
             )
         },
-        
+
         {
             title: ' ',
             key: 'return',
@@ -400,26 +403,26 @@ const GridCard = ({ data }) => {
     return (
         <>
             <Table
-            columns={responsiveColumns}
-            dataSource={data}
-            pagination={false}
-            rowKey="idHash"
-            bordered
-            scroll={{ x: 1350 }} // Küçük ekranlarda yatay kaydırma desteği
-            onRow={(record) => ({
-                onClick: (e) => {
-                    const blockedTags = ['INPUT', 'BUTTON', 'SELECT', 'IMG', 'Select', 'Option', 'img', 'Tooltip'];
-                    const blockedClasses = ['Basket2', 'Returun2', 'custom-select2', 'ant-btn', 'ReturunTitle', 'infoBlock', 'returnn', 'infoBlock2', 'tobasket', 'BasketTitle', 'LocationBrend', 'LocationName', 'Location'];
+                columns={responsiveColumns}
+                dataSource={data}
+                pagination={false}
+                rowKey="idHash"
+                bordered
+                scroll={{ x: 1350 }} // Küçük ekranlarda yatay kaydırma desteği
+                onRow={(record) => ({
+                    onClick: (e) => {
+                        const blockedTags = ['INPUT', 'BUTTON', 'SELECT', 'IMG', 'Select', 'Option', 'img', 'Tooltip'];
+                        const blockedClasses = ['Basket2', 'Returun2', 'custom-select2', 'ant-btn', 'ReturunTitle', 'infoBlock', 'returnn', 'infoBlock2', 'tobasket', 'BasketTitle', 'LocationBrend', 'LocationName', 'Location'];
 
-                    if (blockedTags.includes(e.target.tagName) || blockedClasses.some(cls => e.target.classList.contains(cls))) {
-                        e.stopPropagation();
-                        return;
-                    }
-                    
-                    handleRowClick(record);
-                },
-            })}
-        />
+                        if (blockedTags.includes(e.target.tagName) || blockedClasses.some(cls => e.target.classList.contains(cls))) {
+                            e.stopPropagation();
+                            return;
+                        }
+
+                        handleRowClick(record);
+                    },
+                })}
+            />
             <Modal width="95vw" title="Geri qaytarılma" open={isReturnModalVisible} onCancel={() => setIsReturnModalVisible(false)}
                 footer={[<Button key="back" onClick={() => setIsReturnModalVisible(false)}>Bağla</Button>]}
             >

@@ -37,8 +37,7 @@
 }
 
 .BrendImgCenter {
-    /* width: 100%;
-    height: 323px !important; */
+    width: 100%;
     margin-top: 35px;
     display: flex;
     align-items: center;
@@ -103,7 +102,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    min-height:350px;
+    min-height: 350px;
 }
 
 .ImgTitleMain {
@@ -175,7 +174,8 @@
 .ImgFocus {
     width: 87px;
     height: 84px;
-    img{
+
+    img {
         width: 100%;
         height: 100%;
     }
@@ -187,9 +187,10 @@
     display: flex;
     justify-content: space-between;
     flex-direction: column;
+
     /* border: 1px solid blue; */
-    div:nth-child(2){
-        margin-top:13px;
+    div:nth-child(2) {
+        margin-top: 13px;
     }
 }
 
@@ -281,7 +282,8 @@
 .Brend {
     display: flex;
     align-items: end;
-    p{
+
+    p {
         margin-left: 4px;
     }
 }
@@ -500,7 +502,8 @@ a {
 }
 
 .basket-container:hover .basket-icon svg path {
-    fill: #182390; /* Change icon color to black on hover */
+    fill: #182390;
+    /* Change icon color to black on hover */
 }
 
 .basket-text {
@@ -511,10 +514,11 @@ a {
 }
 
 .basket-container:hover .basket-text {
-    color: #182390; /* Change text color to black on hover */
+    color: #182390;
+    /* Change text color to black on hover */
 }
 
-.background-transparent{
-    background:transparent !important;
-    background-color:transparent !important;
+.background-transparent {
+    background: transparent !important;
+    background-color: transparent !important;
 }
