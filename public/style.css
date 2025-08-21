@@ -5,6 +5,13 @@ body {
 }
 
 
+
+.myContainer {
+    display: flex;
+    flex-direction: column;
+    background-color: #F2F2F2 ;
+}
+
 .rooot {
   display: flex;
   flex-wrap: wrap;

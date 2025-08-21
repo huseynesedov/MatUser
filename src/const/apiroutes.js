@@ -60,7 +60,7 @@ export const apiRoutes = {
         deleteBasketDetailById: '/basket/v1/BasketDetail/DeleteById',
         deleteBasketDetailByIds: '/basket/v1/BasketDetail/DeleteByIds',
         encryptBasketDetail: '/basket/v1/BasketDetail/Encrypt',
-        getListByCurrentCustomer: '/basket/v1/SalesmanBasketDetail/GetListByCurrent?additionalType=$Customer',
+        getListByCurrentCustomer: '/basket/v1/BasketDetail/GetListByCurrent',
         getListByProductType: '/basket/v1/BasketDetail/GetListByProductType',
         getTotalPrice: '/basket/v1/BasketDetail/GetTotalPrice',
         basketDetailTest: '/basket/v1/BasketDetail/Test',

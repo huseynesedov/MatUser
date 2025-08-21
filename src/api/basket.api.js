@@ -31,7 +31,7 @@ export const BasketApi = {
         return BaseApi.get(apiRoutes.basket.encryptBasketDetail, { ...params });
     },
     GetListByCurrent(params) {
-        return BaseApi.post(apiRoutes.basket.getListByCurrentCustomer, { ...params });
+        return BaseApi.get(apiRoutes.basket.getListByCurrentCustomer, { ...params });
     },
     GetListByProductType(params) {
         return BaseApi.get(apiRoutes.basket.getListByProductType, { ...params });
@@ -122,13 +122,13 @@ export const BasketSalesmanApi = {
         return BaseApi.delete(`${apiRoutes.basketSalesman.deleteAllBasketDetails}?additionalType=${params.additionalType}`, { ...params });
     },
     UpdateQuantity(params) {
-        return BaseApi.put(`${apiRoutes.basketSalesman.updateQuantity}?productId=${params.productId}&quantity=${params.quantity}&quantity=${params.quantity}`);
+        return BaseApi.put(`${apiRoutes.basketSalesman.updateQuantity}?productId=${params.productId}&quantity=${params.quantity}&additionalType=${params.additionalType}`);
     },
     UpdateStatus(params) {
         return BaseApi.put(`${apiRoutes.basketSalesman.updateStatus}?statusId=${params.statusId}&id=${params.id}`);
     },
     UpdateStatusByProductTypeId(params) {
-        return BaseApi.put(`${apiRoutes.basketSalesman.updateStatusByProductTypeId}?statusId=${params.statusId}&productTypeId=${params.productTypeId}`, { ...params });
+        return BaseApi.put(`${apiRoutes.basketSalesman.updateStatusByProductTypeId}?statusId=${params.statusId}&productTypeId=${params.productTypeId}&additionalType=$Salesman`, { ...params });
     },
     ReturnProduct(data) {
         return BaseApi.post(apiRoutes.basketSalesman.returnProduct, data);

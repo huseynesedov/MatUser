@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import './style.scss';
 import { Modal, Spin, notification } from 'antd'; // notification import edilmiştir
 import Images from '../../../Assets/images/js/Images';
-import BasketItems from '../../Elements/BasketItem/index';
+import BasketItems from '../../Elements/BasketItem/indexSalesman';
 import { useNavigate } from "react-router-dom";
-import { BasketApi,BasketSalesmanApi } from "../../../api/basket.api";
+import { BasketApi, BasketSalesmanApi } from "../../../api/basket.api";
 import { useAuth } from "../../../AuthContext";
 import { useTranslation } from 'react-i18next';
 import { OrderApi } from "../../../api/order.api";
@@ -166,193 +166,191 @@ const BasketSalesman = () => {
                 pageCode="$BASKET_DETAIL"
                 rightCode="$GET"
             >
-                <div className="container-fluid ">
-                    <div className="myRow ms-5 px-4  w-100 mt-5">
+                <div className="myContainer">
+                    <div className="myRow ms-5 px-4 mt-5">
                         <p className="text-44 f-24 fb-600">
                             {t("Basket.order")}
                         </p>
                     </div>
                 </div>
 
-                <div className={'w-100'}>
-                    <Spin className={'w-100'} spinning={loading}>
-                        {
-                            basketItems.length === 0 ?
-                                <div style={{ height: '60vh' }} className="d-flex justify-content-center align-items-center empty-basket">Səbət boşdur</div>
-                                : <div className="container-fluid mx-5 px-5  mt-5">
-                                    <div className="myRow w-100 d-flex align-items-start justify-content-between">
-                                        <div className="myContainer background-transparent w-75 position-relative rounded"
-                                            style={{ padding: "0rem 0rem 0.8rem 0rem", background: 'transparent !important' }}>
-                                            <BasketItems basketItemStatus={basketItemStatus} setBasketItems={setBasketItems} getBasketItems={getBasketItems} getTotalPrice={getTotalPrice} basketItems={basketItems} />
-                                        </div>
+                <Spin spinning={loading}>
+                    {
+                        basketItems.length === 0 ?
+                            <div style={{ height: '60vh' }} className="d-flex justify-content-center align-items-center empty-basket">Səbət boşdur</div>
+                            : <div className="myContainer mx-5 px-5  mt-5">
+                                <div className="myRow w-100 d-flex align-items-start justify-content-between">
+                                    <div className="myContainer background-transparent w-75 position-relative rounded"
+                                        style={{ padding: "0rem 0rem 0.8rem 0rem", background: 'transparent !important' }}>
+                                        <BasketItems basketItemStatus={basketItemStatus} setBasketItems={setBasketItems} getBasketItems={getBasketItems} getTotalPrice={getTotalPrice} basketItems={basketItems} />
+                                    </div>
 
-                                        <div className="myContainer2 background-transparent rounded">
-                                            <div className="col ">
-                                                <div className="row">
-                                                    <div className="myRow2">
-                                                        <Select
-                                                            size={'large'}
-                                                            placeholder={'Çatdırılma növü'}
-                                                            style={{ width: '100%' }}
-                                                            dropdownStyle={{ borderRadius: '8px' }}
-                                                            className={`custom-select mx-5 ${shipmentError ? 'error-input' : ''}`} // Apply red border if error
-                                                            showSearch
-                                                            optionFilterProp="children"
-                                                            filterOption={(input, option) =>
-                                                                (option?.children?.props?.children ?? '').toLowerCase().includes(input.toLowerCase())
-                                                            }
-                                                            allowClear
-                                                            suffixIcon={<img className='me-2' src={down} alt="" />}
-                                                            onChange={(event, value) => {
-                                                                setShipmentTypeIdHash(value.value);
-                                                                setShipmentError(false); // Reset error on change
-                                                            }}
-                                                        >
-                                                            {shipmentTypeList.map((shipmentType) => (
-                                                                <Option key={shipmentType.valueHash} value={shipmentType.valueHash}>
-                                                                    <span style={{ marginLeft: '8px' }}>{shipmentType.displayText}</span>
-                                                                </Option>
-                                                            ))}
-                                                        </Select>
-                                                    </div>
+                                    <div className="myContainer2 background-transparent rounded">
+                                        <div className="col ">
+                                            <div className="row">
+                                                <div className="myRow2">
+                                                    <Select
+                                                        size={'large'}
+                                                        placeholder={'Çatdırılma növü'}
+                                                        style={{ width: '100%' }}
+                                                        dropdownStyle={{ borderRadius: '8px' }}
+                                                        className={`custom-select mx-5 ${shipmentError ? 'error-input' : ''}`} // Apply red border if error
+                                                        showSearch
+                                                        optionFilterProp="children"
+                                                        filterOption={(input, option) =>
+                                                            (option?.children?.props?.children ?? '').toLowerCase().includes(input.toLowerCase())
+                                                        }
+                                                        allowClear
+                                                        suffixIcon={<img className='me-2' src={down} alt="" />}
+                                                        onChange={(event, value) => {
+                                                            setShipmentTypeIdHash(value.value);
+                                                            setShipmentError(false); // Reset error on change
+                                                        }}
+                                                    >
+                                                        {shipmentTypeList.map((shipmentType) => (
+                                                            <Option key={shipmentType.valueHash} value={shipmentType.valueHash}>
+                                                                <span style={{ marginLeft: '8px' }}>{shipmentType.displayText}</span>
+                                                            </Option>
+                                                        ))}
+                                                    </Select>
                                                 </div>
+                                            </div>
 
-                                                <div className="row mt-3">
-                                                    <div className="myRow2">
-                                                        <Select
-                                                            size={'large'}
-                                                            placeholder={'Ödəniş növü'}
-                                                            style={{ width: '100%' }}
-                                                            dropdownStyle={{ borderRadius: '8px' }}
-                                                            className={`custom-select mx-5 ${paymentError ? 'error-input' : ''}`} // Apply red border if error
-                                                            showSearch
-                                                            optionFilterProp="children"
-                                                            filterOption={(input, option) =>
-                                                                (option?.children?.props?.children ?? '').toLowerCase().includes(input.toLowerCase())
-                                                            }
-                                                            allowClear
-                                                            suffixIcon={<img className='me-2' src={down} alt="" />}
-                                                            onChange={(event, value) => {
-                                                                setPaymentTypeIdHash(value.value);
-                                                                setPaymentError(false); // Reset error on change
-                                                            }}
-                                                        >
-                                                            {paymentTypeList.map((orderType) => (
-                                                                <Option key={orderType.valueHash} value={orderType.valueHash}>
-                                                                    <span style={{ marginLeft: '8px' }}>{orderType.displayText}</span>
-                                                                </Option>
-                                                            ))}
-                                                        </Select>
-                                                    </div>
+                                            <div className="row mt-3">
+                                                <div className="myRow2">
+                                                    <Select
+                                                        size={'large'}
+                                                        placeholder={'Ödəniş növü'}
+                                                        style={{ width: '100%' }}
+                                                        dropdownStyle={{ borderRadius: '8px' }}
+                                                        className={`custom-select mx-5 ${paymentError ? 'error-input' : ''}`} // Apply red border if error
+                                                        showSearch
+                                                        optionFilterProp="children"
+                                                        filterOption={(input, option) =>
+                                                            (option?.children?.props?.children ?? '').toLowerCase().includes(input.toLowerCase())
+                                                        }
+                                                        allowClear
+                                                        suffixIcon={<img className='me-2' src={down} alt="" />}
+                                                        onChange={(event, value) => {
+                                                            setPaymentTypeIdHash(value.value);
+                                                            setPaymentError(false); // Reset error on change
+                                                        }}
+                                                    >
+                                                        {paymentTypeList.map((orderType) => (
+                                                            <Option key={orderType.valueHash} value={orderType.valueHash}>
+                                                                <span style={{ marginLeft: '8px' }}>{orderType.displayText}</span>
+                                                            </Option>
+                                                        ))}
+                                                    </Select>
                                                 </div>
+                                            </div>
 
-                                                {/* Line */}
-                                                <img className='mt-4 w-100' src={Liner} alt="" />
+                                            {/* Line */}
+                                            <img className='mt-4 w-100' src={Liner} alt="" />
 
-                                                {/* TextArea */}
-                                                <div className="row">
-                                                    <div className="myRow3">
-                                                        <p className="text-44 mt-3 fb-600">
-                                                            {t("Basket.table2.record")}
+                                            {/* TextArea */}
+                                            <div className="row">
+                                                <div className="myRow3">
+                                                    <p className="text-44 mt-3 fb-600">
+                                                        {t("Basket.table2.record")}
+                                                    </p>
+                                                    <textarea onChange={(e) => {
+                                                        setNote(e.target.value);
+                                                    }} className="OrderTextarea rounded mt-4 textarea"
+                                                        id="exampleFormControlTextarea1"
+                                                        placeholder={t("Basket.table2.record")}></textarea>
+                                                </div>
+                                            </div>
+
+                                            {/* Line */}
+                                            <img className='mt-4 w-100' src={Liner} alt="" />
+
+                                            <div className="row">
+                                                <div className="myRow3">
+                                                    <p className="text-44 mt-5 fb-600">
+                                                        {t("Basket.table2.summary")}
+                                                    </p>
+                                                    <div
+                                                        className="d-flex align-items-center mt-4 justify-content-between">
+                                                        <p className="text-44 fb-500">
+                                                            {t("Basket.table2.delivery")}
                                                         </p>
-                                                        <textarea onChange={(e) => {
-                                                            setNote(e.target.value);
-                                                        }} className="OrderTextarea rounded mt-4 textarea"
-                                                            id="exampleFormControlTextarea1"
-                                                            placeholder={t("Basket.table2.record")}></textarea>
-                                                    </div>
-                                                </div>
-
-                                                {/* Line */}
-                                                <img className='mt-4 w-100' src={Liner} alt="" />
-
-                                                <div className="row">
-                                                    <div className="myRow3">
-                                                        <p className="text-44 mt-5 fb-600">
-                                                            {t("Basket.table2.summary")}
+                                                        <p className="t-8F fb-500">
+                                                            {totalPrice?.basketDetailTotalPrice?.formattedTotalPrice} {' '}
+                                                            {totalPrice?.currency?.name}
                                                         </p>
-                                                        <div
-                                                            className="d-flex align-items-center mt-4 justify-content-between">
-                                                            <p className="text-44 fb-500">
-                                                                {t("Basket.table2.delivery")}
-                                                            </p>
-                                                            <p className="t-8F fb-500">
-                                                                {totalPrice?.basketDetailTotalPrice?.formattedTotalPrice} {' '}
-                                                                {totalPrice?.currency?.name}
-                                                            </p>
-                                                        </div>
-                                                        <div
-                                                            className="d-flex align-items-center mt-2 justify-content-between">
-                                                            <p className="text-44 fb-500">
-                                                                {t("Basket.table2.discount")}
-                                                            </p>
-                                                            <p className="t-8F fb-500">
-                                                                {totalPrice?.basketDetailTotalPrice?.formattedTotalDiscountPrice} {' '}
-                                                                {totalPrice?.currency?.name}
-                                                            </p>
-                                                        </div>
-                                                        <div
-                                                            className="d-flex align-items-center mt-4 justify-content-between">
-                                                            <p className="text-44 fb-600">
-                                                                {t("Basket.table2.value")}
-                                                            </p>
-                                                            <p className="t-8F fb-500">
-                                                                {totalPrice?.basketDetailTotalPrice?.formattedTotalDiscountedPrice} {' '}
-                                                                {totalPrice?.currency?.name}
-                                                            </p>
-                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        className="d-flex align-items-center mt-2 justify-content-between">
+                                                        <p className="text-44 fb-500">
+                                                            {t("Basket.table2.discount")}
+                                                        </p>
+                                                        <p className="t-8F fb-500">
+                                                            {totalPrice?.basketDetailTotalPrice?.formattedTotalDiscountPrice} {' '}
+                                                            {totalPrice?.currency?.name}
+                                                        </p>
+                                                    </div>
+                                                    <div
+                                                        className="d-flex align-items-center mt-4 justify-content-between">
+                                                        <p className="text-44 fb-600">
+                                                            {t("Basket.table2.value")}
+                                                        </p>
+                                                        <p className="t-8F fb-500">
+                                                            {totalPrice?.basketDetailTotalPrice?.formattedTotalDiscountedPrice} {' '}
+                                                            {totalPrice?.currency?.name}
+                                                        </p>
                                                     </div>
                                                 </div>
-                                                <PermissionWrapper
-                                                    topModuleCode="$USER"
-                                                    subModuleCode="$ORDER_SUB_MODULE"
-                                                    pageCode="$ORDER"
-                                                    rightCode="$POST"
-                                                >
-                                                    <div className="row mt-5 mb-5">
-                                                        <div
-                                                            onClick={createOrder}
-                                                            className="col d-flex align-items-center justify-content-center"
-                                                        >
-                                                            <button className="ProductEvaluate2">
-                                                                {t("Basket.table2.confirim")}
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </PermissionWrapper>
-
-                                                <Modal
-                                                    visible={isModalVisible}
-                                                    footer={null}
-                                                    onCancel={handleCancel}
-                                                >
-                                                    <div className="d-flex flex-column align-items-center justify-content-center mt-5">
-                                                        <img src={Images.okey} alt="" />
-                                                        <span className='text-44 mt-4' style={{ fontSize: "18px", fontWeight: "700" }}>
-                                                            {t("Basket.modal.order")}
-                                                        </span>
-                                                        <span className="mt-4 text-44" style={{ fontSize: "16px" }}>
-                                                            {t("Basket.modal.confirim-des")}
-
-                                                        </span>
-
-                                                        <button
-                                                            onClick={handleOk}
-                                                            className='mt-4 basket-ok'
-                                                        >
-                                                            {t("Basket.modal.ok")}
-
+                                            </div>
+                                            <PermissionWrapper
+                                                topModuleCode="$USER"
+                                                subModuleCode="$ORDER_SUB_MODULE"
+                                                pageCode="$ORDER"
+                                                rightCode="$POST"
+                                            >
+                                                <div className="row mt-5 mb-5">
+                                                    <div
+                                                        onClick={createOrder}
+                                                        className="col d-flex align-items-center justify-content-center"
+                                                    >
+                                                        <button className="ProductEvaluate2">
+                                                            {t("Basket.table2.confirim")}
                                                         </button>
                                                     </div>
-                                                </Modal>
-                                            </div>
-                                        </div>
+                                                </div>
+                                            </PermissionWrapper>
 
+                                            <Modal
+                                                visible={isModalVisible}
+                                                footer={null}
+                                                onCancel={handleCancel}
+                                            >
+                                                <div className="d-flex flex-column align-items-center justify-content-center mt-5">
+                                                    <img src={Images.okey} alt="" />
+                                                    <span className='text-44 mt-4' style={{ fontSize: "18px", fontWeight: "700" }}>
+                                                        {t("Basket.modal.order")}
+                                                    </span>
+                                                    <span className="mt-4 text-44" style={{ fontSize: "16px" }}>
+                                                        {t("Basket.modal.confirim-des")}
+
+                                                    </span>
+
+                                                    <button
+                                                        onClick={handleOk}
+                                                        className='mt-4 basket-ok'
+                                                    >
+                                                        {t("Basket.modal.ok")}
+
+                                                    </button>
+                                                </div>
+                                            </Modal>
+                                        </div>
                                     </div>
+
                                 </div>
-                        }
-                    </Spin>
-                </div>
+                            </div>
+                    }
+                </Spin>
 
             </PermissionWrapper>
 
