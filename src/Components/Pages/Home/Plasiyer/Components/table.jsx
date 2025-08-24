@@ -2,9 +2,10 @@ import { useState, useEffect } from "react";
 import { Pagination, Table } from "antd";
 import { BaseApi } from "../../../../../const/api";
 import { useAuth } from "../../../../../AuthContext";
+import Base from "antd/es/typography/Base";
 
 
-const UserListTable = ({ selectedCity, selectedRegion, searchText }) => {
+const UserListTable = ({ selectedCity, selectedRegion, searchText, basket }) => {
   const [loading, setLoading] = useState(false);
   const { getPermissions } = useAuth();
 
@@ -12,9 +13,10 @@ const UserListTable = ({ selectedCity, selectedRegion, searchText }) => {
   const [pageSize, setPageSize] = useState(20);
   const [currentPage, setCurrentPage] = useState(1);
   const [count, setCount] = useState(0);
+  console.log(basket);
 
   const getOrdersByStatus = (page, filter = false) => {
-    if (!selectedCity && !selectedRegion && !searchText) return;
+    if (!selectedCity && !selectedRegion && !searchText && !basket) return;
 
     setLoading(true);
 
@@ -27,9 +29,12 @@ const UserListTable = ({ selectedCity, selectedRegion, searchText }) => {
       if (selectedRegion && selectedRegion !== "0") {
         filters.push({ value: selectedRegion, fieldName: "DistrictIdHash", equalityType: "Equal" });
       }
+      if (basket) {
+        filters.push({ value: basket, fieldName: "hasProductsInBasket", equalityType: "Equal" });
+      }
     }
 
-    BaseApi.post("/admin/v1/Salesman/GetCustomerListBySalesman", {
+    BaseApi.post("/admin/v1/Salesman/GetCustomerListBySalesmanNew", {
       searchText,
       pagingRequest: { page, pageSize, filters },
     })
@@ -54,7 +59,7 @@ const UserListTable = ({ selectedCity, selectedRegion, searchText }) => {
 
   useEffect(() => {
     getOrdersByStatus(currentPage - 1, true);
-  }, [selectedCity, selectedRegion, searchText, currentPage]);
+  }, [selectedCity, selectedRegion, searchText, currentPage, basket]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -64,6 +69,10 @@ const UserListTable = ({ selectedCity, selectedRegion, searchText }) => {
     setPageSize(size);
     setCurrentPage(1);
   };
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [pageSize]);
 
   const createUniqueFilters = (data, key) =>
     [...new Set(data.map((item) => item[key]))].map((value) => ({ text: value, value }));
@@ -122,7 +131,7 @@ const UserListTable = ({ selectedCity, selectedRegion, searchText }) => {
       setLoading(true);
 
       const currentRefreshToken = localStorage.getItem('refreshToken');
-      if (!currentRefreshToken) throw new Error("Oturum yenileme token'ı yok.");
+      if (!currentRefreshToken) throw new Error("Token yoxdur. Zəhmət olmasa yenidən daxil olun.");
 
       const payload = {
         refreshTokenRequest: { refreshToken: currentRefreshToken },
@@ -136,10 +145,8 @@ const UserListTable = ({ selectedCity, selectedRegion, searchText }) => {
       localStorage.setItem('roleId', 'customer');
       localStorage.setItem('token', accessToken);
       localStorage.setItem('refreshToken', refreshToken);
-      getPermissions()
-
       window.location.href = '/customer/';
-
+      getPermissions()
 
     } catch (error) {
       console.error("Impersonate error:", error);
@@ -163,10 +170,12 @@ const UserListTable = ({ selectedCity, selectedRegion, searchText }) => {
           total={count}
           onChange={handlePageChange}
           pageSize={pageSize}
-          onShowSizeChange={handlePageSizeChange}
-          showSizeChanger={true}
-          pageSizeOptions={['5', '10', '20', '40', '50', '100']}
+          showSizeChanger={false}   // 👈 dropdown gizləndi
+          showQuickJumper={false}   // 👈 istəsən inputu da bağlaya bilərsən
+          style={{ display: "flex", justifyContent: "center" }} // 👈 ortalanma
         />
+
+
       </div>
     </>
   );

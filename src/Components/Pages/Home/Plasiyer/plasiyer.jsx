@@ -22,6 +22,8 @@ const Plasiyer = () => {
 
   // Search
   const [searchText, setSearchText] = useState("");
+  const [basket, setBasket] = useState(false);
+
 
   // Şehirleri yükle (sayfa açılışında bir kez)
   useEffect(() => {
@@ -239,7 +241,13 @@ const Plasiyer = () => {
             />
           </Input.Group>
           <div className="d-flex mt-4">
-            <input type="checkbox" style={{ width: "24px" }} />
+            <input
+              type="checkbox"
+              style={{ width: "24px" }}
+              checked={basket}
+              onChange={(e) => setBasket(e.target.checked)}
+            />
+
             <p className='fs-18 fw-600 ms-3 mb-0'>Səbətdəki məhsullar</p>
           </div>
         </div>
@@ -250,6 +258,7 @@ const Plasiyer = () => {
           selectedCity={selectedCity}
           selectedRegion={selectedRegion}
           searchText={searchText}
+          basket={basket}
         />
       </div>
     </div>
