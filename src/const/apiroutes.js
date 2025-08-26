@@ -116,6 +116,39 @@ export const apiRoutes = {
         }
     },
 
+    basketSalesmanCustomer: {
+        decryptBase: '/basket/v1/Base/Decrypt',
+        encryptBase: '/basket/v1/Base/Encrypt',
+        baseTest: '/basket/v1/Base/Test',
+        addToBasket: '/basket/v1/SalesmanBasketDetail/AddToBasket',
+        decryptBasketDetail: '/basket/v1/SalesmanBasketDetail/Decrypt',
+        deleteAllBasketDetails: '/basket/v1/SalesmanBasketDetail/DeleteAll?additionalType=$Customer',
+        deleteBasketDetailById: '/basket/v1/SalesmanBasketDetail/DeleteById',
+        deleteBasketDetailByIds: '/basket/v1/SalesmanBasketDetail/DeleteByIds',
+        encryptBasketDetail: '/basket/v1/SalesmanBasketDetail/Encrypt',
+        getListByCurrentCustomer: '/basket/v1/SalesmanBasketDetail/GetListByCurrent?additionalType=$Customer',
+        getListByProductType: '/basket/v1/SalesmanBasketDetail/GetListByProductType',
+        getTotalPrice: '/basket/v1/SalesmanBasketDetail/GetTotalPrice?additionalType=$Customer',
+        basketDetailTest: '/basket/v1/SalesmanBasketDetail/Test',
+        updateQuantity: '/basket/v1/SalesmanBasketDetail/UpdateQuantity',
+        updateStatus: '/basket/v1/SalesmanBasketDetail/UpdateStatus',
+        updateStatusByProductTypeId: '/basket/v1/SalesmanBasketDetail/UpdateStatusByProductTypeId',
+        returnProduct: '/basket/v1/ReturnProductCardDetail/ReturnProduct',
+        addReturnProductCard: '/basket/v1/ReturnProductCardDetail/Add',
+        addReturnProduct: '/basket/v1/ReturnProductCard/Add',
+        returnProductCardDetail: {
+            deleteById: '/basket/v1/ReturnProductCardDetail/DeleteById',
+            encrypt: '/basket/v1/ReturnProductCardDetail/Encrypt',
+            getListByCurrent: '/basket/v1/ReturnProductCardDetail/GetListByCurrent',
+            getTotalInfo: '/basket/v1/ReturnProductCardDetail/GetTotalInfo',
+            returnProduct: '/basket/v1/ReturnProductCardDetail/ReturnProduct',
+            test: '/basket/v1/ReturnProductCardDetail/Test',
+            updateNote: '/basket/v1/ReturnProductCardDetail/UpdateNote',
+            updateQuantity: '/basket/v1/ReturnProductCardDetail/UpdateQuantity',
+            updateStatusAndReturnProductId: '/basket/v1/ReturnProductCardDetail/UpdateStatusAndReturnProductId',
+        }
+    },
+
     // account
     account: {
         adminLogin: '/account/v1/Account/AdminLogin',

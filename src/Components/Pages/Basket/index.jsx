@@ -10,12 +10,14 @@ import { useTranslation } from 'react-i18next';
 import { OrderApi } from "../../../api/order.api";
 import { Select } from "antd";
 import { CatalogApi } from "../../../api/catalog.api";
+
 import PermissionWrapper from "../../Elements/PermissionWrapper/PermissionWrapper";
 
 const { Option } = Select;
 const Basket = () => {
     const { logout } = useAuth();
-    const { okey } = Images;
+    const roleId = localStorage.getItem('roleId');
+
     const { t } = useTranslation();
     const navigate = useNavigate();
     const [open, setOpen] = useState(false);
@@ -116,7 +118,7 @@ const Basket = () => {
             openNotification('Uğurlu əməliyyat', 'Sifariş yaradıldı', false);
             setIsModalVisible(true);
             setTimeout(() => {
-                navigate('/orders');
+                navigate(`/${roleId?.toLowerCase()}/Orders`, { replace: true });
             }, 1000);
         }).catch((err) => {
             openNotification('Xəta baş verdi', err.response.data.message, true);

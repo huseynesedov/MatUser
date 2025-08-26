@@ -6,16 +6,16 @@ import Plasiyer from "../../Pages/Home/Plasiyer/plasiyer";
 
 import Profile from "../../Pages/Profile";
 import BusinesProfil from "../../Pages/BusinessProfile";
-import Basket from "../../Pages/Basket/index";
 import Detail from "../../Pages/ProductDetail/index";
 import Orders from "../../Pages/Orders";
 import OrderDetail from "../../Pages/OrdersDetail/detail";
 import Return from "../../Pages/Return";
 import ListPage from "../../Pages/Products/ListPage";
+import Basket from "../../Pages/Basket/index";
 import BasketSalesman from "../../Pages/BasketSalesman";
+import BasketSalesmanCustomer from "../../Pages/BasketSalesmanCustomer";
 
 const RouteList = () => {
-    const roleId = localStorage.getItem("roleId");
     const role = localStorage.getItem("role"); // $Customer veya $Salesman
 
     const RestrictedRoute = ({ element, allowedRoles }) => {
@@ -41,6 +41,7 @@ const RouteList = () => {
                     <Route path="BusinesProfil" element={<BusinesProfil />} />
                     <Route path="Basket" element={<Basket />} />
                     <Route path="SalesmanBasket" element={<BasketSalesman />} />
+                    <Route path="salesmanCustomer" element={<BasketSalesmanCustomer />} />
                     <Route path="Return" element={<Return />} />
                     <Route path="detail/:id" element={<Detail />} />
                     <Route path="Orders/OrderDetail/:id" element={<OrderDetail />} />
@@ -66,13 +67,14 @@ const RouteList = () => {
                         path="BusinesProfil"
                         element={<RestrictedRoute element={<BusinesProfil />} allowedRoles={["$Salesman"]} />}
                     />
-                    <Route
-                        path="Basket"
-                        element={<RestrictedRoute element={<Basket />} allowedRoles={["$Salesman"]} />}
-                    />
+
                     <Route
                         path="SalesmanBasket"
                         element={<RestrictedRoute element={<BasketSalesman />} allowedRoles={["$Salesman"]} />}
+                    />
+                    <Route
+                        path="salesmanCustomer"
+                        element={<RestrictedRoute element={<BasketSalesmanCustomer />} allowedRoles={["$Salesman"]} />}
                     />
                     <Route
                         path="Return"

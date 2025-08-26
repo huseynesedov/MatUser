@@ -162,7 +162,7 @@ const ReturnItems = ({ basketItems, getBasketItems, getTotalPrice, setBasketItem
             await callBasketApi('UpdateQuantity', {
                 quantity: `${quantity}`,
                 productId: encodeQueryParam(productId),
-                additionalType: "$Salesman"
+                additionalType: "$Customer"
             });
             // Başarılı olursa sepete güncel verileri çek
             await getBasketItems();
@@ -185,21 +185,6 @@ const ReturnItems = ({ basketItems, getBasketItems, getTotalPrice, setBasketItem
             setSelectedItems(arr);
         }
     }, [basketItems]);
-
-    // useEffect(() => {
-    //     if (basketItems.length > 0) {
-    //         let arr = basketItems.map((item) => {
-    //             if (item.basketDetailStatus === 1) {
-    //                 return item.idHash
-    //             }
-    //         })
-
-    //         console.log(arr)
-    //         setSelectedItems(
-    //             arr
-    //         )
-    //     }
-    // }, [basketItems.length])
 
     return (
         <>

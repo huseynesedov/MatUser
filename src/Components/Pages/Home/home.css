@@ -312,6 +312,19 @@ a {
     font-size: 11px;
     font-weight: 800;
 }
+.disable{
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+.salesmanOdenis {
+    color: white;
+    background-color: #444444;
+}
+
+.salesmanCatdirilma {
+    border: 1.5px solid #E53E3E !important;
+    color: #E53E3E !important;
+}
 
 .BrendTitleCenter {
     text-align: start;

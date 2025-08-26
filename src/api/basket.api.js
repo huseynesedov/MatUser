@@ -77,7 +77,7 @@ export const BasketApi = {
     },
     DeleteReturnProductById(id) {
         return BaseApi.delete(apiRoutes.basket.returnProductCardDetail.deleteById, {
-            data:id,
+            data: id,
         });
     },
 };
@@ -118,7 +118,7 @@ export const BasketSalesmanApi = {
     BasketDetailTest(params) {
         return BaseApi.get(apiRoutes.basketSalesman.basketDetailTest, { ...params });
     },
-     DeleteAll(params) {
+    DeleteAll(params) {
         return BaseApi.delete(`${apiRoutes.basketSalesman.deleteAllBasketDetails}?additionalType=${params.additionalType}`, { ...params });
     },
     UpdateQuantity(params) {
@@ -156,7 +156,62 @@ export const BasketSalesmanApi = {
     },
     DeleteReturnProductById(id) {
         return BaseApi.delete(apiRoutes.basketSalesman.returnProductCardDetail.deleteById, {
-            data:id,
+            data: id,
+        });
+    },
+};
+
+
+export const BasketSalesmanCustomerApi = {
+
+    GetListByCurrent(params) {
+        return BaseApi.post(apiRoutes.basketSalesmanCustomer.getListByCurrentCustomer, { ...params });
+    },
+    GetTotalPrice(params) {
+        return BaseApi.post(apiRoutes.basketSalesmanCustomer.getTotalPrice, { ...params });
+    },
+    BasketDetailTest(params) {
+        return BaseApi.get(apiRoutes.basketSalesmanCustomer.basketDetailTest, { ...params });
+    },
+    DeleteAll(params) {
+        return BaseApi.delete(`${apiRoutes.basketSalesmanCustomer.deleteAllBasketDetails}?additionalType=${params.additionalType}`, { ...params });
+    },
+    UpdateQuantity(params) {
+        return BaseApi.put(`${apiRoutes.basketSalesmanCustomer.updateQuantity}?productId=${params.productId}&quantity=${params.quantity}&additionalType=${params.additionalType}`);
+    },
+    UpdateStatus(params) {
+        return BaseApi.put(`${apiRoutes.basketSalesmanCustomer.updateStatus}?statusId=${params.statusId}&id=${params.id}`);
+    },
+    UpdateStatusByProductTypeId(params) {
+        return BaseApi.put(`${apiRoutes.basketSalesmanCustomer.updateStatusByProductTypeId}?statusId=${params.statusId}&productTypeId=${params.productTypeId}&additionalType=$Salesman`, { ...params });
+    },
+    ReturnProduct(data) {
+        return BaseApi.post(apiRoutes.basketSalesmanCustomer.returnProduct, data);
+    },
+    AddReturnProductCard(data) {
+        return BaseApi.post(apiRoutes.basketSalesmanCustomer.addReturnProductCard, data);
+    },
+    AddReturnProduct(note) {
+        return BaseApi.post(`${apiRoutes.basketSalesmanCustomer.addReturnProduct}?note=${note}`);
+    },
+    GetListByCurrentCustomer(params) {
+        return BaseApi.get(apiRoutes.basketSalesmanCustomer.returnProductCardDetail.getListByCurrent, { ...params });
+    },
+    GetTotalInfoByCurrentCustomer(params) {
+        return BaseApi.get(apiRoutes.basketSalesmanCustomer.returnProductCardDetail.getTotalInfo, { ...params });
+    },
+    UpdateReturnProductNote(id, note) {
+        return BaseApi.put(`${apiRoutes.basketSalesmanCustomer.returnProductCardDetail.updateNote}?id=${encodeURIComponent(id)}&note=${encodeURIComponent(note)}`);
+    },
+    UpdateReturnProductQuantity(id, quantity) {
+        return BaseApi.put(`${apiRoutes.basketSalesmanCustomer.returnProductCardDetail.updateQuantity}?id=${id}&quantity=${quantity}`);
+    },
+    UpdateStatusAndReturnProductId(id, returnProductId) {
+        return BaseApi.put(`${apiRoutes.basketSalesmanCustomer.returnProductCardDetail.updateStatusAndReturnProductId}?id=${id}&returnProductId=${returnProductId}`);
+    },
+    DeleteReturnProductById(id) {
+        return BaseApi.delete(apiRoutes.basketSalesmanCustomer.returnProductCardDetail.deleteById, {
+            data: id,
         });
     },
 };

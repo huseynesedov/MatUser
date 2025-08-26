@@ -110,19 +110,19 @@ const UserListTable = ({ selectedCity, selectedRegion, searchText, basket }) => 
       title: "",
       dataIndex: "idHash",
       key: "idHash",
-      render: (_, record) => <button onClick={() => handleVisit(record)} value={record.idHash}>Ziyarət et</button>,
+      render: (_, record) => <button onClick={() => handleVisit(record)} className="glasBar h-100 border-none" style={{borderRadius:0, border:'none'}} value={record.idHash}>Ziyarət et</button>,
     },
     {
       title: "",
       dataIndex: "delivery",
       key: "delivery",
-      render: (_, record) => <button onClick={() => handleDelivery(record)}>Çatdırılma</button>,
+      render: (_, record) => <button onClick={() => handleDelivery(record)} className="salesmanCatdirilma disable p-2 h-100" disabled>Çatdırılma</button>,
     },
     {
       title: "",
       dataIndex: "cash",
       key: "cash",
-      render: (_, record) => <button onClick={() => handleCash(record)}>Nağd Ödəniş</button>,
+      render: (_, record) => <button onClick={() => handleCash(record)} className="salesmanOdenis disable p-2 h-100" disabled>Nağd Ödəniş</button>,
     },
   ];
 
