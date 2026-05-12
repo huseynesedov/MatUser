@@ -1,0 +1,63 @@
+name: Auto Deploy to Windows Server
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    # SCP staging (Windows runner path); keep in sync with clean + upload steps.
+    env:
+      WIN_STAGING: "C:/Users/Administrator/actions-runner/hdeploy"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+      # Zip root = site files (index.html at archive root), not a "build/" folder — IIS expects files in TARGET root.
+      - name: Create zip
+        run: (cd build && zip -r ../build.zip .)
+
+      # 1️⃣ serverdə köhnəni ssil (staging hdeploy boş olsun ki, Windows tar overwrite olmadan çıxarsın)
+      - name: Clean server folder
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          script: |
+            powershell -Command "Remove-Item -Recurse -Force ${{ secrets.TARGET }}/* -ErrorAction SilentlyContinue; Remove-Item -Recurse -Force '${{ env.WIN_STAGING }}/*' -ErrorAction SilentlyContinue"
+
+      # 2️⃣ zip upload
+      # Windows tar does not support GNU's --overwrite; scp-action passes it when overwrite: true.
+      - name: Upload build
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          source: "build.zip"
+          target: "${{ env.WIN_STAGING }}/"
+          overwrite: false
+
+      # 3️⃣ zip-i TARGET kökünə aç, sonra staging-dəki zip-i sil (secrets.TARGET = IIS fiziki qovluq)
+      - name: Extract on server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          script: |
+            powershell -NoProfile -Command "$ErrorActionPreference='Stop'; $zip='${{ env.WIN_STAGING }}/build.zip'; $dest='${{ secrets.TARGET }}'; if (-not (Test-Path $zip)) { throw ('ZIP yoxdur: ' + $zip) }; if (-not (Test-Path $dest)) { New-Item -ItemType Directory -Path $dest -Force | Out-Null }; Expand-Archive -LiteralPath $zip -DestinationPath $dest -Force; Remove-Item -LiteralPath $zip -Force"
