@@ -7,13 +7,13 @@ import { CatalogApi } from "../../../api/catalog.api";
 import { ProductApi } from "../../../api/product.api";
 import { useAuth } from "../../../AuthContext";
 import { useSearchParams } from "react-router-dom";
-import { Pagination, Tooltip } from "antd";
+import { Pagination } from "antd";
 
 import Filters from "./Filters";
 import PermissionWrapper from "../../Elements/PermissionWrapper/PermissionWrapper";
 
 function Home() {
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
     const [page, setPage] = useState(1);
     const [data, setData] = useState([]);
     const [count, setCount] = useState(0);
@@ -39,6 +39,7 @@ function Home() {
 
     useEffect(() => {
         getProductGroupData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- refetch product groups when manufacturer/type filters change
     }, [manufacturerId, productTypeId]);
 
     useEffect(() => {
@@ -66,6 +67,7 @@ function Home() {
             .finally(() => {
                 setLoading(false)
             })
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- refetch product list when filters or paging change
     }, [filters, searchParams, page, pageSize]);
 
     const getBrendData = () => {

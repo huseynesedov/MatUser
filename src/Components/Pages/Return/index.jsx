@@ -1,15 +1,10 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import './style.scss';
-import { Spin, Modal, Button, Select } from 'antd';
-import Images from '../../../Assets/images/js/Images';
+import { Spin } from 'antd';
 import ReturnItems from '../../Elements/ReturnItem/index';
-import { useNavigate } from "react-router-dom";
 import { BasketApi } from "../../../api/basket.api";
 import { useAuth } from "../../../AuthContext";
-import { useTranslation } from 'react-i18next';
 import { CatalogApi } from "../../../api/catalog.api";
-
-const { Option } = Select;
 
 const Return = () => {
     const { logout, openNotification } = useAuth();
@@ -19,12 +14,12 @@ const Return = () => {
     const [returnItems, setReturnItems] = useState([]);
     const [returnItemStatus, setReturnItemStatus] = useState([]);
 
-    const handleAPIError = (error) => {
+    const handleAPIError = useCallback((error) => {
         openNotification('Xəta baş verdi', error?.response?.data?.message, true);
         if (error?.response?.data.status === 2017) {
             logout();
         }
-    };
+    }, [logout, openNotification]);
 
     const getReturnItems = useCallback(() => {
         setLoading(true);
@@ -32,7 +27,7 @@ const Return = () => {
             .then(items => setReturnItems(items || []))
             .catch(handleAPIError)
             .finally(() => setLoading(false));
-    }, [logout]);
+    }, [handleAPIError]);
 
     const GetReturnDetailStatusList = useCallback(() => {
         setLoading(true);
@@ -40,7 +35,7 @@ const Return = () => {
             .then(items => setReturnItemStatus(items))
             .catch(handleAPIError)
             .finally(() => setLoading(false));
-    }, [logout]);
+    }, [handleAPIError]);
 
     const getTotalPrice = useCallback(() => {
         setLoading(true);
@@ -48,7 +43,7 @@ const Return = () => {
             .then(items => setTotalPrice(items))
             .catch(handleAPIError)
             .finally(() => setLoading(false));
-    }, [logout]);
+    }, [handleAPIError]);
 
 
 

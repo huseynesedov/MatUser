@@ -39,7 +39,7 @@ export const Footer = () => {
                                         <div className="icon">
                                             <FaPhoneAlt size={'16px'} />
                                         </div>
-                                        <a className={'nav-link text-white ms-3'} href="">
+                                        <a className={'nav-link text-white ms-3'} href="tel:+9945523243434">
                                             {/* Telefon Nomresi */}
                                             {t("Footer.phone")}
                                             05523243434
@@ -49,7 +49,7 @@ export const Footer = () => {
                                         <div className="icon">
                                             <MdOutlineMail size={'16px'} />
                                         </div>
-                                        <a className={'nav-link text-white ms-3'} href="">
+                                        <a className={'nav-link text-white ms-3'} href="mailto:Tale@matsoftware.com">
                                             {/* Mail */}
                                             {t("Footer.mail")}
                                             Tale@matsoftware.com</a>
@@ -58,7 +58,7 @@ export const Footer = () => {
                                         <div className="icon">
                                             <IoLocationOutline size={'16px'} />
                                         </div>
-                                        <a className={'nav-link text-white ms-3'} href="">
+                                        <a className={'nav-link text-white ms-3'} href="https://www.google.com/maps">
                                             {/* Location */}
                                             {t("Footer.location")}
                                             <br />
@@ -76,10 +76,10 @@ export const Footer = () => {
                                 <div className="col-lg-3 pe-5 col-md-6">
                                     <div className="heading my-4 ">{t("Footer.information")}</div>
                                     <div className="social-icons w-75 justify-content-between d-flex mt-3">
-                                        <a href={''} target={'_blank'} className="social-icon-item"><FiFacebook /></a>
-                                        <a href={''} target={'_blank'} className="social-icon-item"><LuTwitter /></a>
-                                        <a href={''} target={'_blank'} className="social-icon-item"><FaWhatsapp /></a>
-                                        <a href={''} target={'_blank'} className="social-icon-item"><FaInstagram /></a>
+                                        <a href="https://www.facebook.com/" target="_blank" rel="noreferrer" className="social-icon-item"><FiFacebook /></a>
+                                        <a href="https://twitter.com/" target="_blank" rel="noreferrer" className="social-icon-item"><LuTwitter /></a>
+                                        <a href="https://wa.me/" target="_blank" rel="noreferrer" className="social-icon-item"><FaWhatsapp /></a>
+                                        <a href="https://www.instagram.com/" target="_blank" rel="noreferrer" className="social-icon-item"><FaInstagram /></a>
                                     </div>
                                 </div>
                             </div>

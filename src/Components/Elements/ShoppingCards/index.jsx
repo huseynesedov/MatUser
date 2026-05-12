@@ -6,8 +6,7 @@ import CardItem from "../CardItem/index";
 
 const ShoppingCards = ({ detailedId }) => {
     const [data, setData] = useState([]);
-    const [count, setCount] = useState(0);
-    const [page, setPage] = useState(1);
+    const [page] = useState(1);
     const [loading, setLoading] = useState(false);
 
     const { logout, openNotification } = useAuth();
@@ -21,13 +20,13 @@ const ShoppingCards = ({ detailedId }) => {
         fetchData.then((res) => {
             const responseData = detailedId ? res : res.data;
             setData(responseData);
-            setCount(detailedId ? res.length : res.count);
         }).catch((error) => {
             if (error.response.data.status === 2017) logout();
             openNotification('Xəta baş verdi', error.response.data.message, true);
         }).finally(() => {
             setLoading(false);
         });
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- refetch when route inputs change; logout/openNotification stable enough for UX
     }, [detailedId, page]);
 
     return (

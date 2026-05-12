@@ -6,7 +6,6 @@ import './home.css'
 import { Helmet } from "react-helmet";
 import images from "../../../Assets/images/js/Images";
 import PermissionWrapper from "../../Elements/PermissionWrapper/PermissionWrapper";
-import Images from "../../../Assets/images/js/Images";
 import { useAuth } from "../../../AuthContext";
 import { ProductApi } from "../../../api/product.api";
 import { Link } from "react-router-dom";
@@ -25,7 +24,7 @@ function Home({ detailedId }) {
 
   const [data, setData] = useState([]);
   const [count, setCount] = useState(0);
-  const [page, setPage] = useState(1);
+  const [page] = useState(1);
   const [loading, setLoading] = useState(false);
 
 
@@ -67,7 +66,8 @@ function Home({ detailedId }) {
     }
 
 
-  }, [page]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- refetch when page or detailedId changes
+  }, [page, detailedId]);
 
 
   return (
@@ -103,7 +103,7 @@ function Home({ detailedId }) {
             <div className="ShopingTextAndIcon">
               <h2>{t("Home.brand")}</h2>
 
-              <img src={Images.Grid_icon}
+              <img src={images.Grid_icon}
                 onClick={toggleGrid}
                 style={{ cursor: "pointer" }}
                 alt="" />

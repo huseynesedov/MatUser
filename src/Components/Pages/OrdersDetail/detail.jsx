@@ -38,7 +38,8 @@ const Orders = () => {
 
     useEffect(() => {
         getOrderDetails()
-    }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- load when route id is available
+    }, [id])
     const handlePrint = async () => {
         const element = document.documentElement; // Capture the entire page
         const canvas = await html2canvas(element, {

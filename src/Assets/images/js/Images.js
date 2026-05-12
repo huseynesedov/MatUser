@@ -90,7 +90,7 @@ import foodg from '../foodg.png'
 
 import footer from '../logo-removebg-preview.svg'
 
-export default {
+const images = {
      Tag,
      Location,
      Down,
@@ -156,4 +156,6 @@ export default {
      Vector2,
      okey,
      Grid_icon
-}
+};
+
+export default images;

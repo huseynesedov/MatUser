@@ -17,7 +17,7 @@ const Index = () => {
     const { t } = useTranslation()
     
     let idHash = id
-    let { chrevron_right, ShareSosial } = Images;
+    let { chrevron_right } = Images;
     const [currentPage, setCurrentPage] = useState(1);
     const [detailData, setDetailData] = useState({});
 
@@ -32,8 +32,8 @@ const Index = () => {
 
 
 
-    let [loading, setLoading] = useState(true); // Default şəkil
-    let [error, setError] = useState(false); // Default şəkil
+    let [, setLoading] = useState(true); // Default şəkil
+    let [, setError] = useState(false); // Default şəkil
     const [oemData, setOemData] = useState([]); // Ürün bilgilerini saklayacak state
     const [crossList, setCrossList] = useState([]); // Ürün bilgilerini saklayacak state
     const [vehicleList, setVehicleList] = useState([]); // Ürün bilgilerini saklayacak state
@@ -132,6 +132,7 @@ const Index = () => {
         fetchVehicleList();
         fetchCrossList();
         GetProductStockMovements()
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- refetch auxiliary product data when id changes
     }, [idHash]);
 
 

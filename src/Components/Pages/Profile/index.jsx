@@ -3,12 +3,7 @@ import React, { useEffect, useState } from "react";
 import "./style.css";
 
 import images from "../../../Assets/images/js/Images";
-import NewAddres from "../../Elements/ProfileElement/Address/index";
-
-
-import ProdcutItem from "../../Elements/ProfileElement/ProductItem/index";
 import { AdminApi } from "../../../api/admin.api";
-import { useParams } from "react-router-dom";
 import { useAuth } from "../../../AuthContext";
 import { useTranslation } from "react-i18next";
 import { Space, Spin } from "antd";
@@ -18,19 +13,9 @@ const Profile = () => {
     const { t } = useTranslation();
     const [loading, setLoading] = useState(false);
 
-    let { User, mail, location, tel, pen, NewAddress, Add_Bin, SearchBar } = images;
+    let { User, mail, location, tel } = images;
 
-    const [ShowNewAddres, setShowNewAddres] = useState(false);
-    const [isFlex, setIsFlex] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const handleClick = () => {
-        setShowNewAddres(true);
-        setIsFlex(!isFlex);
-    };
-    const handleHideClick = () => {
-        setIsFlex(!isFlex);
-        setShowNewAddres(false);
-    };
     const handlePage1Click = () => {
         setCurrentPage(1);
     };
@@ -42,8 +27,20 @@ const Profile = () => {
 
     const [data, setData] = useState([]); // Gələn məlumatları burada saxlayırıq
     const { logout } = useAuth(); // useAuth içindən logout funksiyasını çağırırıq
-    const [decodedToken, setDecodedToken] = useState(null); // Dekod olunmuş token-i saxlayırıq
-    const [idHash, setIdHash] = useState(null); // Token'den gelen id'yi saklamak için
+    const [, setDecodedToken] = useState(null); // Dekod olunmuş token-i saxlayırıq
+    const [, setIdHash] = useState(null); // Token'den gelen id'yi saklamak için
+
+    const [isDisabled] = useState(true);
+
+    const [formData, setFormData] = useState({
+        name: '',
+        surname: '',
+        companyTel: '',
+        city: '',
+        district: '',
+        street: '',
+        address: ''
+    });
 
 
     const decodeJwt = (token) => {
@@ -72,6 +69,7 @@ const Profile = () => {
             }
         }
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- hydrate profile once from stored token
     }, []);
 
     const UserData = async (idHash) => {
@@ -95,26 +93,6 @@ const Profile = () => {
     };
 
 
-
-
-    const [isDisabled, setIsDisabled] = useState(true);
-
-    // Function to toggle the disabled state
-    const handleEditClick = () => {
-        setIsDisabled(!isDisabled);
-    };
-
-
-
-    const [formData, setFormData] = useState({
-        name: '',
-        surname: '',
-        companyTel: '',
-        city: '',
-        district: '',
-        street: '',
-        address: ''
-    });
 
 
     useEffect(() => {

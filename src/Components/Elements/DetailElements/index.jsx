@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Spin } from 'antd'
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Images from '../../../Assets/images/js/Images';
-import { FaHeart } from "react-icons/fa";
 import { ProductApi } from "../../../api/product.api";
 import Slider from "react-slick";
 import { BasketApi } from "../../../api/basket.api";
@@ -26,7 +25,7 @@ const DetailElements = ({setDetailData}) => {
     const { openNotification, logout } = useAuth()
     const { id } = useParams(); // URL'den ID'yi alırıq
     let idHash = id
-    const { Location_gray, FiTag, Star_Yellow, Star_Gray, Liner, Heart2 } = Images;
+    const { Location_gray, FiTag, Liner } = Images;
     const [features, setFeatures] = useState([
         { name: t("Product-Detail.table.car"), value: "" },
         { name: t("Product-Detail.table.manufacturer"), value: "" },
@@ -41,13 +40,8 @@ const DetailElements = ({setDetailData}) => {
     let [loading, setLoading] = useState(true); // Default şəkil
     let [loadingBasket, setLoadingBasket] = useState(false); // Default şəkil
     let [error, setError] = useState(false); // Default şəkil
-    const [hoverRating, setHoverRating] = useState(0); // hover edildikdə tutulan rating
-    const [isFavorite, setIsFavorite] = useState(false); // Favorite state
     const [productData, setProductData] = useState({}); // Ürün bilgilerini saklayacak state
     const [selectedImage, setSelectedImage] = useState(''); // Ürün bilgilerini saklayacak state
-    function encodeQueryParam(param) {
-        return encodeURIComponent(param);
-    }
 
     const fetchProductData = async () => {
         setLoading(true)
@@ -110,6 +104,7 @@ const DetailElements = ({setDetailData}) => {
     useEffect(() => {
         console.log("URL'den alınan idHash:", idHash);
         fetchProductData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps -- refetch when route id changes; fetchProductData closes over latest t/logout
     }, [idHash]);
 
 
@@ -133,18 +128,6 @@ const DetailElements = ({setDetailData}) => {
 
     const handleImageClick = (image) => {
         setSelectedImage(image);
-    };
-
-    const handleMouseEnter = (ratingValue) => {
-        setHoverRating(ratingValue);
-    };
-
-    const handleMouseLeave = () => {
-        setHoverRating(0);
-    };
-
-    const toggleFavorite = () => {
-        setIsFavorite(!isFavorite);
     };
 
     const addToBasket = async () => {
@@ -237,21 +220,6 @@ const DetailElements = ({setDetailData}) => {
                                 </span>
                             </div>
 
-                            {/* <div className="col w-100 d-flex justify-content-end">
-                                <div className="d-flex flex-column">
-                                    <span className="d-blok">
-                                        <div className="d-flex align-items-center">
-                                            <p className="me-2 fb-500 f-14">{hoverRating > 0 ? hoverRating.toFixed(1) : productData.rating}</p>
-                                            <span onMouseEnter={() => handleMouseEnter(5)} onMouseLeave={handleMouseLeave}>
-                                                {renderStars(hoverRating > 0 ? hoverRating : productData.rating)}
-                                            </span>
-                                        </div>
-                                    </span>
-                                    <span className="d-flex mt-3 justify-content-end">
-                                        <p className="f-14 t_decoration text-44">{productData.reviews} {t("Product-Detail.assessment")}</p>
-                                    </span>
-                                </div>
-                            </div> */}
                         </div>
 
                         <img className='mt-4' src={Liner} alt="" />

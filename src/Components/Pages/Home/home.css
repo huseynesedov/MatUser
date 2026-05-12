@@ -281,7 +281,7 @@
 
 .Brend {
     display: flex;
-    align-items: end;
+    align-items: flex-end;
 
     p {
         margin-left: 4px;

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import Images from "../../../Assets/images/js/Images";
 import { Select } from 'antd';
 import { BasketApi } from "../../../api/basket.api";
@@ -12,7 +11,6 @@ const { Option } = Select;
 
 const ReturnItems = ({ basketItems, getBasketItems, getTotalPrice, setBasketItems, basketItemStatus }) => {
     let { FiTag, Down, Location, TagTwo, TabloDelete, Add_Bin } = Images;
-    const dispatch = useDispatch();
     const { openNotification } = useAuth()
     const [selectedItems, setSelectedItems] = useState([]);
     const [loading, setLoading] = useState(false);

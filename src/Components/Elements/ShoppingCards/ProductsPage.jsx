@@ -1,6 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { ProductApi } from "../../../api/product.api";
-import { useAuth } from "../../../AuthContext"
+import React from 'react';
 import { Space, Spin } from "antd";
 import CardItem from "../CardItem/index";
 const ShoppingCards = ({data , loading}) => {

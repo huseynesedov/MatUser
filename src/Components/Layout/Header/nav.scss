@@ -504,7 +504,7 @@ a { text-decoration: none; color: inherit; }
   .HiClipboardList {
     gap: 10px;
     width: 100%;
-    justify-content: end;
+    justify-content: flex-end;
   }
 
   .ClipBoard h3, .basket-text {

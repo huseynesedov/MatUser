@@ -16,7 +16,7 @@ const { Option } = Select;
 
 
 const BasketSalesmanCustomer = () => {
-    const { logout } = useAuth();
+    const { logout, openNotification } = useAuth();
     const { t } = useTranslation();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
@@ -140,10 +140,8 @@ const BasketSalesmanCustomer = () => {
         getPaymentTypeList();
         getShipmentTypeList();
         GetBasketDetailStatusList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- initial basket load
     }, []);
-
-    const { openNotification } = useAuth();
-
 
     let { down, Liner } = Images;
 

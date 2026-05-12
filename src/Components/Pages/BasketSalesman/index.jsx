@@ -4,7 +4,7 @@ import { Modal, Spin, notification } from 'antd'; // notification import edilmiÅ
 import Images from '../../../Assets/images/js/Images';
 import BasketItems from '../../Elements/BasketItem/indexSalesman';
 import { useNavigate } from "react-router-dom";
-import { BasketApi, BasketSalesmanApi } from "../../../api/basket.api";
+import { BasketSalesmanApi } from "../../../api/basket.api";
 import { useAuth } from "../../../AuthContext";
 import { useTranslation } from 'react-i18next';
 import { OrderApi } from "../../../api/order.api";
@@ -16,10 +16,9 @@ const { Option } = Select;
 
 
 const BasketSalesman = () => {
-    const { logout } = useAuth();
+    const { logout, openNotification } = useAuth();
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const [totalPrice, setTotalPrice] = useState({});
     const [basketItems, setBasketItems] = useState([]);
@@ -32,11 +31,7 @@ const BasketSalesman = () => {
     const [shipmentError, setShipmentError] = useState(false); // Error state for shipment
     const [paymentError, setPaymentError] = useState(false); // Error state for payment
 
-    const roleId = localStorage.getItem('role');
-
     const roleId2 = localStorage.getItem('roleId');
-
-
     const getBasketItems = () => {
         setLoading(true);
         BasketSalesmanApi.GetListByCurrent().then((items) => {
@@ -142,10 +137,8 @@ const BasketSalesman = () => {
         getPaymentTypeList();
         getShipmentTypeList();
         GetBasketDetailStatusList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- initial basket load
     }, []);
-
-    const { openNotification } = useAuth();
-
 
     let { down, Liner } = Images;
 

@@ -32,18 +32,22 @@ function Header() {
 
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  const [data, setData] = useState([]);
+  const [, setDecodedToken] = useState(null);
+  const [, setIdHash] = useState(null);
+
+  const [listening, setListening] = useState(false);
+  const [transcript, setTranscript] = useState('');
+  const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition || function () { })();
+
   const roleId = localStorage.getItem('roleId');
   const role = localStorage.getItem('role');
 
   const {
-    Basket,
-    Heart,
     Logo,
     Voice,
     Glass,
-    Clipboard,
     Vector,
-    User,
     FiUser,
     Office,
     Key,
@@ -63,7 +67,7 @@ function Header() {
         i18n.changeLanguage(savedLanguage.code);
       }
     }
-  }, []);
+  }, [searchParams]);
 
   const toggleDropdown = () => {
     setDropdownOpen(!isDropdownOpen);
@@ -86,10 +90,6 @@ function Header() {
 
   const isActive = (path) => location.pathname === path;
 
-  const [data, setData] = useState([]);
-  const [decodedToken, setDecodedToken] = useState(null);
-  const [idHash, setIdHash] = useState(null);
-
   const decodeJwt = (token) => {
     try {
       const payloadBase64 = token.split(".")[1];
@@ -100,21 +100,6 @@ function Header() {
       return null;
     }
   };
-
-  useEffect(() => {
-    const savedToken = localStorage.getItem("token");
-    if (savedToken) {
-      const decoded = decodeJwt(savedToken);
-      setDecodedToken(decoded);
-      setTimeout(() => {
-        UserData(decoded?.UserIdHash);
-      }, 1000);
-      if (decoded) {
-        setDecodedToken(decoded);
-        setIdHash(decoded?.id);
-      }
-    }
-  }, []);
 
   const UserData = async (idHash) => {
     if (idHash) {
@@ -131,9 +116,21 @@ function Header() {
     }
   };
 
-  const [listening, setListening] = useState(false);
-  const [transcript, setTranscript] = useState('');
-  const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition || function () { })();
+  useEffect(() => {
+    const savedToken = localStorage.getItem("token");
+    if (savedToken) {
+      const decoded = decodeJwt(savedToken);
+      setDecodedToken(decoded);
+      setTimeout(() => {
+        UserData(decoded?.UserIdHash);
+      }, 1000);
+      if (decoded) {
+        setDecodedToken(decoded);
+        setIdHash(decoded?.id);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- load user once on mount; UserData is recreated each render
+  }, []);
 
   useEffect(() => {
     try {
@@ -141,12 +138,9 @@ function Header() {
       recognition.continuous = true;
       recognition.interimResults = true;
       recognition.onresult = (event) => {
-        let interimTranscript = '';
         for (let i = event.resultIndex; i < event.results.length; i++) {
           if (event.results[i].isFinal) {
             setTranscript((prev) => prev + event.results[i][0].transcript);
-          } else {
-            interimTranscript += event.results[i][0].transcript;
           }
         }
       };
@@ -204,10 +198,6 @@ function Header() {
   };
 
   const [dropdownVisible, setDropdownVisible] = useState(false);
-
-  const handleToggleDropdown = () => {
-    setDropdownVisible(!dropdownVisible);
-  };
 
   const handleButtonClick = () => {
     setDropdownVisible(false);

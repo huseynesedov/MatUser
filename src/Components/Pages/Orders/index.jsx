@@ -112,7 +112,10 @@ const Orders = () => {
     }
   };
 
-  useEffect(() => { getOrderStatusList(); }, []);
+  useEffect(() => {
+    getOrderStatusList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- load statuses once on mount
+  }, []);
 
   const columns = [
     { title: t("Orders.table.number"), dataIndex: "orderNumber", key: "orderNumber" },

@@ -10,45 +10,35 @@ import { AccountApi } from "./api/account.api";
 function App() {
   const { loggedIn, loading, loginLoading, logout, getPermissions } = useAuth();
 
-  if (loading) {
-    return <SkeletonScreen />;
-  }
-
-
- 
-
-  const decodeJwt = (token) => {
-    try {
-      const payloadBase64 = token.split(".")[1]; // Token-in ikinci hissəsi payload hissəsidir
-      const decodedPayload = atob(payloadBase64); // Base64 formatından decode edirik
-      return JSON.parse(decodedPayload); // JSON formatına çeviririk
-    } catch (error) {
-      console.error("Token decoding error:", error); // Hata varsa konsolda göstəririk
-      return null;
+  useEffect(() => {
+    if (loading) {
+      return;
     }
-  };
 
+    const decodeJwt = (token) => {
+      try {
+        const payloadBase64 = token.split(".")[1];
+        const decodedPayload = atob(payloadBase64);
+        return JSON.parse(decodedPayload);
+      } catch (error) {
+        console.error("Token decoding error:", error);
+        return null;
+      }
+    };
 
-  let refreshInterval = null; // Global interval dəyişəni
-
-  const updateToken = () => {
     if (localStorage.getItem("loggedIn") !== "true") {
       return;
     }
-  
+
     let t = localStorage.getItem("token");
     let dec = decodeJwt(t);
     if (!dec) return;
-  
+
     let timeout = (dec?.exp - dec?.iat - 120) * 100;
-  
+
     getPermissions();
-  
-    if (refreshInterval) {
-      clearInterval(refreshInterval); // Əvvəlki intervalı silir
-    }
-  
-    refreshInterval = setInterval(() => {
+
+    const refreshInterval = setInterval(() => {
       if (localStorage.getItem("loggedIn") === "true") {
         AccountApi.RefreshToken({
           refreshToken: localStorage.getItem("refreshToken"),
@@ -66,15 +56,13 @@ function App() {
         clearInterval(refreshInterval);
       }
     }, timeout);
-  };
-  
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  useEffect(() => {
-    updateToken()
-  }, [])
+    return () => clearInterval(refreshInterval);
+  }, [loading, getPermissions, logout]);
 
-
+  if (loading) {
+    return <SkeletonScreen />;
+  }
 
   return (
     <>

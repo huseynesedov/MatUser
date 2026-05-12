@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Collapse, Input, Form, Radio, Checkbox } from "antd";
 import Images from "../../../Assets/images/js/Images";
-import { useSearchParams } from "react-router-dom"; // Ensure this path is correct
-
 const { Panel } = Collapse;
 
 const Filters = ({
@@ -16,7 +14,6 @@ const Filters = ({
     setProductTypeId,
 }) => {
     const { Filtr, Stok, AiOutlineUngroup, FiTag2, BiCar, List24, down } = Images;
-    const [searchParams, setSearchParams] = useSearchParams();
     const [form] = Form.useForm();
 
     // States for filtered data
@@ -38,6 +35,7 @@ const Filters = ({
                 handleFormChange({}, { productType: productTypeData[0].valueHash });
             }
         })
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- sync default product type when catalog loads
     }, [productTypeData])
 
     const handleFormChange = (_, allValues) => {

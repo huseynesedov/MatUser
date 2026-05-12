@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Images from '../../../Assets/images/js/Images';
 import { useAuth } from "../../../AuthContext";
-import { Tooltip, Spin, List, Modal, Select, Table, Button, InputNumber } from "antd";
+import { Tooltip, Spin, List, Modal, Table, Button, InputNumber } from "antd";
 import { InfoCircleOutlined } from '@ant-design/icons';
 import { BasketApi } from "../../../api/basket.api";
 import { useTranslation } from 'react-i18next';
@@ -20,8 +20,8 @@ const CardItem = ({ d, classes }) => {
     const [isReturnModalVisible, setIsReturnModalVisible] = useState(false);
     const [loading, setLoading] = useState(false);
     const [responseData, setResponseData] = useState([]);
-    const { FiTag, Location, Return, Vector2, Heart, Endirim,down } = Images;
-    const { openNotification, updateReturnData, returnData } = useAuth();
+    const { FiTag, Location, Return, Vector2, Endirim,down } = Images;
+    const { openNotification, updateReturnData } = useAuth();
     const roleId = localStorage.getItem('roleId');
     useEffect(() => {
         setQuantity(d.minOrderAmount);
@@ -337,12 +337,16 @@ const CardItem = ({ d, classes }) => {
                             rightCode="$GET"
                         >
                             <div className="cursor-pointer Returun">
-                                <a onClick={() => {
-                                    showReturnModal()
-                                }} className="text-decoration-none" >
+                                <button
+                                    type="button"
+                                    className="text-decoration-none border-0 bg-transparent p-0"
+                                    onClick={() => {
+                                        showReturnModal()
+                                    }}
+                                >
                                     <img src={Return} alt="Return" />
                                     <p className="ReturunTitle">{t("Global.return")}</p>
-                                </a>
+                                </button>
                             </div>
                         </PermissionWrapper>
                     </div>

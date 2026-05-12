@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { ProductApi } from "../../../api/product.api";
 import { useAuth } from "../../../AuthContext"
-import { Col, Skeleton, Space, Spin } from "antd";
+import { Skeleton } from "antd";
 import GridCard from "../CardItem/grid";
 
 const ShoppingGridCards = ({ detailedId }) => {
     const [data, setData] = useState([]);
-    const [count, setCount] = useState(0);
-    const [page, setPage] = useState(1);
+    const [page] = useState(1);
     const [loading, setLoading] = useState(false);
 
     const { logout, openNotification } = useAuth()
@@ -20,7 +19,6 @@ const ShoppingGridCards = ({ detailedId }) => {
                 id: detailedId
             }).then((res) => {
                 setData(res)
-                setCount(res.length)
             }).catch((error) => {
                 if (error.response.data.status === 2017) {
                     logout()
@@ -38,7 +36,6 @@ const ShoppingGridCards = ({ detailedId }) => {
                 }
             ).then((res) => {
                 setData(res.data)
-                setCount(res.count)
             }).catch((error) => {
                 if (error.response.data.status === 2017) {
                     logout()
@@ -50,22 +47,15 @@ const ShoppingGridCards = ({ detailedId }) => {
         }
 
 
-    }, [page]);
-
-    console.log("dataaaa", data);
-
-
-    const newData = data.map(item => {
-        return { ...item };
-    });
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- refetch when page or detailedId changes; stable API fns
+    }, [page, detailedId]);
 
     return (
         <div className="container-fluid mt-5">
             <div className="row">
                 {loading ?
                     Array.from({ length: 8 }).map((_, idx) => (
-                        <Skeleton active paragraph={{ rows: 4 }} />
+                        <Skeleton key={idx} active paragraph={{ rows: 4 }} />
                     ))
                     :
                     <>

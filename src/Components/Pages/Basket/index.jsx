@@ -15,12 +15,11 @@ import PermissionWrapper from "../../Elements/PermissionWrapper/PermissionWrappe
 
 const { Option } = Select;
 const Basket = () => {
-    const { logout } = useAuth();
+    const { logout, openNotification } = useAuth();
     const roleId = localStorage.getItem('roleId');
 
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const [totalPrice, setTotalPrice] = useState({});
     const [basketItems, setBasketItems] = useState([]);
@@ -136,13 +135,8 @@ const Basket = () => {
         getPaymentTypeList();
         getShipmentTypeList();
         GetBasketDetailStatusList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- initial basket load
     }, []);
-
-    const { openNotification } = useAuth();
-
-    const handleButtonClick = () => {
-        setOpen(!open);
-    };
 
     let { down, Liner } = Images;
 

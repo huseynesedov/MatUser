@@ -2,15 +2,13 @@ import { useState, useEffect } from "react";
 import { Pagination, Table } from "antd";
 import { BaseApi } from "../../../../../const/api";
 import { useAuth } from "../../../../../AuthContext";
-import Base from "antd/es/typography/Base";
-
 
 const UserListTable = ({ selectedCity, selectedRegion, searchText, basket }) => {
   const [loading, setLoading] = useState(false);
   const { getPermissions } = useAuth();
 
   const [data, setData] = useState([]);
-  const [pageSize, setPageSize] = useState(20);
+  const [pageSize] = useState(20);
   const [currentPage, setCurrentPage] = useState(1);
   const [count, setCount] = useState(0);
   console.log(basket);
@@ -59,15 +57,11 @@ const UserListTable = ({ selectedCity, selectedRegion, searchText, basket }) => 
 
   useEffect(() => {
     getOrdersByStatus(currentPage - 1, true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- refetch when filters change; getOrdersByStatus is render-scoped
   }, [selectedCity, selectedRegion, searchText, currentPage, basket]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
-  };
-
-  const handlePageSizeChange = (current, size) => {
-    setPageSize(size);
-    setCurrentPage(1);
   };
 
   useEffect(() => {

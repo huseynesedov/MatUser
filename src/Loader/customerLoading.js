@@ -1,13 +1,9 @@
 import React from 'react';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
-import Images from '../Assets/images/js/Images';
 
 const BrandListSkeleton = () => {
     const dummyList = Array.from({ length: 10 }, (_, index) => index);
-    const {
-        Vector
-    } = Images;
     return (
         <>
             <div className="Container">
