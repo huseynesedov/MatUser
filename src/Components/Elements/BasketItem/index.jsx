@@ -6,10 +6,11 @@ import { BasketApi } from "../../../api/basket.api";
 import { useAuth } from "../../../AuthContext";
 import { Spin } from 'antd'
 import { useTranslation } from 'react-i18next';
+import PermissionWrapper from "../PermissionWrapper/PermissionWrapper";
 
 const { Option } = Select;
 
-const BasketItems = ({ basketItems, getBasketItems, getTotalPrice, setBasketItems, basketItemStatus }) => {
+const ReturnItems = ({ basketItems, getBasketItems, getTotalPrice, setBasketItems, basketItemStatus }) => {
     let { FiTag, Down, Location, TagTwo, TabloDelete, Add_Bin } = Images;
     const dispatch = useDispatch();
     const { openNotification } = useAuth()
@@ -151,16 +152,13 @@ const BasketItems = ({ basketItems, getBasketItems, getTotalPrice, setBasketItem
     };
 
     const handleQuantityUpdate = (productId, PQuantity, increment) => {
-        console.log(`Product ID: ${productId}`);
 
         let quantity = increment ? PQuantity + 1 : Math.max(PQuantity - 1, 0);
 
-        if (quantity === PQuantity) return; // No change in quantity, so exit early
+        if (quantity === PQuantity) return;
 
-        setLoading(true);
 
-        // Do not encode the productId if it's already a Base-64 string
-        BasketApi.UpdateQuantity({ quantity: `${quantity}`, productId })
+        BasketApi.UpdateQuantity({ quantity: `${quantity}`, productId: encodeQueryParam(productId) })
             .then(() => {
                 getBasketItems();
                 getTotalPrice();
@@ -168,9 +166,6 @@ const BasketItems = ({ basketItems, getBasketItems, getTotalPrice, setBasketItem
             .catch(err => {
                 openNotification('Xəta baş verdi', err.response.data.message, true);
             })
-            .finally(() => {
-                setLoading(false);
-            });
     };
 
     useEffect(() => {
@@ -179,13 +174,13 @@ const BasketItems = ({ basketItems, getBasketItems, getTotalPrice, setBasketItem
                 if (item.basketDetailStatus === 1) {
                     return item.idHash;
                 }
-                return null; 
-            }).filter(Boolean); 
+                return null;
+            }).filter(Boolean);
 
             setSelectedItems(arr);
         }
     }, [basketItems]);
-    
+
     // useEffect(() => {
     //     if (basketItems.length > 0) {
     //         let arr = basketItems.map((item) => {
@@ -206,7 +201,7 @@ const BasketItems = ({ basketItems, getBasketItems, getTotalPrice, setBasketItem
             <Spin spinning={loading}>
                 {Object.keys(groupedData).map((category, categoryIndex) => (
                     <div className="w-100 position-relative gy-4 rounded" style={{ padding: "0rem 0rem 0.8rem 0rem" }} key={categoryIndex}>
-                        <div className="d-flex pe-3 justify-content-between ms-4 mt-3">
+                        <div className="d-flex pe-3 my-3 justify-content-between">
                             <div className={'d-flex align-items-center'}>
                                 <div className="checkbox me-2">
                                     <div key={categoryIndex}>
@@ -229,22 +224,29 @@ const BasketItems = ({ basketItems, getBasketItems, getTotalPrice, setBasketItem
                             </div>
                             {categoryIndex === 0 && (
                                 <div className="d-flex">
-                                    <button className="AllDel me-3" onClick={() => handleDeleteAll(category)}>
-                                        <img src={Add_Bin} alt="" />
-                                        <p className='ms-2'>{t("Basket.table.delete")}</p>
-                                    </button>
-                                    <button className="AllDel" onClick={() => handleDeleteSelected(category)}>
-                                        <img src={Add_Bin} alt="" />
-                                        <p className='ms-2'>{t("Basket.table.remove")}</p>
-                                    </button>
+                                    <PermissionWrapper
+                                        topModuleCode="$USER"
+                                        subModuleCode="$BASKET_SUB_MODULE"
+                                        pageCode="$BASKET_DETAIL"
+                                        rightCode="$DELETE"
+                                    >
+                                        <button className="AllDel me-3" onClick={() => handleDeleteAll(category)}>
+                                            <img src={Add_Bin} alt="" />
+                                            <p className='ms-2'>{t("Basket.table.delete")}</p>
+                                        </button>
+                                        <button className="AllDel" onClick={() => handleDeleteSelected(category)}>
+                                            <img src={Add_Bin} alt="" />
+                                            <p className='ms-2'>{t("Basket.table.remove")}</p>
+                                        </button>
+                                    </PermissionWrapper>
                                 </div>
                             )}
                         </div>
 
                         <div className="myContainer">
                             {groupedData[category].map((Data, index) => (
-                                <div className="row align-items-center rounded bg-white ms-3 mt-4 me-3" key={index}
-                                    style={{ height: "120px" }}>
+                                <div className="row align-items-center border border-1 rounded bg-white" key={index}
+                                  >
                                     <div className="col-2 d-flex justify-content-between align-items-center">
                                         <div className="ms-2 checkbox">
                                             <input
@@ -305,16 +307,16 @@ const BasketItems = ({ basketItems, getBasketItems, getTotalPrice, setBasketItem
                                                         : ''
                                                 }
 
-                                                <div className="Brend ms-3 d-flex align-items-center">
+                                                <div className="Brend d-flex align-items-center">
                                                     <img src={TagTwo} alt="" />
                                                     <p className="BrendTitle ms-1">
                                                         {Data.product.manufacturerName}
                                                     </p>
                                                 </div>
                                             </div>
-                                            <div className="d-flex align-items-center me-5">
+                                            <div style={{width:"200px"}} className="d-flex  flex-wrap align-items-center ">
                                                 {Data.product.vehicleBrands.map((d) => {
-                                                    return <React.Fragment key={d.vehicleBrandIdHash}>
+                                                    return <div className={'d-flex align-items-center me-3'} key={d.vehicleBrandIdHash}>
                                                         <div className="ImgCenters">
                                                             <img
                                                                 src={d.vehicleBrandContent}
@@ -323,7 +325,7 @@ const BasketItems = ({ basketItems, getBasketItems, getTotalPrice, setBasketItem
                                                         <p className="brendNo ms-2">
                                                             {d.vehicleBrandIdName}
                                                         </p>
-                                                    </React.Fragment>
+                                                    </div>
                                                 })}
                                             </div>
                                         </div>
@@ -338,21 +340,42 @@ const BasketItems = ({ basketItems, getBasketItems, getTotalPrice, setBasketItem
                                     </div>
                                     <div className="col-3 d-flex align-items-center">
                                         <div className="counterCenter">
-                                            <button className="del"
-                                                onClick={() => handleQuantityUpdate(Data.product.idHash, Data.quantity, false)}>
-                                                -
-                                            </button>
-                                            <input type="text" name="" id="" className="counter"
+                                            <PermissionWrapper
+                                                topModuleCode="$USER"
+                                                subModuleCode="$BASKET_SUB_MODULE"
+                                                pageCode="$BASKET_DETAIL"
+                                                rightCode="$PUT"
+                                            >
+                                                <button className="del"
+                                                    onClick={() => handleQuantityUpdate(Data.product.idHash, Data.quantity, false)}>
+                                                    -
+                                                </button>
+                                            </PermissionWrapper>
+                                            <input type="text" name="" id="" className="counter mx-3"
                                                 value={Data.quantity} readOnly />
-                                            <button className="plus"
-                                                onClick={() => handleQuantityUpdate(Data.product.idHash, Data.quantity, true)}>
-                                                +
-                                            </button>
+                                            <PermissionWrapper
+                                                topModuleCode="$USER"
+                                                subModuleCode="$BASKET_SUB_MODULE"
+                                                pageCode="$BASKET_DETAIL"
+                                                rightCode="$PUT"
+                                            >
+                                                <button className="plus"
+                                                    onClick={() => handleQuantityUpdate(Data.product.idHash, Data.quantity, true)}>
+                                                    +
+                                                </button>
+                                            </PermissionWrapper>
                                         </div>
                                         <div className='d-flex flex-column align-items-end'>
-                                            <button className="none" onClick={() => handleDelete(Data.idHash)}>
-                                                <img width="24px" className='' src={TabloDelete} alt="" />
-                                            </button>
+                                            <PermissionWrapper
+                                                topModuleCode="$USER"
+                                                subModuleCode="$BASKET_SUB_MODULE"
+                                                pageCode="$BASKET_DETAIL"
+                                                rightCode="$DELETE"
+                                            >
+                                                <button className="none" onClick={() => handleDelete(Data.idHash)}>
+                                                    <img width="24px" className='' src={TabloDelete} alt="" />
+                                                </button>
+                                            </PermissionWrapper>
                                             <div className="prices2 mt-2">
                                                 {Data.salesPrice ? (
                                                     <>
@@ -394,4 +417,4 @@ const BasketItems = ({ basketItems, getBasketItems, getTotalPrice, setBasketItem
     );
 };
 
-export default BasketItems;
+export default ReturnItems;

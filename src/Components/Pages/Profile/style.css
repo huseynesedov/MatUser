@@ -102,6 +102,7 @@
 .mat-ButtonInfo,
 .mat-ButtonBack {
     border: none;
+    border-bottom:1px solid transparent;
     background-color: transparent;
     color: #444444;
 }

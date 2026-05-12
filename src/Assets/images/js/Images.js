@@ -10,7 +10,7 @@ import TagTwo from '../HiTag.svg'
 import Heart from '../favorite.svg'
 
 // Header
-import User from '../User.svg'
+import User from '../User.jpg'
 import Glass from '../magnifying-glass.svg'
 import FiUser from '../FiUser.svg'
 import Voice from '../keyboard_voice_24px.svg'
@@ -68,6 +68,9 @@ import CarAccessories from "../composition-different-car-accessories 1.svg"
 import printsvg from "../MdReceiptLong.svg"
 // Home
 import Endirim from "../endirim.svg"
+import Grid_icon from "../grid-icon.svg"
+
+import okey from "../okey2.svg"
 
 
 
@@ -150,5 +153,7 @@ export default {
      CarAccessories,
      printsvg,
      Endirim,
-     Vector2
+     Vector2,
+     okey,
+     Grid_icon
 }

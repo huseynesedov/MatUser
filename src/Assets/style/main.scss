@@ -9,9 +9,7 @@ p{
 
 
 .footer{
-  height: 100%;
-  padding-top:85px;
-  padding-bottom:60px;
+  padding-top:45px;
   background: $main-color;
   font-size:14px;
   .heading{
@@ -67,11 +65,9 @@ p{
 
 
 .custom-select2 {
-  width: 110px;
   background-color: #f0f0f0; /* Your desired background color */
   border: none;
   border-radius: 30px;
-  margin-right:10px;
 }
 
 .custom-select2 .ant-select-selector {
@@ -88,4 +84,9 @@ p{
   width: 300px !important;
   font-size:10px !important;
 
+}
+
+
+.cursor-pointer{
+  cursor:pointer !important;
 }

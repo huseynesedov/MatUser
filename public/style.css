@@ -1,14 +1,43 @@
 body {
-    width: 100%;
-    overflow-x: hidden; /* Yatay kaydırmayı önlemek için */
-  }
-  
+  width: 100%;
+  overflow-x: hidden;
+  /* Yatay kaydırmayı önlemek için */
+}
+
+
+
+.myContainer {
+    display: flex;
+    flex-direction: column;
+    /* background-color: #F2F2F2 ; */
+}
 
 .rooot {
-    display: flex;
+  display: flex;
   flex-wrap: wrap;
   justify-content: center;
   width: 100%;
   max-width: 1500px;
   margin: 0 auto;
-  }
+}
+
+
+.f-20 {
+  font-size: 20px;
+}
+
+.f_24 {
+  font-size: 24px;
+}
+
+.f_34 {
+  font-size: 34px;
+}
+
+.t_18 {
+  color: #182390;
+}
+
+.t_71 {
+  color: #718096;
+}

@@ -296,4 +296,56 @@
     width: 314px;
     margin-bottom: 1rem;
   }
-  
+
+
+
+.clamped-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* Limits text to 2 lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.list-item {
+    overflow: hidden;
+}
+
+
+.list-unstyled {
+    margin: 0;
+    padding: 0;
+    li {
+        margin-bottom: 8px; /* Space between radio buttons */
+    }
+}
+
+.ant-collapse-arrow {
+    display: flex;
+    justify-content: flex-end;
+}
+
+
+/* For Radio buttons */
+.ant-radio-checked .ant-radio-inner {
+    border-color: #182390; /* Change border color of selected radio button */
+}
+
+.ant-radio-inner::after {
+    background-color: #182390; /* Change the inner dot color */
+}
+
+/* For Checkbox */
+.ant-checkbox-checked .ant-checkbox-inner {
+    background-color: #182390; /* Change the background color of the checked checkbox */
+    border-color: #182390; /* Change the border color of the checked checkbox */
+}
+
+.ant-checkbox-checked .ant-checkbox-inner::after {
+    border-color: #fff; /* Keep the tick mark white */
+}
+
+/* Optional: Hover effects for better interaction */
+.ant-radio:hover .ant-radio-inner,
+.ant-checkbox:hover .ant-checkbox-inner {
+    border-color: #182390;
+}

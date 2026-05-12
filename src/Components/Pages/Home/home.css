@@ -38,7 +38,6 @@
 
 .BrendImgCenter {
     width: 100%;
-    height: 323px !important;
     margin-top: 35px;
     display: flex;
     align-items: center;
@@ -100,6 +99,10 @@
     box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
     position: relative;
     color: black !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    min-height: 350px;
 }
 
 .ImgTitleMain {
@@ -112,7 +115,7 @@
 
 .ImgBrendingTitle {
     width: 95%;
-    height: 81px;
+    /* height: 81px; */
     display: flex;
     align-items: center;
     margin-top: 15.118110236px;
@@ -134,56 +137,64 @@
     width: 200px;
 }
 
+
+.Tag {
+    display: flex;
+    align-items: center;
+    /* word-wrap: break-word; */
+    /* veya */
+    /* overflow-wrap: break-word; */
+    /* white-space: normal; */
+}
+
 .OemNo {
-    width: 60%;
     font-weight: 600;
     margin-left: 10px;
-    display:box;
-    white-space: nowrap; /* Metnin tek satırda kalmasını sağlar */
-    overflow: hidden; /* Taşan metni gizler */
-    text-overflow: ellipsis; /* Metnin sonunda üç nokta ekler */
+    /* display: box; */
+    /* white-space: nowrap; */
+    /* Metnin tek satırda kalmasını sağlar */
+    /* overflow: hidden; */
+    /* Taşan metni gizler */
+    /* text-overflow: ellipsis; */
+    /* Metnin sonunda üç nokta ekler */
     display: -webkit-box;
-    -webkit-box-orient: vertical;
-    overflow: hidden !important;
+    /* -webkit-box-orient: vertical; */
+    /* overflow: hidden !important; */
     text-overflow: ellipsis;
     -webkit-line-clamp: 1;
     line-clamp: 1;
 }
 
 
-.OemNo.product {
+/* .OemNo.product {
     width:45%;
-}
+} */
 
 
 .ImgFocus {
-    width: 42%;
-    height: 100%;
-    /* border: 1px solid black; */
+    width: 87px;
+    height: 84px;
+
+    img {
+        width: 100%;
+        height: 100%;
+    }
 }
 
-.ImgFocus img {
-    /* border-radius: 10px; */
-    width: 100%;
-    height: 100%;
-
-}
 
 .TitleCenter {
-    height: 75.5%;
+    width: 66%;
     display: flex;
     justify-content: space-between;
     flex-direction: column;
+
     /* border: 1px solid blue; */
+    div:nth-child(2) {
+        margin-top: 13px;
+    }
 }
 
-.Tag {
-    display: flex;
-    align-items: center;
-    word-wrap: break-word; /* veya */
-    overflow-wrap: break-word;
-    white-space: normal;
-}
+
 
 .Tag img {
     margin-right: 7px;
@@ -214,19 +225,21 @@
 
 
 .LocationBrendNameCenter {
-    height: 40px;
     border-bottom: 2px solid #E2E8F0;
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
+.LocationBrendName {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 2px;
+}
+
 .LocationBrend {
-    height: 23px;
     display: flex;
     align-items: center;
-    margin-left: 10px;
-    /* border: 1px solid black; */
 }
 
 .Location {
@@ -243,13 +256,21 @@
 
 .Returun {
     padding: 1px 6px;
-    height: 70%;
     display: flex;
     border: 1px solid #E53E3E;
     border-radius: 5px;
     align-items: center;
     justify-content: center;
-    margin-right: 10px;
+    margin-right: 7px;
+}
+
+.Returun2 {
+    padding: 14px 10px;
+    display: flex;
+    border: 1px solid #E53E3E;
+    border-radius: 5px;
+    align-items: center;
+    justify-content: center;
 }
 
 .ReturunTitle {
@@ -259,10 +280,12 @@
 }
 
 .Brend {
-    height: 15.62px;
     display: flex;
-    align-items: center;
-    /* border: 1px solid black; */
+    align-items: end;
+
+    p {
+        margin-left: 4px;
+    }
 }
 
 
@@ -289,6 +312,19 @@ a {
     font-size: 11px;
     font-weight: 800;
 }
+.disable{
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+.salesmanOdenis {
+    color: white;
+    background-color: #444444;
+}
+
+.salesmanCatdirilma {
+    border: 1.5px solid #E53E3E !important;
+    color: #E53E3E !important;
+}
 
 .BrendTitleCenter {
     text-align: start;
@@ -304,10 +340,15 @@ a {
 }
 
 .PriceCounter {
-    border-bottom: 2px solid #E2E8F0;
+    width: 90%;
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.sss {
+    padding: 6px 0;
+    border-bottom: 2px solid #E2E8F0;
 }
 
 .prices {
@@ -342,11 +383,9 @@ a {
 }
 
 .counterCenter {
-    width: 86px;
+    /* width: 86px; */
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    margin-right: 30px;
 }
 
 .del {
@@ -367,6 +406,9 @@ a {
 .counter {
     width: 30px;
     height: 24px;
+    padding: 0px 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
     border: 1.5px solid #E2E8F0;
     text-align: center;
     font-size: 12px;
@@ -403,8 +445,20 @@ a {
 }
 
 .Basket {
-    width: 76%;
+    width: 100%;
+    margin: 0 16px;
     height: 23px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    background-color: #182390;
+}
+
+.Basket2 {
+    padding: 16px 13px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -435,8 +489,8 @@ a {
 
 .discount {
     left: 20px;
-    top: 26px;
-    transform: rotate(321deg);
+    top: 28px;
+    transform: rotate(322deg);
     font-size: 9px;
     font-weight: bold;
 }
@@ -444,4 +498,40 @@ a {
 a {
     text-decoration: none !important;
     list-style: none !important;
+}
+
+
+.basket-container {
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+
+.basket-icon svg {
+    width: 24px;
+    height: 24px;
+    transition: fill 0.3s ease;
+}
+
+.basket-container:hover .basket-icon svg path {
+    fill: #182390;
+    /* Change icon color to black on hover */
+}
+
+.basket-text {
+    font-size: 16px;
+    color: #808080;
+    margin-top: 8px;
+    transition: color 0.3s ease;
+}
+
+.basket-container:hover .basket-text {
+    color: #182390;
+    /* Change text color to black on hover */
+}
+
+.background-transparent {
+    background: transparent !important;
+    background-color: transparent !important;
 }
